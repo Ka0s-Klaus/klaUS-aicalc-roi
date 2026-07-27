@@ -1,14 +1,13 @@
 "use client";
 
-import type { AnalysisResult, StrategyCost } from "@/types/tco";
+import type { AnalysisResult } from "@/types/tco";
 
 interface Props {
   result: AnalysisResult;
-  strategies: StrategyCost[];
 }
 
-export function RecommendationCard({ result, strategies }: Props) {
-  const { recommendation, excluded } = result;
+export function RecommendationCard({ result }: Props) {
+  const { recommendation, excluded, strategies } = result;
 
   if (!recommendation && strategies.length === 0) {
     return (
@@ -27,9 +26,7 @@ export function RecommendationCard({ result, strategies }: Props) {
     );
   }
 
-  const recommended = recommendation
-    ? strategies.find((s) => s.strategy_id === recommendation.strategy_id)
-    : null;
+  const recommended = recommendation?.strategy ?? null;
 
   return (
     <div className="space-y-4">
@@ -48,16 +45,20 @@ export function RecommendationCard({ result, strategies }: Props) {
                   </span>
                 )}
               </p>
-              <p className="text-sm text-green-700 mt-1">{recommendation.rationale}</p>
+              <ul className="text-sm text-green-700 mt-1 space-y-0.5">
+                {recommendation.justification.map((line, i) => (
+                  <li key={i}>• {line}</li>
+                ))}
+              </ul>
             </div>
             <div className="text-right shrink-0">
               <p className="text-2xl font-bold text-green-900">
-                ${parseFloat(recommended.total_cost_usd).toFixed(0)}
+                ${parseFloat(recommended.total_cost_usd).toLocaleString(undefined, { maximumFractionDigits: 0 })}
               </p>
               <p className="text-xs text-green-600">coste total</p>
-              {recommendation.payback_months !== null && (
+              {recommended.breakeven_month !== null && (
                 <p className="text-xs text-green-600 mt-1">
-                  Payback: {recommendation.payback_months}m
+                  Break-even: mes {recommended.breakeven_month}
                 </p>
               )}
             </div>

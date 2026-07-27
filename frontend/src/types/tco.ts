@@ -52,22 +52,27 @@ export interface TCOInput {
 }
 
 export interface StrategyCost {
-  strategy_id: string;
   model_id: string;
   hardware_id: string | null;
   deployment_type: DeploymentType;
-  total_cost_usd: string;
-  monthly_cost_usd: string;
+  // Monetary fields — all Decimal serialized as string by FastAPI
   capex_usd: string;
-  opex_usd: string;
-  quality_score: number;
+  opex_total_usd: string;
+  api_cost_total_usd: string;
+  total_cost_usd: string;
+  monthly_cost_avg_usd: string;
+  // Optional fields
+  breakeven_month: number | null;
+  estimated_latency_ms: number | null;
+  quality_score: number | null;
+  compliance_warnings: string[];
 }
 
 export interface Recommendation {
-  strategy_id: string;
-  rationale: string;
+  strategy: StrategyCost;
+  justification: string[];
   risks: string[];
-  payback_months: number | null;
+  fallback_strategy_id: string | null;
 }
 
 export interface ExcludedModel {
@@ -76,6 +81,8 @@ export interface ExcludedModel {
 }
 
 export interface AnalysisResult {
+  input_summary: string;
+  horizon_months: number;
   strategies: StrategyCost[];
   pareto_optimal_ids: string[];
   recommendation: Recommendation | null;

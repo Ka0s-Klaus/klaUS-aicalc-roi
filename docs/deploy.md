@@ -279,7 +279,7 @@ sequenceDiagram
 | HTTPS forzado | ✅ | Ambas plataformas sirven solo HTTPS por defecto |
 | Sin credenciales en Dockerfile | ✅ | Solo deps públicos de PyPI |
 | `.dockerignore` | ✅ | Excluye `.env`, `.claude/`, `CLAUDE.md`, `uv.lock` |
-| CORS (Fase 2) | ⚠️ | La API acepta cualquier origen — restringir en Fase 2 con `origins=[VERCEL_URL]` |
+| CORS | ✅ | `CORSMiddleware` activo con `allow_origins=["*"]` en Fase 1 — restringir al dominio Vercel en Fase 2 |
 | Auth (Fase 2) | ❌ | Sin autenticación en Fase 1 — API pública de solo lectura |
 
 ---

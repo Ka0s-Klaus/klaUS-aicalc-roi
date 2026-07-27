@@ -45,17 +45,17 @@ klaUS-aicalc-roi/
 │   │   ├── models.py   # Data structures: input/output del engine
 │   │   ├── calculators.py  # CAPEX, OPEX, API cost, latency, quality
 │   │   └── engine.py   # Orchestrator: combinator → calculators → Pareto → recommendation
-│   ├── api/            # FastAPI REST (Fase 2)
+│   ├── api/            # FastAPI REST — /health, /v1/models, /v1/hardware, /v1/analyze
 │   └── tests/
-├── frontend/           # Next.js 15 + TypeScript (Fase 2)
+├── frontend/           # Next.js 15 + TypeScript + TailwindCSS + Recharts
 ├── docs/               # Documentación por componente
 └── .github/workflows/  # CI/CD
 ```
 
 **Stack:**
 - Engine: Python 3.12 + Pydantic v2
-- API: FastAPI + Uvicorn (Fase 2)
-- Frontend: Next.js 15 + TypeScript + TailwindCSS + Recharts (Fase 2)
+- API: FastAPI + Uvicorn
+- Frontend: Next.js 15 + TypeScript + TailwindCSS + Recharts
 - Tests: pytest + pytest-cov
 - Linting: ruff + mypy
 
@@ -68,16 +68,20 @@ klaUS-aicalc-roi/
 git clone git@github.com:Ka0s-Klaus/klaUS-aicalc-roi.git
 cd klaUS-aicalc-roi
 
-# Entorno Python
-python -m venv .venv
-source .venv/bin/activate
-pip install -e ".[dev]"
+# Entorno Python (engine + API)
+uv sync
+uv run uvicorn backend.api.app:app --reload
+# → http://localhost:8000/docs
+
+# Frontend (en otra terminal)
+cd frontend && npm install && npm run dev
+# → http://localhost:3000
 
 # Tests
-pytest
+uv run pytest
 
-# Lint
-ruff check .
+# Lint + mypy
+uv run ruff check . && uv run mypy backend/
 ```
 
 ---

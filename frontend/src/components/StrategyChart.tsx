@@ -24,6 +24,7 @@ interface ChartEntry {
   total: number;
   capex: number;
   opex: number;
+  modelId: string;
   isPareto: boolean;
   isRecommended: boolean;
 }
@@ -31,6 +32,14 @@ interface ChartEntry {
 function shortLabel(s: StrategyCost): string {
   const model = s.model_id.replace(/-\d+\.\d+$/, "").slice(0, 20);
   return s.hardware_id ? `${model} / ${s.hardware_id.slice(0, 10)}` : model;
+}
+
+function resolveOpex(s: StrategyCost): number {
+  // Cloud API: all cost is in api_cost_total_usd (opex_total_usd is 0)
+  if (s.deployment_type === "cloud_api") {
+    return Math.round(parseFloat(s.api_cost_total_usd));
+  }
+  return Math.round(parseFloat(s.opex_total_usd));
 }
 
 export function StrategyChart({ strategies, paretoIds, recommendationId }: Props) {
@@ -47,11 +56,12 @@ export function StrategyChart({ strategies, paretoIds, recommendationId }: Props
     .sort((a, b) => parseFloat(a.total_cost_usd) - parseFloat(b.total_cost_usd))
     .map((s) => ({
       name: shortLabel(s),
+      modelId: s.model_id,
       total: Math.round(parseFloat(s.total_cost_usd)),
       capex: Math.round(parseFloat(s.capex_usd)),
-      opex: Math.round(parseFloat(s.opex_usd)),
-      isPareto: paretoIds.includes(s.strategy_id),
-      isRecommended: s.strategy_id === recommendationId,
+      opex: resolveOpex(s),
+      isPareto: paretoIds.includes(s.model_id),
+      isRecommended: s.model_id === recommendationId,
     }));
 
   return (
@@ -122,17 +132,17 @@ export function StrategyChart({ strategies, paretoIds, recommendationId }: Props
                 key={i}
                 className={`border-b border-gray-100 ${row.isRecommended ? "bg-amber-50" : ""}`}
               >
-                <td className="py-1.5 pr-3 font-mono">
+                <td className="py-1.5 pr-3 font-mono text-gray-800">
                   {row.isRecommended ? "⭐ " : ""}
                   {row.name}
                 </td>
-                <td className="text-right py-1.5 pr-3 font-semibold">
+                <td className="text-right py-1.5 pr-3 font-semibold text-gray-900">
                   ${row.total.toLocaleString()}
                 </td>
-                <td className="text-right py-1.5 pr-3 text-gray-500">
+                <td className="text-right py-1.5 pr-3 text-gray-600">
                   ${row.capex.toLocaleString()}
                 </td>
-                <td className="text-right py-1.5 pr-3 text-gray-500">
+                <td className="text-right py-1.5 pr-3 text-gray-600">
                   ${row.opex.toLocaleString()}
                 </td>
                 <td className="text-center py-1.5">{row.isPareto ? "✅" : "—"}</td>

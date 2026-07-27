@@ -33,7 +33,7 @@ function numField(
         min={0}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+        className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
       />
     </div>
   );
@@ -50,7 +50,7 @@ export function UseCaseForm({ useCase, onChange, horizonMonths, onHorizonChange 
           type="text"
           value={useCase.name}
           onChange={(e) => onChange({ ...useCase, name: e.target.value })}
-          className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
           placeholder="Ej: Coding assistant"
         />
       </div>

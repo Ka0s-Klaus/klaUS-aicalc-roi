@@ -108,8 +108,9 @@ class ComplianceFilter(BaseModel):
     required_standards: list[ComplianceStandard] = Field(default_factory=list)
     allowed_residencies: list[DataResidency] = Field(default_factory=list)
 
-    # If True, models with DataResidency.CHINA are excluded with an explicit warning
-    exclude_china_models: bool = True
+    # If True, models with DataResidency.CHINA are excluded with an explicit warning.
+    # Default False: the tool is general-purpose — compliance filtering is opt-in.
+    exclude_china_models: bool = False
 
 
 class TCOInput(BaseModel):

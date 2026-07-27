@@ -171,7 +171,7 @@ export default function HomePage() {
           <div className="space-y-6">
             <h2 className="text-lg font-bold text-gray-800">📊 Resultados</h2>
 
-            <RecommendationCard result={result} strategies={result.strategies} />
+            <RecommendationCard result={result} />
 
             <div className="bg-white rounded-2xl border border-gray-200 p-6">
               <h3 className="font-semibold text-gray-700 mb-4">
@@ -180,7 +180,7 @@ export default function HomePage() {
               <StrategyChart
                 strategies={result.strategies}
                 paretoIds={result.pareto_optimal_ids}
-                recommendationId={result.recommendation?.strategy_id ?? null}
+                recommendationId={result.recommendation?.strategy.model_id ?? null}
               />
             </div>
           </div>

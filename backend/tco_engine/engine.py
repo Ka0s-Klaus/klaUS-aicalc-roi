@@ -36,7 +36,7 @@ class TCOEngine:
             input_data,
         )
         pareto_ids = self._pareto_frontier(strategies)
-        recommendation = self._recommend(strategies, pareto_ids) if strategies else None
+        recommendation = self._recommend(strategies, pareto_ids, input_data) if strategies else None
 
         return AnalysisResult(
             input_summary=self._summarize(input_data),
@@ -159,7 +159,7 @@ class TCOEngine:
         return pareto
 
     def _recommend(
-        self, strategies: list[StrategyCost], pareto_ids: list[str]
+        self, strategies: list[StrategyCost], pareto_ids: list[str], input_data: TCOInput
     ) -> Recommendation:
         if not strategies:
             raise ValueError("No valid strategies to recommend from")
@@ -171,15 +171,25 @@ class TCOEngine:
         best = min(candidates, key=lambda s: s.total_cost_usd)
 
         justification = [
-            f"Lowest total cost among {len(candidates)} Pareto-optimal strategies: "
-            f"${best.total_cost_usd:,.2f} over {len(strategies)} months",
+            f"Menor coste total entre {len(candidates)} estrategias Pareto-óptimas: "
+            f"${float(best.total_cost_usd):,.0f} en {input_data.horizon_months} meses",
         ]
         if best.breakeven_month:
             justification.append(
-                f"Break-even vs cloud at month {best.breakeven_month}"
+                f"Break-even vs. mejor opción cloud en el mes {best.breakeven_month}"
             )
         if best.quality_score:
-            justification.append(f"Quality score: {best.quality_score:.2f} (vs GPT-4o baseline 1.0)")
+            justification.append(
+                f"Puntuación de calidad: {best.quality_score:.2f} (GPT-4o = 1.0)"
+            )
+        if best.deployment_type == DeploymentType.CLOUD_API:
+            justification.append(
+                "Sin CAPEX — coste proporcional al uso, ideal para volúmenes variables"
+            )
+        elif best.deployment_type == DeploymentType.LOCAL:
+            justification.append(
+                f"CAPEX único de ${float(best.capex_usd):,.0f} amortizado a lo largo del horizonte"
+            )
 
         risks: list[str] = []
         if best.deployment_type == DeploymentType.LOCAL:

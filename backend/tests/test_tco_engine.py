@@ -176,28 +176,31 @@ class TestLocalCost:
 
 
 class TestComplianceFilter:
-    def test_china_model_excluded_by_default(
+    def test_china_model_included_by_default(
         self, deepseek_v4: ModelSpec, use_case_coding: UseCase
     ) -> None:
+        """China models are included by default — compliance filter is opt-in."""
         engine = TCOEngine()
         result = engine.analyze(
             TCOInput(models=[deepseek_v4], use_cases=[use_case_coding])
         )
-        assert len(result.strategies) == 0
-        assert any("CHINA" in e["reason"] for e in result.excluded)
+        assert len(result.strategies) == 1
+        assert len(result.excluded) == 0
 
-    def test_china_model_allowed_when_filter_disabled(
+    def test_china_model_excluded_when_filter_enabled(
         self, deepseek_v4: ModelSpec, use_case_coding: UseCase
     ) -> None:
+        """China models are excluded only when exclude_china_models=True is explicitly set."""
         engine = TCOEngine()
         result = engine.analyze(
             TCOInput(
                 models=[deepseek_v4],
                 use_cases=[use_case_coding],
-                compliance=ComplianceFilter(exclude_china_models=False),
+                compliance=ComplianceFilter(exclude_china_models=True),
             )
         )
-        assert len(result.strategies) == 1
+        assert len(result.strategies) == 0
+        assert any("CHINA" in e["reason"] for e in result.excluded)
 
     def test_residency_filter(
         self, claude_sonnet: ModelSpec, use_case_coding: UseCase

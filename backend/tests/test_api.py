@@ -146,7 +146,8 @@ def test_analyze_empty_models_returns_422() -> None:
     assert resp.status_code == 422
 
 
-def test_analyze_china_model_excluded_by_default() -> None:
+def test_analyze_china_model_included_by_default() -> None:
+    """China models are included by default — compliance filter is opt-in."""
     payload = {
         "models": [
             {
@@ -161,6 +162,31 @@ def test_analyze_china_model_excluded_by_default() -> None:
             }
         ],
         "use_cases": [{"id": "t", "name": "T", "monthly_input_tokens": 1_000_000, "monthly_output_tokens": 500_000}],
+    }
+    resp = client.post("/v1/analyze", json=payload)
+    assert resp.status_code == 200
+    result = resp.json()
+    assert len(result["strategies"]) == 1
+    assert len(result["excluded"]) == 0
+
+
+def test_analyze_china_model_excluded_when_filter_enabled() -> None:
+    """China models are excluded only when exclude_china_models=True is explicitly set."""
+    payload = {
+        "models": [
+            {
+                "id": "deepseek-v3",
+                "name": "DeepSeek V3",
+                "provider": "DeepSeek",
+                "deployment_type": "cloud_api",
+                "context_window": 128000,
+                "data_residency": "china",
+                "input_price_per_mtok": "0.14",
+                "output_price_per_mtok": "0.28",
+            }
+        ],
+        "use_cases": [{"id": "t", "name": "T", "monthly_input_tokens": 1_000_000, "monthly_output_tokens": 500_000}],
+        "compliance": {"exclude_china_models": True},
     }
     resp = client.post("/v1/analyze", json=payload)
     assert resp.status_code == 200

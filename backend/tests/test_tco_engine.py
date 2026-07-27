@@ -216,6 +216,8 @@ class TestLocalCost:
         )
         s1 = single.strategies[0]
         s4 = quad.strategies[0]
+        assert s1.monthly_electricity_usd is not None
+        assert s1.monthly_maintenance_usd is not None
         assert s4.monthly_electricity_usd == s1.monthly_electricity_usd * 4
         assert s4.monthly_maintenance_usd == s1.monthly_maintenance_usd * 4
 

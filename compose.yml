@@ -24,9 +24,9 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        # NEXT_PUBLIC_API_URL apunta a localhost porque la llama el NAVEGADOR,
-        # no el contenedor frontend — el navegador ve el puerto mapeado del host
-        NEXT_PUBLIC_API_URL: http://localhost:8000
+        # NEXT_PUBLIC_API_URL apunta a la IP/hostname que ve el NAVEGADOR (no el contenedor)
+        # Configurar en .env: NEXT_PUBLIC_API_URL=http://192.168.1.127:8000
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
     ports:
       - "3000:3000"
     depends_on:

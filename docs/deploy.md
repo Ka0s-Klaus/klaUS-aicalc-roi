@@ -19,12 +19,13 @@ Sin un entorno de producción accesible, klaUS-aicalc-roi es solo código en un 
 
 ```mermaid
 flowchart TD
-    A[👤 Usuario\nlocalhost] --> B[🌐 localhost:3000]
+    A[👤 Usuario\nnavegador] --> B[🌐 HOST:3000]
     B --> C[🐳 frontend container\nnode:22-slim]
-    C -- NEXT_PUBLIC_API_URL=http://localhost:8000 --> D[🐳 api container\npython:3.12-slim]
+    C -- NEXT_PUBLIC_API_URL\n${HOST}:8000 --> D[🐳 api container\npython:3.12-slim]
     D --> E[⚡ FastAPI + Uvicorn\n:8000]
     E --> F[🧠 TCO Engine]
     E --> G[📦 Catálogo estático\nbackend/data/]
+    ENV[📄 .env\nNEXT_PUBLIC_API_URL=...] -.configura.-> C
 
     subgraph Podman [🐳 podman compose]
         C
@@ -70,6 +71,28 @@ podman machine init
 podman machine start
 ```
 
+### ⚙️ Configurar la URL de la API (`.env`)
+
+`NEXT_PUBLIC_API_URL` se embebe en el bundle del frontend en build time. Si el navegador accede desde una IP distinta a `localhost` (red local, otro dispositivo, VM), hay que configurarla antes de construir.
+
+```bash
+# Copiar la plantilla y editar
+cp .env.example .env
+
+# Editar .env con tu IP local
+# NEXT_PUBLIC_API_URL=http://192.168.1.127:8000
+```
+
+| Escenario | Valor de `NEXT_PUBLIC_API_URL` |
+| --- | --- |
+| Acceso solo desde el mismo Mac | `http://localhost:8000` (defecto) |
+| Acceso desde otro dispositivo en la red | `http://192.168.X.X:8000` |
+| Acceso desde VM en el mismo host | `http://host.containers.internal:8000` |
+
+> ⚠️ `.env` está en `.gitignore` — nunca se commitea. Usa `.env.example` como plantilla compartida.
+
+---
+
 ### Levantar el stack completo
 
 ```bash
@@ -114,8 +137,8 @@ podman compose up --build frontend
 | `frontend/Dockerfile` | Imagen frontend — multi-stage: build Next.js + runner `node:22-slim` |
 | `.dockerignore` | Excluye `.venv`, `node_modules`, tests, artefactos locales y secretos |
 
-> ⚠️ **Por qué `NEXT_PUBLIC_API_URL=http://localhost:8000` y no `http://api:8000`**
-> Los `NEXT_PUBLIC_*` se embeben en el JavaScript del cliente en tiempo de build — los ejecuta el navegador del usuario, no el servidor. El navegador ve los puertos del host (`localhost`), no la red interna de Podman (`api`). Por eso la URL apunta a `localhost` aunque la API corra en un contenedor llamado `api`.
+> ⚠️ **Por qué `NEXT_PUBLIC_API_URL` apunta a la IP del host y no a `http://api:8000`**
+> Los `NEXT_PUBLIC_*` se embeben en el JavaScript del cliente en tiempo de build — los ejecuta el navegador del usuario, no el servidor. El navegador ve los puertos del host (`localhost` o la IP de red), no la red interna de Podman (`api`). Configura la URL correcta en `.env` antes de `podman compose up --build`.
 
 ---
 

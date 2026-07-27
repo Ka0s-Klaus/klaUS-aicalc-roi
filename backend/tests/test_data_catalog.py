@@ -6,6 +6,7 @@ Ensures the static catalog never drifts out of sync with the data models.
 import json
 from decimal import Decimal
 from pathlib import Path
+from typing import Any
 
 from backend.tco_engine.models import (
     HardwareSpec,
@@ -15,17 +16,19 @@ from backend.tco_engine.models import (
 DATA_DIR = Path(__file__).parent.parent / "data"
 
 
-def _strip_meta(entry: dict) -> dict:
+def _strip_meta(entry: dict[str, Any]) -> dict[str, Any]:
     """Remove _source, _scraped_at and other metadata fields before Pydantic validation."""
     return {k: v for k, v in entry.items() if not k.startswith("_")}
 
 
-def _load_models() -> list[dict]:
-    return json.loads((DATA_DIR / "models.json").read_text())["models"]
+def _load_models() -> list[dict[str, Any]]:
+    data: dict[str, list[dict[str, Any]]] = json.loads((DATA_DIR / "models.json").read_text())
+    return data["models"]
 
 
-def _load_hardware() -> list[dict]:
-    return json.loads((DATA_DIR / "hardware.json").read_text())["hardware"]
+def _load_hardware() -> list[dict[str, Any]]:
+    data: dict[str, list[dict[str, Any]]] = json.loads((DATA_DIR / "hardware.json").read_text())
+    return data["hardware"]
 
 
 # ── Schema validation ─────────────────────────────────────────────────────────

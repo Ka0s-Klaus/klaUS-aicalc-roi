@@ -171,11 +171,10 @@ export default function HomePage() {
           <div className="space-y-6">
             <h2 className="text-lg font-bold text-gray-800">📊 Resultados</h2>
 
-            <RecommendationCard result={result} />
-
+            {/* Comparativa de estrategias — siempre visible, primera sección */}
             <div className="bg-white rounded-2xl border border-gray-200 p-6">
               <h3 className="font-semibold text-gray-700 mb-4">
-                Coste total por estrategia ({horizonMonths} meses)
+                Comparativa de estrategias ({horizonMonths} meses)
               </h3>
               <StrategyChart
                 strategies={result.strategies}
@@ -187,6 +186,9 @@ export default function HomePage() {
                 })()}
               />
             </div>
+
+            {/* Recomendación óptima — después de la comparativa */}
+            <RecommendationCard result={result} />
           </div>
         )}
       </div>

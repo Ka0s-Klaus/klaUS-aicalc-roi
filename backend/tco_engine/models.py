@@ -145,6 +145,10 @@ class StrategyCost(BaseModel):
 
     monthly_cost_avg_usd: Decimal = Decimal("0")
 
+    # OPEX breakdown for local strategies (None for cloud API)
+    monthly_electricity_usd: Decimal | None = None
+    monthly_maintenance_usd: Decimal | None = None
+
     # Month at which local is cheaper than the cheapest cloud alternative (None if never)
     breakeven_month: int | None = None
 

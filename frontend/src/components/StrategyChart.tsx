@@ -1,5 +1,7 @@
 "use client";
 
+import { Fragment } from "react";
+
 import {
   Bar,
   BarChart,
@@ -19,14 +21,20 @@ interface Props {
   recommendationId: string | null;
 }
 
+function strategyKey(s: StrategyCost): string {
+  return s.hardware_id ? `${s.model_id}/${s.hardware_id}` : s.model_id;
+}
+
 interface ChartEntry {
   name: string;
   total: number;
   capex: number;
   opex: number;
-  modelId: string;
+  key: string;
   isPareto: boolean;
   isRecommended: boolean;
+  monthlyElectricity: number | null;
+  monthlyMaintenance: number | null;
 }
 
 function shortLabel(s: StrategyCost): string {
@@ -56,12 +64,14 @@ export function StrategyChart({ strategies, paretoIds, recommendationId }: Props
     .sort((a, b) => parseFloat(a.total_cost_usd) - parseFloat(b.total_cost_usd))
     .map((s) => ({
       name: shortLabel(s),
-      modelId: s.model_id,
+      key: strategyKey(s),
       total: Math.round(parseFloat(s.total_cost_usd)),
       capex: Math.round(parseFloat(s.capex_usd)),
       opex: resolveOpex(s),
-      isPareto: paretoIds.includes(s.model_id),
-      isRecommended: s.model_id === recommendationId,
+      isPareto: paretoIds.includes(strategyKey(s)),
+      isRecommended: strategyKey(s) === recommendationId,
+      monthlyElectricity: s.monthly_electricity_usd ? Math.round(parseFloat(s.monthly_electricity_usd)) : null,
+      monthlyMaintenance: s.monthly_maintenance_usd ? Math.round(parseFloat(s.monthly_maintenance_usd)) : null,
     }));
 
   return (
@@ -128,25 +138,46 @@ export function StrategyChart({ strategies, paretoIds, recommendationId }: Props
           </thead>
           <tbody>
             {data.map((row, i) => (
-              <tr
-                key={i}
-                className={`border-b border-gray-100 ${row.isRecommended ? "bg-amber-50" : ""}`}
-              >
-                <td className="py-1.5 pr-3 font-mono text-gray-800">
-                  {row.isRecommended ? "⭐ " : ""}
-                  {row.name}
-                </td>
-                <td className="text-right py-1.5 pr-3 font-semibold text-gray-900">
-                  ${row.total.toLocaleString()}
-                </td>
-                <td className="text-right py-1.5 pr-3 text-gray-600">
-                  ${row.capex.toLocaleString()}
-                </td>
-                <td className="text-right py-1.5 pr-3 text-gray-600">
-                  ${row.opex.toLocaleString()}
-                </td>
-                <td className="text-center py-1.5">{row.isPareto ? "✅" : "—"}</td>
-              </tr>
+              <Fragment key={i}>
+                <tr
+                  className={`border-b ${row.monthlyElectricity !== null ? "border-gray-50" : "border-gray-100"} ${row.isRecommended ? "bg-amber-50" : ""}`}
+                >
+                  <td className="py-1.5 pr-3 font-mono text-gray-800">
+                    {row.isRecommended ? "⭐ " : ""}
+                    {row.name}
+                  </td>
+                  <td className="text-right py-1.5 pr-3 font-semibold text-gray-900">
+                    ${row.total.toLocaleString()}
+                  </td>
+                  <td className="text-right py-1.5 pr-3 text-gray-600">
+                    ${row.capex.toLocaleString()}
+                  </td>
+                  <td className="text-right py-1.5 pr-3 text-gray-600">
+                    ${row.opex.toLocaleString()}
+                  </td>
+                  <td className="text-center py-1.5">{row.isPareto ? "✅" : "—"}</td>
+                </tr>
+                {row.monthlyElectricity !== null && (
+                  <tr className={`border-b border-gray-100 ${row.isRecommended ? "bg-amber-50" : "bg-gray-50"}`}>
+                    <td colSpan={5} className="px-3 pb-1.5 pt-0">
+                      <span className="text-gray-400 text-xs">
+                        ↳ Electricidad:{" "}
+                        <span className="text-gray-600 font-medium">
+                          ${row.monthlyElectricity.toLocaleString()}/mes
+                        </span>
+                        {row.monthlyMaintenance !== null && (
+                          <>
+                            {"  ·  "}Mantenimiento:{" "}
+                            <span className="text-gray-600 font-medium">
+                              ${row.monthlyMaintenance.toLocaleString()}/mes
+                            </span>
+                          </>
+                        )}
+                      </span>
+                    </td>
+                  </tr>
+                )}
+              </Fragment>
             ))}
           </tbody>
         </table>

@@ -53,6 +53,8 @@ def calculate_local_cost(
         opex_total_usd=opex_total,
         total_cost_usd=total,
         monthly_cost_avg_usd=monthly_avg,
+        monthly_electricity_usd=monthly_electricity,
+        monthly_maintenance_usd=monthly_maintenance,
         estimated_latency_ms=latency,
         quality_score=_aggregate_quality(model),
     )

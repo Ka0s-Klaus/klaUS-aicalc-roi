@@ -135,14 +135,20 @@ class TCOEngine:
 
         return strategies
 
+    @staticmethod
+    def _strategy_key(s: StrategyCost) -> str:
+        """Unique identifier for a strategy: model_id for cloud, model_id/hardware_id for local."""
+        return f"{s.model_id}/{s.hardware_id}" if s.hardware_id else s.model_id
+
     def _pareto_frontier(self, strategies: list[StrategyCost]) -> list[str]:
         """Identify strategies where no other strategy is strictly better on both cost and quality."""
         pareto: list[str] = []
 
         for candidate in strategies:
             dominated = False
+            candidate_key = self._strategy_key(candidate)
             for other in strategies:
-                if other.model_id == candidate.model_id:
+                if self._strategy_key(other) == candidate_key:
                     continue
                 cost_better = other.total_cost_usd <= candidate.total_cost_usd
                 quality_better = (other.quality_score or 0) >= (candidate.quality_score or 0)
@@ -154,7 +160,7 @@ class TCOEngine:
                     dominated = True
                     break
             if not dominated:
-                pareto.append(candidate.model_id)
+                pareto.append(candidate_key)
 
         return pareto
 
@@ -164,7 +170,7 @@ class TCOEngine:
         if not strategies:
             raise ValueError("No valid strategies to recommend from")
 
-        pareto = [s for s in strategies if s.model_id in pareto_ids]
+        pareto = [s for s in strategies if self._strategy_key(s) in pareto_ids]
         candidates = pareto if pareto else strategies
 
         # Primary signal: lowest total cost among Pareto-optimal strategies

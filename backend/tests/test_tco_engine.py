@@ -72,6 +72,7 @@ def claude_sonnet() -> ModelSpec:
         name="Claude Sonnet 4.6",
         provider="Anthropic",
         deployment_type=DeploymentType.CLOUD_API,
+        parameters_b=None,
         context_window=200000,
         data_residency=DataResidency.US,
         compliance_flags=[ComplianceStandard.SOC2],
@@ -90,6 +91,7 @@ def deepseek_v4() -> ModelSpec:
         name="DeepSeek V4",
         provider="DeepSeek",
         deployment_type=DeploymentType.CLOUD_API,
+        parameters_b=None,
         context_window=64000,
         data_residency=DataResidency.CHINA,
         input_price_per_mtok=Decimal("0.14"),
@@ -232,6 +234,7 @@ class TestParetoAndRecommendation:
         )
         assert len(result.strategies) == 2
         assert len(result.pareto_optimal_ids) >= 1
+        assert result.recommendation is not None
         assert result.recommendation.strategy is not None
         assert len(result.recommendation.justification) >= 1
 

@@ -1,0 +1,37 @@
+# Dependencies
+.venv/
+node_modules/
+
+# Frontend — built and deployed separately via Vercel
+frontend/
+.next/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+*.egg-info/
+
+# Tests — not needed in production image
+backend/tests/
+
+# Git
+.git/
+.github/
+
+# Docs
+docs/
+
+# Local dev
+.env
+.env.*
+.env.local
+uv.lock
+CLAUDE.md
+.claude/

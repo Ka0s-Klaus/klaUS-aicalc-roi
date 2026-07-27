@@ -13,7 +13,26 @@ Sin un entorno de producción accesible, klaUS-aicalc-roi es solo código en un 
 
 ---
 
-## 🗺️ Arquitectura de producción
+## 🗺️ Arquitecturas de despliegue
+
+### 🖥️ Local — Podman (desarrollo y validación)
+
+```mermaid
+flowchart TD
+    A[👤 Usuario\nlocalhost] --> B[🌐 localhost:3000]
+    B --> C[🐳 frontend container\nnode:22-slim]
+    C -- NEXT_PUBLIC_API_URL=http://localhost:8000 --> D[🐳 api container\npython:3.12-slim]
+    D --> E[⚡ FastAPI + Uvicorn\n:8000]
+    E --> F[🧠 TCO Engine]
+    E --> G[📦 Catálogo estático\nbackend/data/]
+
+    subgraph Podman [🐳 podman compose]
+        C
+        D
+    end
+```
+
+### 🌐 Producción — Railway + Vercel
 
 ```mermaid
 flowchart TD
@@ -35,6 +54,68 @@ flowchart TD
 
     I --> CI_CD
 ```
+
+---
+
+## 🖥️ Entorno local — Podman
+
+### Prerrequisitos
+
+```bash
+# Instalar Podman + podman-compose en macOS M1
+brew install podman podman-compose
+
+# Inicializar la máquina virtual de Podman (solo la primera vez)
+podman machine init
+podman machine start
+```
+
+### Levantar el stack completo
+
+```bash
+# Desde la raíz del repo
+podman compose up --build
+
+# La primera vez tarda ~3-5 minutos (descarga imágenes base + npm ci + build)
+# Las siguientes arranca en ~30 segundos (capas cacheadas)
+```
+
+Cuando veas `frontend_1 | Ready on http://localhost:3000`, abre el navegador:
+
+| URL | Qué es |
+| --- | --- |
+| `http://localhost:3000` | 🖥️ Interfaz web — formulario TCO |
+| `http://localhost:8000/health` | 💚 Healthcheck de la API |
+| `http://localhost:8000/docs` | 📄 Swagger UI de la API |
+
+### Parar el stack
+
+```bash
+podman compose down
+```
+
+### Reconstruir tras cambios de código
+
+```bash
+# Si cambias backend/ — solo reconstruye la imagen API
+podman compose up --build api
+
+# Si cambias frontend/ — reconstruye la imagen frontend
+# (necesario porque NEXT_PUBLIC_API_URL se embebe en build time)
+podman compose up --build frontend
+```
+
+### Ficheros implicados
+
+| Fichero | Rol |
+| --- | --- |
+| `compose.yml` | Orquesta API (:8000) + frontend (:3000) |
+| `Dockerfile` | Imagen API — `python:3.12-slim` + FastAPI + uvicorn |
+| `frontend/Dockerfile` | Imagen frontend — multi-stage: build Next.js + runner `node:22-slim` |
+| `.dockerignore` | Excluye `.venv`, `node_modules`, tests, artefactos locales y secretos |
+
+> ⚠️ **Por qué `NEXT_PUBLIC_API_URL=http://localhost:8000` y no `http://api:8000`**
+> Los `NEXT_PUBLIC_*` se embeben en el JavaScript del cliente en tiempo de build — los ejecuta el navegador del usuario, no el servidor. El navegador ve los puertos del host (`localhost`), no la red interna de Podman (`api`). Por eso la URL apunta a `localhost` aunque la API corra en un contenedor llamado `api`.
 
 ---
 

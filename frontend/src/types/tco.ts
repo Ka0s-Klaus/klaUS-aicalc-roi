@@ -61,6 +61,9 @@ export interface StrategyCost {
   api_cost_total_usd: string;
   total_cost_usd: string;
   monthly_cost_avg_usd: string;
+  // OPEX breakdown (only populated for local strategies)
+  monthly_electricity_usd: string | null;
+  monthly_maintenance_usd: string | null;
   // Optional fields
   breakeven_month: number | null;
   estimated_latency_ms: number | null;

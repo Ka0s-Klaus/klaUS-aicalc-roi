@@ -180,7 +180,11 @@ export default function HomePage() {
               <StrategyChart
                 strategies={result.strategies}
                 paretoIds={result.pareto_optimal_ids}
-                recommendationId={result.recommendation?.strategy.model_id ?? null}
+                recommendationId={(() => {
+                  const s = result.recommendation?.strategy;
+                  if (!s) return null;
+                  return s.hardware_id ? `${s.model_id}/${s.hardware_id}` : s.model_id;
+                })()}
               />
             </div>
           </div>

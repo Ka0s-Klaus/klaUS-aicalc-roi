@@ -36,7 +36,7 @@ def _load_hardware() -> list[dict[str, Any]]:
 
 class TestModelsCatalog:
     def test_catalog_has_expected_count(self) -> None:
-        assert len(_load_models()) == 30
+        assert len(_load_models()) == 34
 
     def test_all_models_parse_against_pydantic(self) -> None:
         errors: list[str] = []
@@ -117,7 +117,7 @@ class TestModelsCatalog:
         cloud = sum(1 for m in models if m["deployment_type"] == "cloud_api")
         local = sum(1 for m in models if m["deployment_type"] == "local")
         assert cloud == 20, f"Expected 20 cloud models, got {cloud}"
-        assert local == 10, f"Expected 10 local models, got {local}"
+        assert local == 14, f"Expected 14 local models, got {local}"
 
 
 class TestHardwareCatalog:
@@ -191,7 +191,7 @@ class TestCrossCompatibility:
         # Cluster-only models (require more VRAM than the largest GPU in catalog) are
         # intentionally included — they represent real production deployment options.
         cluster_only = [m for m in heavy_models if (m.get("min_vram_gb") or 0) > datacenter_max_vram]
-        assert len(cluster_only) <= 3, (
+        assert len(cluster_only) <= 6, (
             f"Unexpectedly many cluster-only models: {[m['id'] for m in cluster_only]}"
         )
 

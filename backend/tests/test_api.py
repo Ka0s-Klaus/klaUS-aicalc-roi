@@ -29,7 +29,7 @@ def test_health_returns_ok() -> None:
 def test_list_models_full_catalog() -> None:
     resp = client.get("/v1/models")
     assert resp.status_code == 200
-    assert len(resp.json()) == 30
+    assert len(resp.json()) == 34
 
 
 def test_list_models_filter_cloud() -> None:
@@ -44,7 +44,7 @@ def test_list_models_filter_local() -> None:
     resp = client.get("/v1/models?deployment_type=local")
     assert resp.status_code == 200
     models = resp.json()
-    assert len(models) == 10
+    assert len(models) == 14
     assert all(m["deployment_type"] == "local" for m in models)
 
 

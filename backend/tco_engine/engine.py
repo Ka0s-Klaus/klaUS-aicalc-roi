@@ -184,7 +184,7 @@ class TCOEngine:
             )
         if best.deployment_type == DeploymentType.CLOUD_API:
             justification.append(
-                f"Sin CAPEX — coste proporcional al uso, ideal para volúmenes variables"
+                "Sin CAPEX — coste proporcional al uso, ideal para volúmenes variables"
             )
         elif best.deployment_type == DeploymentType.LOCAL:
             justification.append(

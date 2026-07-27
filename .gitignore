@@ -12,6 +12,8 @@ eggs/
 .eggs/
 lib/
 lib64/
+# excepción: frontend tiene su propio directorio src/lib/
+!frontend/src/lib/
 parts/
 sdist/
 var/

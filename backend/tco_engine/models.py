@@ -88,6 +88,9 @@ class HardwareSpec(BaseModel):
     # Expected useful life in months before replacement
     lifespan_months: int = Field(default=36, ge=12)
 
+    # Number of units in the installation (e.g. 4 for a 4× GPU rack)
+    quantity: int = Field(default=1, ge=1, le=32)
+
 
 class UseCase(BaseModel):
     """A workload definition for TCO analysis."""

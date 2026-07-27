@@ -20,11 +20,13 @@ def calculate_local_cost(
     horizon_months: int,
 ) -> StrategyCost:
     """CAPEX + OPEX for running a local model on owned/rented hardware."""
-    capex = hardware.purchase_price_usd
+    qty = Decimal(str(hardware.quantity))
+    capex = hardware.purchase_price_usd * qty
 
-    # Monthly electricity: TDP × cooling overhead × hours × kWh rate
+    # Monthly electricity: TDP × quantity × cooling overhead × hours × kWh rate
     power_kw = (
         Decimal(str(hardware.tdp_watts))
+        * qty
         * (1 + Decimal(str(hardware.cooling_overhead_factor)))
         * _WATTS_TO_KW
     )
@@ -32,12 +34,12 @@ def calculate_local_cost(
 
     # Monthly maintenance (amortized annual %)
     monthly_maintenance = (
-        hardware.purchase_price_usd * Decimal(str(hardware.maintenance_annual_pct)) / 12
+        hardware.purchase_price_usd * qty * Decimal(str(hardware.maintenance_annual_pct)) / 12
     )
 
     # Hardware replacement if horizon exceeds lifespan
     replacements = max(0, horizon_months // hardware.lifespan_months - 1)
-    replacement_cost = hardware.purchase_price_usd * replacements
+    replacement_cost = hardware.purchase_price_usd * qty * replacements
 
     opex_total = (monthly_electricity + monthly_maintenance) * horizon_months + replacement_cost
     total = capex + opex_total
@@ -115,8 +117,8 @@ def _estimate_local_latency(
     if model.tokens_per_second_fp16 is None:
         return None
 
-    # VRAM check: model must fit in hardware
-    if model.min_vram_gb and hardware.vram_gb < model.min_vram_gb:
+    # VRAM check: model must fit across all units
+    if model.min_vram_gb and (hardware.vram_gb * hardware.quantity) < model.min_vram_gb:
         return None
 
     # Average output length assumed at 256 tokens for latency estimate

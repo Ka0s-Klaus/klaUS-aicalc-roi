@@ -174,6 +174,53 @@ class TestLocalCost:
         )
         assert len(result.strategies) == 0
 
+    def test_quantity_multiplies_capex(
+        self, llama_8b: ModelSpec, rtx_4090: HardwareSpec, use_case_coding: UseCase
+    ) -> None:
+        hw_x2 = rtx_4090.model_copy(update={"quantity": 2})
+        engine = TCOEngine()
+        single = engine.analyze(
+            TCOInput(models=[llama_8b], hardware=[rtx_4090], use_cases=[use_case_coding], horizon_months=36)
+        )
+        double = engine.analyze(
+            TCOInput(models=[llama_8b], hardware=[hw_x2], use_cases=[use_case_coding], horizon_months=36)
+        )
+        assert double.strategies[0].capex_usd == single.strategies[0].capex_usd * 2
+
+    def test_quantity_enables_large_model(
+        self, llama_70b: ModelSpec, rtx_4090: HardwareSpec, use_case_coding: UseCase
+    ) -> None:
+        # 1× RTX 4090 = 24 GB VRAM < 40 GB required — model is excluded
+        # 2× RTX 4090 = 48 GB VRAM >= 40 GB — model can run
+        hw_x2 = rtx_4090.model_copy(update={"quantity": 2})
+        engine = TCOEngine()
+        single = engine.analyze(
+            TCOInput(models=[llama_70b], hardware=[rtx_4090], use_cases=[use_case_coding])
+        )
+        double = engine.analyze(
+            TCOInput(models=[llama_70b], hardware=[hw_x2], use_cases=[use_case_coding])
+        )
+        assert len(single.strategies) == 0
+        assert len(double.strategies) == 1
+
+    def test_quantity_multiplies_electricity_opex(
+        self, llama_8b: ModelSpec, rtx_4090: HardwareSpec, use_case_coding: UseCase
+    ) -> None:
+        hw_x4 = rtx_4090.model_copy(update={"quantity": 4})
+        engine = TCOEngine()
+        single = engine.analyze(
+            TCOInput(models=[llama_8b], hardware=[rtx_4090], use_cases=[use_case_coding], horizon_months=12)
+        )
+        quad = engine.analyze(
+            TCOInput(models=[llama_8b], hardware=[hw_x4], use_cases=[use_case_coding], horizon_months=12)
+        )
+        s1 = single.strategies[0]
+        s4 = quad.strategies[0]
+        assert s1.monthly_electricity_usd is not None
+        assert s1.monthly_maintenance_usd is not None
+        assert s4.monthly_electricity_usd == s1.monthly_electricity_usd * 4
+        assert s4.monthly_maintenance_usd == s1.monthly_maintenance_usd * 4
+
 
 class TestComplianceFilter:
     def test_china_model_included_by_default(

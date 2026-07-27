@@ -114,7 +114,8 @@ class TCOEngine:
 
             elif model.deployment_type == DeploymentType.LOCAL:
                 for hw in hardware_options:
-                    if model.min_vram_gb and hw.vram_gb < model.min_vram_gb:
+                    effective_vram = hw.vram_gb * hw.quantity
+                    if model.min_vram_gb and effective_vram < model.min_vram_gb:
                         continue  # Hardware can't fit the model
                     cost = calculate_local_cost(
                         model,

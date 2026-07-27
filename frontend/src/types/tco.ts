@@ -28,6 +28,7 @@ export interface HardwareSpec {
   vram_gb: number;
   tdp_watts: number;
   purchase_price_usd: string;
+  quantity?: number; // default 1 — número de unidades en el rack
 }
 
 export interface UseCase {

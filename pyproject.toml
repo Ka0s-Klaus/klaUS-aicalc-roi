@@ -48,3 +48,4 @@ addopts = "-v --cov=backend --cov-report=term-missing"
 python_version = "3.12"
 strict = true
 ignore_missing_imports = true
+explicit_package_bases = true

@@ -1,14 +1,17 @@
 "use client";
 
-import type { HardwareSpec } from "@/types/tco";
+import type { HardwareSpec, ModelSpec } from "@/types/tco";
 
 interface Props {
   hardware: HardwareSpec[];
   selected: HardwareSpec[];
   onChange: (hw: HardwareSpec[]) => void;
+  localModels?: ModelSpec[];
 }
 
-export function HardwareSelector({ hardware, selected, onChange }: Props) {
+export function HardwareSelector({ hardware, selected, onChange, localModels = [] }: Props) {
+  const maxRequiredVram = localModels.reduce((max, m) => Math.max(max, m.min_vram_gb ?? 0), 0);
+
   const toggle = (hw: HardwareSpec) => {
     const exists = selected.some((h) => h.id === hw.id);
     if (exists) {
@@ -37,13 +40,17 @@ export function HardwareSelector({ hardware, selected, onChange }: Props) {
           const qty = sel?.quantity ?? 1;
           const effectiveVram = hw.vram_gb * qty;
 
+          const fitsAllModels = maxRequiredVram === 0 || effectiveVram >= maxRequiredVram;
+
           return (
             <div
               key={hw.id}
               className={`p-2 rounded-lg border text-left text-sm transition-colors ${
                 isSelected
                   ? "bg-purple-600 text-white border-purple-600"
-                  : "bg-white text-gray-700 border-gray-300 hover:border-purple-400"
+                  : fitsAllModels
+                    ? "bg-white text-gray-700 border-gray-300 hover:border-purple-400"
+                    : "bg-red-50 text-gray-700 border-red-200 hover:border-red-400"
               }`}
             >
               <button
@@ -51,9 +58,15 @@ export function HardwareSelector({ hardware, selected, onChange }: Props) {
                 onClick={() => toggle(hw)}
                 className="w-full text-left"
               >
-                <p className="font-medium leading-tight">{hw.name}</p>
-                <p className={`text-xs mt-0.5 ${isSelected ? "opacity-80" : "text-gray-500"}`}>
+                <p className="font-medium leading-tight">
+                  {hw.name}
+                  {!fitsAllModels && !isSelected && (
+                    <span className="ml-1 text-red-500 text-xs" title={`Requiere ${maxRequiredVram} GB VRAM`}>⚠️</span>
+                  )}
+                </p>
+                <p className={`text-xs mt-0.5 ${isSelected ? "opacity-80" : fitsAllModels ? "text-gray-500" : "text-red-400"}`}>
                   {effectiveVram} GB VRAM · ${hw.purchase_price_usd}
+                  {!fitsAllModels && !isSelected && <span className="ml-1">(insuficiente)</span>}
                 </p>
               </button>
 

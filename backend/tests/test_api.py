@@ -29,14 +29,14 @@ def test_health_returns_ok() -> None:
 def test_list_models_full_catalog() -> None:
     resp = client.get("/v1/models")
     assert resp.status_code == 200
-    assert len(resp.json()) == 45
+    assert len(resp.json()) == 49
 
 
 def test_list_models_filter_cloud() -> None:
     resp = client.get("/v1/models?deployment_type=cloud_api")
     assert resp.status_code == 200
     models = resp.json()
-    assert len(models) == 20
+    assert len(models) == 24
     assert all(m["deployment_type"] == "cloud_api" for m in models)
 
 
@@ -82,7 +82,7 @@ def test_list_models_invalid_filter_returns_422() -> None:
 def test_list_hardware_full_catalog() -> None:
     resp = client.get("/v1/hardware")
     assert resp.status_code == 200
-    assert len(resp.json()) == 19
+    assert len(resp.json()) == 20
 
 
 def test_hardware_entries_have_required_fields() -> None:

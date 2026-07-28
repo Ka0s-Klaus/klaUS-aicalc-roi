@@ -207,6 +207,90 @@ export default function HomePage() {
                 </ul>
               </div>
             )}
+
+            {/* Hardware recomendado para modelos locales excluidos por VRAM */}
+            {(() => {
+              const excludedLocalModels = result.excluded
+                .map((ex) => {
+                  const spec = selectedModels.find((m) => m.id === ex.model_id);
+                  if (!spec || spec.deployment_type !== "local") return null;
+                  return { model_id: ex.model_id, min_vram_gb: spec.min_vram_gb ?? 0 };
+                })
+                .filter(
+                  (m): m is { model_id: string; min_vram_gb: number } =>
+                    m !== null && m.min_vram_gb > 0,
+                );
+
+              if (excludedLocalModels.length === 0) return null;
+
+              return (
+                <div className="bg-sky-50 border border-sky-200 rounded-2xl p-4">
+                  <h3 className="font-semibold text-sky-800 text-sm mb-3">
+                    🖥️ Hardware recomendado para modelos excluidos
+                  </h3>
+                  <div className="space-y-4">
+                    {excludedLocalModels.map((ex) => {
+                      const options = allHardware
+                        .map((hw) => {
+                          const unitsNeeded = Math.ceil(ex.min_vram_gb / hw.vram_gb);
+                          if (unitsNeeded > 8) return null;
+                          const totalVram = hw.vram_gb * unitsNeeded;
+                          const totalPrice = Number(hw.purchase_price_usd) * unitsNeeded;
+                          return { hw, unitsNeeded, totalVram, totalPrice };
+                        })
+                        .filter((o): o is NonNullable<typeof o> => o !== null)
+                        .sort(
+                          (a, b) =>
+                            a.unitsNeeded - b.unitsNeeded || a.totalPrice - b.totalPrice,
+                        );
+
+                      return (
+                        <div key={ex.model_id}>
+                          <p className="text-xs font-mono font-semibold text-sky-700 mb-1.5">
+                            {ex.model_id} — necesita {ex.min_vram_gb} GB VRAM
+                          </p>
+                          {options.length === 0 ? (
+                            <p className="text-xs text-sky-600 ml-2">
+                              No hay hardware en el catálogo que soporte este modelo (ni en ×8).
+                            </p>
+                          ) : (
+                            <ul className="space-y-1 ml-2">
+                              {options.map(({ hw, unitsNeeded, totalVram, totalPrice }) => (
+                                <li
+                                  key={hw.id}
+                                  className="text-xs text-sky-700 flex items-start gap-2"
+                                >
+                                  <span
+                                    className={
+                                      unitsNeeded === 1
+                                        ? "text-green-600 font-bold shrink-0"
+                                        : "text-sky-400 shrink-0 w-5 text-center"
+                                    }
+                                  >
+                                    {unitsNeeded === 1 ? "✓" : `×${unitsNeeded}`}
+                                  </span>
+                                  <span>
+                                    <span className="font-medium">{hw.name}</span>
+                                    {unitsNeeded > 1 && (
+                                      <span className="text-sky-500"> × {unitsNeeded} unidades</span>
+                                    )}
+                                    {" — "}
+                                    <span className="text-sky-600">
+                                      {totalVram} GB VRAM · $
+                                      {totalPrice.toLocaleString("en-US")}
+                                    </span>
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })()}
           </div>
         )}
       </div>

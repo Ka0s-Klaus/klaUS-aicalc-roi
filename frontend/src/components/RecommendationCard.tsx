@@ -141,7 +141,7 @@ export function RecommendationCard({ result }: Props) {
 
       {excluded.length > 0 && (
         <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-          <p className="text-xs font-medium text-gray-600 mb-2">🚫 Excluidos por compliance</p>
+          <p className="text-xs font-medium text-gray-600 mb-2">🚫 Excluidos por HW insuficiente</p>
           <ul className="space-y-1">
             {excluded.map((e, i) => (
               <li key={i} className="text-xs text-gray-600">

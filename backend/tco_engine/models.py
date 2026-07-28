@@ -56,6 +56,9 @@ class ModelSpec(BaseModel):
     min_vram_gb: float | None = None
     tokens_per_second_fp16: float | None = None
 
+    # Estimated p50 API latency in ms (cloud models); computed for local models
+    estimated_latency_ms: float | None = None
+
     # Quality benchmarks (0.0–1.0 normalized against GPT-4o baseline = 1.0)
     quality_coding: float | None = None
     quality_reasoning: float | None = None

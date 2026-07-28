@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { HardwareSelector } from "@/components/HardwareSelector";
 import { ModelSelector } from "@/components/ModelSelector";
 import { RecommendationCard } from "@/components/RecommendationCard";
+import { SizingCard } from "@/components/SizingCard";
 import { StrategyChart } from "@/components/StrategyChart";
 import { UseCaseForm } from "@/components/UseCaseForm";
 import {
@@ -233,6 +234,13 @@ export default function HomePage() {
         {result && (
           <div className="space-y-6">
             <h2 className="text-lg font-bold text-gray-800">📊 Resultados</h2>
+
+            {/* Métricas de dimensionamiento — context de capacidad antes de resultados */}
+            <SizingCard
+              models={selectedModels}
+              hardware={selectedHardware}
+              useCase={useCase}
+            />
 
             {/* Comparativa de estrategias — siempre visible, primera sección */}
             <div className="bg-white rounded-2xl border border-gray-200 p-6">

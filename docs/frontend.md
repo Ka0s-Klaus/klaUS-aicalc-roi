@@ -34,31 +34,32 @@ flowchart TD
     N --> O[POST /v1/analyze]
     O --> P{Análisis OK?}
     P -- Error --> Q[Mensaje de error inline]
-    P -- OK --> R[Mostrar RecommendationCard + StrategyChart]
-    R --> S[Usuario lee recomendación, riesgos y tabla comparativa]
+    P -- OK --> R[SizingCard + RecommendationCard + StrategyChart]
+    R --> S[Usuario lee métricas de sizing, recomendación, riesgos y tabla comparativa]
 ```
 
 ---
 
 ## 📁 Estructura de ficheros
 
-```
+```text
 frontend/
 ├── src/
 │   ├── app/
-│   │   ├── layout.tsx          # Layout global — metadata, fuentes, body
-│   │   ├── globals.css         # Estilos base Tailwind
-│   │   └── page.tsx            # Página principal — toda la lógica de estado
+│   │   ├── layout.tsx              # Layout global — metadata, fuentes, body
+│   │   ├── globals.css             # Estilos base Tailwind
+│   │   └── page.tsx                # Página principal — toda la lógica de estado
 │   ├── components/
-│   │   ├── ModelSelector.tsx   # Selector de modelos AI agrupado por deployment_type
-│   │   ├── HardwareSelector.tsx # Selector de hardware GPU (aparece solo si hay modelos local)
-│   │   ├── UseCaseForm.tsx     # Nombre, tokens/mes y horizonte de análisis
-│   │   ├── StrategyChart.tsx   # Gráfico de barras Recharts + tabla comparativa
-│   │   └── RecommendationCard.tsx # Tarjeta de recomendación óptima + excluidos
+│   │   ├── ModelSelector.tsx       # Selector de modelos AI agrupado por deployment_type
+│   │   ├── HardwareSelector.tsx    # Selector de hardware GPU (aparece solo si hay modelos local)
+│   │   ├── UseCaseForm.tsx         # Nombre, tokens/mes y horizonte de análisis
+│   │   ├── SizingCard.tsx          # Tarjeta de métricas de dimensionamiento LLM
+│   │   ├── StrategyChart.tsx       # Gráfico de barras Recharts + tabla comparativa
+│   │   └── RecommendationCard.tsx  # Tarjeta de recomendación óptima + excluidos
 │   ├── lib/
-│   │   └── api.ts              # Cliente fetch tipado — fetchModels, fetchHardware, analyze
+│   │   └── api.ts                  # Cliente fetch tipado — fetchModels, fetchHardware, analyze
 │   └── types/
-│       └── tco.ts              # Tipos TS que espejan los modelos Pydantic del backend
+│       └── tco.ts                  # Tipos TS que espejan los modelos Pydantic del backend
 ├── next.config.ts
 ├── tsconfig.json
 └── package.json
@@ -91,9 +92,11 @@ NEXT_PUBLIC_API_URL=http://api.ejemplo.com npm run dev
 ## 🧩 Componentes
 
 ### `ModelSelector`
+
 Agrupa los modelos del catálogo por `deployment_type` y permite selección múltiple con toggle. Muestra el precio de entrada para modelos cloud API.
 
 ### `HardwareSelector`
+
 Solo aparece cuando hay al menos un modelo local seleccionado. Muestra cards con VRAM y precio de compra de cada GPU.
 
 Cuando la página detecta modelos locales, llama a `GET /v1/hardware/recommend` y pasa el resultado como `topRecommendation`. El componente:
@@ -102,11 +105,37 @@ Cuando la página detecta modelos locales, llama a `GET /v1/hardware/recommend` 
 - Si la selección actual tiene VRAM insuficiente, la auto-selección se aplica automáticamente con la cantidad de unidades correcta
 - El usuario puede cambiar o desmarcar el hardware libremente — la recomendación es informativa, no bloqueante
 
+### `SizingCard`
+
+Tarjeta de métricas de dimensionamiento de capacidad LLM (capacity planning). Aparece en la sección de resultados una vez ejecutado el análisis. No requiere inputs adicionales — todo se calcula desde los modelos, hardware y caso de uso seleccionados.
+
+**Secciones:**
+
+- **📊 Distribución de tokens**: tokens/año, % input, % output, % cache (Fase 2), validación Σ=100%
+- **⚙️ Capacidad operativa**: horas/día, días/año, horas pico, usuarios concurrentes, tok/s objetivo/usuario
+- **🖥️ On-prem & Agentes**: cuantización inferida (FP16/INT8/INT4/INT2), contexto promedio de sesión, streams/usuario agentic, tok/s para agentes
+
+**Fórmulas clave:**
+
+| Campo | Fórmula |
+| --- | --- |
+| Tokens/año | `(input + output) × 12 / 1M` |
+| % Input/Output | `tokens_tipo / total × 100` |
+| Usuarios concurrentes | `hw_throughput_tok_s / 20 tok/s` |
+| Cuantización | `FP16 si VRAM≥params×2, INT8 si ≥params, INT4 si ≥params×0.5` |
+| Contexto sesión | `context_window × 0.25` (uso típico producción) |
+| Tok/s agentes | `20 tok/s × 3 streams` |
+
+Valores con asterisco (*) usan defaults ISO 20000 / MLPerf enterprise (8h/día, 220 días/año, 4h pico, 20 tok/s, 3 streams agentic).
+
 ### `UseCaseForm`
+
 Nombre del caso de uso, tokens de entrada/mes, tokens de salida/mes y selector de horizonte temporal (1, 6, 12, 24, 36, 60 meses).
 
 ### `StrategyChart`
+
 Gráfico de barras ordenado por coste ascendente. Color por estado:
+
 - 🔵 Azul: estrategia normal
 - 🟢 Verde: Pareto-óptima
 - 🟡 Ámbar: Recomendada
@@ -114,6 +143,7 @@ Gráfico de barras ordenado por coste ascendente. Color por estado:
 Incluye tabla comparativa con CAPEX, OPEX y flag de Pareto.
 
 ### `RecommendationCard`
+
 Muestra la recomendación óptima con rationale, riesgos y payback. Si no hay estrategias válidas, muestra los modelos excluidos y sus razones (compliance).
 
 ---
@@ -142,6 +172,7 @@ Todos devuelven promesas tipadas. Los errores HTTP lanzan `Error` con el status 
 | Recharts (no Chart.js/D3) | Componentes React nativos, sin manipulación de DOM, tipado completo |
 | Auto-recomendación en cliente (no SSR) | La llamada a `/v1/hardware/recommend` se hace desde `useEffect` — evita bloquear el render inicial y permite que el usuario vea el formulario antes de que llegue la recomendación |
 | `useRef` para `lastAutoSelectKey` | Evita re-selección de hardware en cada re-render; solo se re-aplica cuando el conjunto de modelos locales cambia realmente |
+| `SizingCard` como cálculo puro en cliente | Los datos ya están disponibles en el estado de la página — no requiere endpoint de backend ni llamada de red adicional |
 
 ---
 

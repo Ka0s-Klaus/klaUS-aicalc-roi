@@ -21,13 +21,21 @@ flowchart TD
     B --> C{Catálogo OK?}
     C -- Error --> D[Pantalla de error con instrucciones]
     C -- OK --> E[Formulario con pre-selección Claude Sonnet + Llama 8B + RTX 4090]
-    E --> F[Usuario ajusta modelos, hardware, caso de uso y horizonte]
-    F --> G[Botón Analizar TCO]
-    G --> H[POST /v1/analyze]
-    H --> I{Análisis OK?}
-    I -- Error --> J[Mensaje de error inline]
-    I -- OK --> K[Mostrar RecommendationCard + StrategyChart]
-    K --> L[Usuario lee recomendación, riesgos y tabla comparativa]
+    E --> F[Usuario selecciona modelos]
+    F --> G{¿Hay modelos local?}
+    G -- Sí --> H[GET /v1/hardware/recommend?min_vram_gb=X]
+    H --> I[Auto-selección del hardware óptimo con unidades correctas]
+    I --> J[Badge 🤖 en la GPU recomendada]
+    G -- No --> K[HardwareSelector oculto]
+    J --> L[Usuario ajusta hardware si quiere]
+    K --> M[Usuario configura caso de uso y horizonte]
+    L --> M
+    M --> N[Botón Analizar TCO]
+    N --> O[POST /v1/analyze]
+    O --> P{Análisis OK?}
+    P -- Error --> Q[Mensaje de error inline]
+    P -- OK --> R[Mostrar RecommendationCard + StrategyChart]
+    R --> S[Usuario lee recomendación, riesgos y tabla comparativa]
 ```
 
 ---
@@ -88,6 +96,12 @@ Agrupa los modelos del catálogo por `deployment_type` y permite selección múl
 ### `HardwareSelector`
 Solo aparece cuando hay al menos un modelo local seleccionado. Muestra cards con VRAM y precio de compra de cada GPU.
 
+Cuando la página detecta modelos locales, llama a `GET /v1/hardware/recommend` y pasa el resultado como `topRecommendation`. El componente:
+
+- Marca con 🤖 la GPU recomendada (borde azul, badge en el header)
+- Si la selección actual tiene VRAM insuficiente, la auto-selección se aplica automáticamente con la cantidad de unidades correcta
+- El usuario puede cambiar o desmarcar el hardware libremente — la recomendación es informativa, no bloqueante
+
 ### `UseCaseForm`
 Nombre del caso de uso, tokens de entrada/mes, tokens de salida/mes y selector de horizonte temporal (1, 6, 12, 24, 36, 60 meses).
 
@@ -110,6 +124,7 @@ Muestra la recomendación óptima con rationale, riesgos y payback. Si no hay es
 | --- | --- | --- |
 | `fetchModels(params?)` | GET | `/v1/models?deployment_type=&data_residency=` |
 | `fetchHardware()` | GET | `/v1/hardware` |
+| `fetchHardwareRecommendation(min_vram_gb)` | GET | `/v1/hardware/recommend?min_vram_gb=` |
 | `analyze(input)` | POST | `/v1/analyze` |
 
 Todos devuelven promesas tipadas. Los errores HTTP lanzan `Error` con el status y body — se capturan en el `catch` de la página.
@@ -125,6 +140,8 @@ Todos devuelven promesas tipadas. Los errores HTTP lanzan `Error` con el status 
 | Pre-selección al arrancar | Reduce la fricción — el usuario puede lanzar un análisis en 1 clic |
 | `"use client"` en toda la página | El formulario y el gráfico son interactivos — no hay beneficio de RSC aquí |
 | Recharts (no Chart.js/D3) | Componentes React nativos, sin manipulación de DOM, tipado completo |
+| Auto-recomendación en cliente (no SSR) | La llamada a `/v1/hardware/recommend` se hace desde `useEffect` — evita bloquear el render inicial y permite que el usuario vea el formulario antes de que llegue la recomendación |
+| `useRef` para `lastAutoSelectKey` | Evita re-selección de hardware en cada re-render; solo se re-aplica cuando el conjunto de modelos locales cambia realmente |
 
 ---
 

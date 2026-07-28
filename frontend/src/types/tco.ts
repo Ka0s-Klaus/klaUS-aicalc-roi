@@ -94,3 +94,10 @@ export interface AnalysisResult {
   recommendation: Recommendation | null;
   excluded: ExcludedModel[];
 }
+
+export interface HardwareRecommendation {
+  hardware: HardwareSpec;
+  units_needed: number;
+  total_vram_gb: number;
+  total_price_usd: string;
+}

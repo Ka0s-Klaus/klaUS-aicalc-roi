@@ -1,15 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { HardwareSelector } from "@/components/HardwareSelector";
 import { ModelSelector } from "@/components/ModelSelector";
 import { RecommendationCard } from "@/components/RecommendationCard";
 import { StrategyChart } from "@/components/StrategyChart";
 import { UseCaseForm } from "@/components/UseCaseForm";
-import { analyze, fetchHardware, fetchModels } from "@/lib/api";
+import {
+  analyze,
+  fetchHardware,
+  fetchHardwareRecommendation,
+  fetchModels,
+} from "@/lib/api";
 import type {
   AnalysisResult,
+  HardwareRecommendation,
   HardwareSpec,
   ModelSpec,
   UseCase,
@@ -37,12 +43,19 @@ export default function HomePage() {
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [analyzeError, setAnalyzeError] = useState<string | null>(null);
 
+  // Top hardware recommendation for the current local model selection
+  const [topRecommendation, setTopRecommendation] =
+    useState<HardwareRecommendation | null>(null);
+
+  // Tracks the last set of local model IDs that triggered auto-selection,
+  // so we only auto-select once per unique combination and not on every re-render.
+  const lastAutoSelectKey = useRef<string>("");
+
   useEffect(() => {
     Promise.all([fetchModels(), fetchHardware()])
       .then(([models, hardware]) => {
         setAllModels(models);
         setAllHardware(hardware);
-        // Pre-seleccionar Claude Sonnet y Llama 8B como ejemplo representativo
         const defaults = models.filter((m) =>
           ["claude-sonnet-4-6", "llama-3-1-8b-local"].includes(m.id),
         );
@@ -55,6 +68,54 @@ export default function HomePage() {
       )
       .finally(() => setLoadingCatalog(false));
   }, []);
+
+  // When local models change: fetch recommendation and auto-select hardware if needed
+  useEffect(() => {
+    const localModels = selectedModels.filter(
+      (m) => m.deployment_type === "local",
+    );
+
+    if (localModels.length === 0) {
+      setTopRecommendation(null);
+      return;
+    }
+
+    const maxVram = Math.max(...localModels.map((m) => m.min_vram_gb ?? 0));
+    if (maxVram === 0) return;
+
+    const key = localModels
+      .map((m) => m.id)
+      .sort()
+      .join(",");
+
+    fetchHardwareRecommendation(maxVram)
+      .then((recs) => {
+        if (recs.length === 0) {
+          setTopRecommendation(null);
+          return;
+        }
+        const top = recs[0];
+        setTopRecommendation(top);
+
+        // Auto-select only when the local model set has changed and current
+        // hardware is insufficient for the new requirement
+        if (key === lastAutoSelectKey.current) return;
+        lastAutoSelectKey.current = key;
+
+        setSelectedHardware((current) => {
+          const effectiveVram = current.reduce(
+            (s, h) => s + h.vram_gb * (h.quantity ?? 1),
+            0,
+          );
+          if (effectiveVram >= maxVram) return current;
+          return [{ ...top.hardware, quantity: top.units_needed }];
+        });
+      })
+      .catch(() => {
+        // Non-blocking: recommendation failure doesn't block the user
+        setTopRecommendation(null);
+      });
+  }, [selectedModels]);
 
   const handleAnalyze = async () => {
     setAnalyzeError(null);
@@ -135,6 +196,7 @@ export default function HomePage() {
               selected={selectedHardware}
               onChange={setSelectedHardware}
               localModels={selectedModels.filter((m) => m.deployment_type === "local")}
+              topRecommendation={topRecommendation}
             />
           )}
 

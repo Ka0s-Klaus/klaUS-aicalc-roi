@@ -5,6 +5,7 @@
 
 import type {
   AnalysisResult,
+  HardwareRecommendation,
   HardwareSpec,
   ModelSpec,
   TCOInput,
@@ -38,6 +39,14 @@ export async function fetchModels(params?: {
 
 export async function fetchHardware(): Promise<HardwareSpec[]> {
   return apiFetch<HardwareSpec[]>("/v1/hardware");
+}
+
+export async function fetchHardwareRecommendation(
+  min_vram_gb: number,
+): Promise<HardwareRecommendation[]> {
+  return apiFetch<HardwareRecommendation[]>(
+    `/v1/hardware/recommend?min_vram_gb=${min_vram_gb}`,
+  );
 }
 
 export async function analyze(input: TCOInput): Promise<AnalysisResult> {

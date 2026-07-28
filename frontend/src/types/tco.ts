@@ -20,6 +20,8 @@ export interface ModelSpec {
   parameters_b?: number;
   min_vram_gb?: number;
   tokens_per_second_fp16?: number;
+  // Estimated p50 API latency (cloud) or null (computed for local by the engine)
+  estimated_latency_ms?: number;
 }
 
 export interface HardwareSpec {

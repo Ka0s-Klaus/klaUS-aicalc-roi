@@ -10,16 +10,23 @@
       "parameters_b": null,
       "context_window": 1000000,
       "data_residency": "us",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "iso_27001", "fedramp"],
-      "input_price_per_mtok": 5.00,
-      "output_price_per_mtok": 25.00,
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "iso_27001",
+        "fedramp"
+      ],
+      "input_price_per_mtok": 5.0,
+      "output_price_per_mtok": 25.0,
       "min_vram_gb": null,
       "tokens_per_second_fp16": null,
       "quality_coding": 1.12,
       "quality_reasoning": 1.15,
       "quality_multilingual": 0.95,
       "_source": "https://anthropic.com/pricing — $5/$25 por 1M tokens. FedRAMP vía AWS Bedrock/GCP Vertex. SWE-bench Verified 88.6%. Arena Elo ~1580.",
-      "_scraped_at": "2026-07-24"
+      "_scraped_at": "2026-07-24",
+      "estimated_latency_ms": 2000
     },
     {
       "id": "claude-sonnet-4-6",
@@ -29,16 +36,23 @@
       "parameters_b": null,
       "context_window": 1000000,
       "data_residency": "us",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "iso_27001", "fedramp"],
-      "input_price_per_mtok": 3.00,
-      "output_price_per_mtok": 15.00,
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "iso_27001",
+        "fedramp"
+      ],
+      "input_price_per_mtok": 3.0,
+      "output_price_per_mtok": 15.0,
       "min_vram_gb": null,
       "tokens_per_second_fp16": null,
       "quality_coding": 1.05,
       "quality_reasoning": 1.05,
       "quality_multilingual": 0.93,
       "_source": "https://anthropic.com/pricing — $3/$15 por 1M tokens. Arena Elo ~1518. HumanEval ~92%.",
-      "_scraped_at": "2026-07-24"
+      "_scraped_at": "2026-07-24",
+      "estimated_latency_ms": 1200
     },
     {
       "id": "claude-haiku-4-5",
@@ -48,16 +62,23 @@
       "parameters_b": null,
       "context_window": 200000,
       "data_residency": "us",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "iso_27001", "fedramp"],
-      "input_price_per_mtok": 1.00,
-      "output_price_per_mtok": 5.00,
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "iso_27001",
+        "fedramp"
+      ],
+      "input_price_per_mtok": 1.0,
+      "output_price_per_mtok": 5.0,
       "min_vram_gb": null,
       "tokens_per_second_fp16": null,
       "quality_coding": 0.88,
       "quality_reasoning": 0.82,
       "quality_multilingual": 0.85,
       "_source": "https://anthropic.com/pricing — $1/$5 por 1M tokens. 200K contexto.",
-      "_scraped_at": "2026-07-24"
+      "_scraped_at": "2026-07-24",
+      "estimated_latency_ms": 600
     },
     {
       "id": "gpt-4o",
@@ -67,16 +88,24 @@
       "parameters_b": null,
       "context_window": 128000,
       "data_residency": "us",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "iso_27001", "fedramp", "pci_dss"],
-      "input_price_per_mtok": 2.50,
-      "output_price_per_mtok": 10.00,
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "iso_27001",
+        "fedramp",
+        "pci_dss"
+      ],
+      "input_price_per_mtok": 2.5,
+      "output_price_per_mtok": 10.0,
       "min_vram_gb": null,
       "tokens_per_second_fp16": null,
-      "quality_coding": 1.00,
-      "quality_reasoning": 1.00,
-      "quality_multilingual": 1.00,
+      "quality_coding": 1.0,
+      "quality_reasoning": 1.0,
+      "quality_multilingual": 1.0,
       "_source": "https://openai.com/api/pricing — $2.50/$10 por 1M tokens. BASELINE calidad = 1.0 (HumanEval 90.2%). trust.openai.com: SOC2, ISO 27001, HIPAA BAA, FedRAMP, PCI DSS v4.",
-      "_scraped_at": "2026-07-24"
+      "_scraped_at": "2026-07-24",
+      "estimated_latency_ms": 800
     },
     {
       "id": "gpt-4o-mini",
@@ -86,16 +115,23 @@
       "parameters_b": null,
       "context_window": 128000,
       "data_residency": "us",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "iso_27001", "pci_dss"],
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "iso_27001",
+        "pci_dss"
+      ],
       "input_price_per_mtok": 0.15,
-      "output_price_per_mtok": 0.60,
+      "output_price_per_mtok": 0.6,
       "min_vram_gb": null,
       "tokens_per_second_fp16": null,
       "quality_coding": 0.82,
       "quality_reasoning": 0.78,
       "quality_multilingual": 0.85,
       "_source": "https://openai.com/api/pricing — $0.15/$0.60 por 1M tokens. Parámetros no publicados.",
-      "_scraped_at": "2026-07-24"
+      "_scraped_at": "2026-07-24",
+      "estimated_latency_ms": 600
     },
     {
       "id": "o3",
@@ -105,16 +141,24 @@
       "parameters_b": null,
       "context_window": 200000,
       "data_residency": "us",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "iso_27001", "fedramp", "pci_dss"],
-      "input_price_per_mtok": 2.00,
-      "output_price_per_mtok": 8.00,
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "iso_27001",
+        "fedramp",
+        "pci_dss"
+      ],
+      "input_price_per_mtok": 2.0,
+      "output_price_per_mtok": 8.0,
       "min_vram_gb": null,
       "tokens_per_second_fp16": null,
-      "quality_coding": 1.10,
+      "quality_coding": 1.1,
       "quality_reasoning": 1.25,
-      "quality_multilingual": 0.90,
+      "quality_multilingual": 0.9,
       "_source": "https://openai.com/api/pricing — $2/$8 por 1M tokens. 200K contexto. AIME 2026 top performer.",
-      "_scraped_at": "2026-07-24"
+      "_scraped_at": "2026-07-24",
+      "estimated_latency_ms": 5000
     },
     {
       "id": "o4-mini",
@@ -124,16 +168,24 @@
       "parameters_b": null,
       "context_window": 200000,
       "data_residency": "us",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "iso_27001", "fedramp", "pci_dss"],
-      "input_price_per_mtok": 1.10,
-      "output_price_per_mtok": 4.40,
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "iso_27001",
+        "fedramp",
+        "pci_dss"
+      ],
+      "input_price_per_mtok": 1.1,
+      "output_price_per_mtok": 4.4,
       "min_vram_gb": null,
       "tokens_per_second_fp16": null,
       "quality_coding": 1.05,
       "quality_reasoning": 1.18,
       "quality_multilingual": 0.88,
       "_source": "https://openai.com/api/pricing — $1.10/$4.40 por 1M tokens. 200K contexto.",
-      "_scraped_at": "2026-07-24"
+      "_scraped_at": "2026-07-24",
+      "estimated_latency_ms": 2500
     },
     {
       "id": "gemini-2-5-pro",
@@ -143,16 +195,24 @@
       "parameters_b": null,
       "context_window": 2000000,
       "data_residency": "us",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "iso_27001", "fedramp", "pci_dss"],
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "iso_27001",
+        "fedramp",
+        "pci_dss"
+      ],
       "input_price_per_mtok": 1.25,
-      "output_price_per_mtok": 10.00,
+      "output_price_per_mtok": 10.0,
       "min_vram_gb": null,
       "tokens_per_second_fp16": null,
       "quality_coding": 1.05,
-      "quality_reasoning": 1.10,
+      "quality_reasoning": 1.1,
       "quality_multilingual": 1.05,
       "_source": "https://ai.google.dev/pricing — $1.25/$10 para prompts ≤200K tokens ($2.50/$15 >200K). 2M contexto. FedRAMP High vía Vertex AI.",
-      "_scraped_at": "2026-07-24"
+      "_scraped_at": "2026-07-24",
+      "estimated_latency_ms": 1500
     },
     {
       "id": "gemini-2-5-flash",
@@ -162,16 +222,24 @@
       "parameters_b": null,
       "context_window": 1000000,
       "data_residency": "us",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "iso_27001", "fedramp", "pci_dss"],
-      "input_price_per_mtok": 0.30,
-      "output_price_per_mtok": 2.50,
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "iso_27001",
+        "fedramp",
+        "pci_dss"
+      ],
+      "input_price_per_mtok": 0.3,
+      "output_price_per_mtok": 2.5,
       "min_vram_gb": null,
       "tokens_per_second_fp16": null,
       "quality_coding": 0.92,
-      "quality_reasoning": 0.90,
+      "quality_reasoning": 0.9,
       "quality_multilingual": 0.95,
       "_source": "https://ai.google.dev/pricing — $0.30/$2.50 por 1M tokens. 1M contexto.",
-      "_scraped_at": "2026-07-24"
+      "_scraped_at": "2026-07-24",
+      "estimated_latency_ms": 800
     },
     {
       "id": "gemini-2-0-flash",
@@ -181,7 +249,11 @@
       "parameters_b": null,
       "context_window": 1000000,
       "data_residency": "us",
-      "compliance_flags": ["gdpr", "soc2", "iso_27001"],
+      "compliance_flags": [
+        "gdpr",
+        "soc2",
+        "iso_27001"
+      ],
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": null,
@@ -190,7 +262,8 @@
       "quality_reasoning": 0.82,
       "quality_multilingual": 0.88,
       "_source": "DEPRECADO: Gemini 2.0 Flash fue cerrado el 1-jun-2026 (ai.google.dev/pricing). Precio null — modelo no disponible vía API. Referencia histórica.",
-      "_scraped_at": "2026-07-24"
+      "_scraped_at": "2026-07-24",
+      "estimated_latency_ms": null
     },
     {
       "id": "mistral-large-3",
@@ -200,16 +273,21 @@
       "parameters_b": null,
       "context_window": 128000,
       "data_residency": "eu",
-      "compliance_flags": ["gdpr", "soc2", "iso_27001"],
-      "input_price_per_mtok": 0.50,
-      "output_price_per_mtok": 1.50,
+      "compliance_flags": [
+        "gdpr",
+        "soc2",
+        "iso_27001"
+      ],
+      "input_price_per_mtok": 0.5,
+      "output_price_per_mtok": 1.5,
       "min_vram_gb": null,
       "tokens_per_second_fp16": null,
       "quality_coding": 1.02,
       "quality_reasoning": 0.96,
       "quality_multilingual": 0.98,
       "_source": "https://mistral.ai/pricing/api — $0.50/$1.50 por 1M tokens. Sustituye a Mistral Large 2 (retirado). trust.mistral.ai: GDPR, SOC2, ISO 27001. Datacenter EU.",
-      "_scraped_at": "2026-07-24"
+      "_scraped_at": "2026-07-24",
+      "estimated_latency_ms": 800
     },
     {
       "id": "mistral-small-4",
@@ -219,16 +297,21 @@
       "parameters_b": null,
       "context_window": 128000,
       "data_residency": "eu",
-      "compliance_flags": ["gdpr", "soc2", "iso_27001"],
-      "input_price_per_mtok": 0.10,
-      "output_price_per_mtok": 0.30,
+      "compliance_flags": [
+        "gdpr",
+        "soc2",
+        "iso_27001"
+      ],
+      "input_price_per_mtok": 0.1,
+      "output_price_per_mtok": 0.3,
       "min_vram_gb": null,
       "tokens_per_second_fp16": null,
-      "quality_coding": 0.80,
+      "quality_coding": 0.8,
       "quality_reasoning": 0.75,
-      "quality_multilingual": 0.80,
+      "quality_multilingual": 0.8,
       "_source": "https://mistral.ai/pricing/api — $0.10/$0.30 por 1M tokens. Sustituye a Mistral Small 3.1 (retirado nov-2025).",
-      "_scraped_at": "2026-07-24"
+      "_scraped_at": "2026-07-24",
+      "estimated_latency_ms": 500
     },
     {
       "id": "codestral",
@@ -238,16 +321,21 @@
       "parameters_b": null,
       "context_window": 32000,
       "data_residency": "eu",
-      "compliance_flags": ["gdpr", "soc2", "iso_27001"],
-      "input_price_per_mtok": 0.30,
-      "output_price_per_mtok": 0.90,
+      "compliance_flags": [
+        "gdpr",
+        "soc2",
+        "iso_27001"
+      ],
+      "input_price_per_mtok": 0.3,
+      "output_price_per_mtok": 0.9,
       "min_vram_gb": null,
       "tokens_per_second_fp16": null,
       "quality_coding": 1.05,
-      "quality_reasoning": 0.80,
-      "quality_multilingual": 0.70,
+      "quality_reasoning": 0.8,
+      "quality_multilingual": 0.7,
       "_source": "https://mistral.ai/pricing/api — $0.30/$0.90 por 1M tokens. Especializado en código. 32K contexto.",
-      "_scraped_at": "2026-07-24"
+      "_scraped_at": "2026-07-24",
+      "estimated_latency_ms": 700
     },
     {
       "id": "command-r-plus",
@@ -257,16 +345,21 @@
       "parameters_b": 104.0,
       "context_window": 128000,
       "data_residency": "us",
-      "compliance_flags": ["gdpr", "soc2", "iso_27001"],
-      "input_price_per_mtok": 2.50,
-      "output_price_per_mtok": 10.00,
+      "compliance_flags": [
+        "gdpr",
+        "soc2",
+        "iso_27001"
+      ],
+      "input_price_per_mtok": 2.5,
+      "output_price_per_mtok": 10.0,
       "min_vram_gb": null,
       "tokens_per_second_fp16": null,
       "quality_coding": 0.82,
-      "quality_reasoning": 0.80,
+      "quality_reasoning": 0.8,
       "quality_multilingual": 0.92,
       "_source": "https://cohere.com/pricing — $2.50/$10 por 1M tokens. 104B params, 128K contexto. HIPAA solo en contratos enterprise.",
-      "_scraped_at": "2026-07-24"
+      "_scraped_at": "2026-07-24",
+      "estimated_latency_ms": 1200
     },
     {
       "id": "grok-3",
@@ -276,16 +369,19 @@
       "parameters_b": null,
       "context_window": 131072,
       "data_residency": "us",
-      "compliance_flags": ["soc2"],
-      "input_price_per_mtok": 3.00,
-      "output_price_per_mtok": 15.00,
+      "compliance_flags": [
+        "soc2"
+      ],
+      "input_price_per_mtok": 3.0,
+      "output_price_per_mtok": 15.0,
       "min_vram_gb": null,
       "tokens_per_second_fp16": null,
-      "quality_coding": 1.00,
+      "quality_coding": 1.0,
       "quality_reasoning": 1.05,
       "quality_multilingual": 0.85,
       "_source": "https://x.ai/api — $3/$15 por 1M tokens. 131K contexto. Compliance limitado — solo SOC2 documentado.",
-      "_scraped_at": "2026-07-24"
+      "_scraped_at": "2026-07-24",
+      "estimated_latency_ms": 1000
     },
     {
       "id": "deepseek-v3",
@@ -302,9 +398,10 @@
       "tokens_per_second_fp16": null,
       "quality_coding": 0.95,
       "quality_reasoning": 0.92,
-      "quality_multilingual": 0.90,
+      "quality_multilingual": 0.9,
       "_source": "https://platform.deepseek.com/api-docs/pricing — $0.14/$0.28 por 1M tokens. MoE 671B total / 37B activos. Sin certificaciones internacionales. EXCLUIDO POR DEFECTO (CHINA).",
-      "_scraped_at": "2026-07-24"
+      "_scraped_at": "2026-07-24",
+      "estimated_latency_ms": 1000
     },
     {
       "id": "deepseek-r1",
@@ -323,7 +420,8 @@
       "quality_reasoning": 1.08,
       "quality_multilingual": 0.85,
       "_source": "https://platform.deepseek.com/api-docs/pricing — $0.55/$2.19 por 1M tokens. MMLU 90.8%, MATH-500 97.3%. EXCLUIDO POR DEFECTO (CHINA).",
-      "_scraped_at": "2026-07-24"
+      "_scraped_at": "2026-07-24",
+      "estimated_latency_ms": 4000
     },
     {
       "id": "llama-3-3-70b-groq",
@@ -333,7 +431,10 @@
       "parameters_b": 70.0,
       "context_window": 128000,
       "data_residency": "us",
-      "compliance_flags": ["soc2", "gdpr"],
+      "compliance_flags": [
+        "soc2",
+        "gdpr"
+      ],
       "input_price_per_mtok": 0.59,
       "output_price_per_mtok": 0.79,
       "min_vram_gb": null,
@@ -342,7 +443,8 @@
       "quality_reasoning": 0.88,
       "quality_multilingual": 0.82,
       "_source": "https://groq.com/pricing — $0.59/$0.79 por 1M tokens. 394 tok/s de throughput en infraestructura Groq (LPU). HumanEval 88.4%, MMLU 86.0%.",
-      "_scraped_at": "2026-07-24"
+      "_scraped_at": "2026-07-24",
+      "estimated_latency_ms": 150
     },
     {
       "id": "llama-4-maverick-together",
@@ -352,16 +454,20 @@
       "parameters_b": 400.0,
       "context_window": 1000000,
       "data_residency": "us",
-      "compliance_flags": ["soc2", "gdpr"],
+      "compliance_flags": [
+        "soc2",
+        "gdpr"
+      ],
       "input_price_per_mtok": 0.27,
       "output_price_per_mtok": 0.85,
       "min_vram_gb": null,
       "tokens_per_second_fp16": null,
-      "quality_coding": 1.00,
-      "quality_reasoning": 1.00,
-      "quality_multilingual": 0.90,
+      "quality_coding": 1.0,
+      "quality_reasoning": 1.0,
+      "quality_multilingual": 0.9,
       "_source": "openrouter.ai/meta-llama/llama-4-maverick — $0.27/$0.85 por 1M tokens. 400B total / 17B activos (128 expertos MoE). 1M contexto.",
-      "_scraped_at": "2026-07-24"
+      "_scraped_at": "2026-07-24",
+      "estimated_latency_ms": 600
     },
     {
       "id": "qwen-2-5-72b-alibaba-api",
@@ -380,7 +486,8 @@
       "quality_reasoning": 0.88,
       "quality_multilingual": 0.95,
       "_source": "DashScope / deepinfra.com — ~$0.23/M tokens (precio aproximado, DashScope no publica USD consistentemente). HumanEval 80%+. EXCLUIDO POR DEFECTO (CHINA).",
-      "_scraped_at": "2026-07-24"
+      "_scraped_at": "2026-07-24",
+      "estimated_latency_ms": 900
     },
     {
       "id": "llama-4-scout-17b-local",
@@ -390,7 +497,14 @@
       "parameters_b": 109.0,
       "context_window": 10000000,
       "data_residency": "local",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "pci_dss", "iso_27001", "fedramp"],
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "pci_dss",
+        "iso_27001",
+        "fedramp"
+      ],
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 24.0,
@@ -409,14 +523,21 @@
       "parameters_b": 400.0,
       "context_window": 1000000,
       "data_residency": "local",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "pci_dss", "iso_27001", "fedramp"],
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "pci_dss",
+        "iso_27001",
+        "fedramp"
+      ],
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 200.0,
       "tokens_per_second_fp16": null,
-      "quality_coding": 1.00,
-      "quality_reasoning": 1.00,
-      "quality_multilingual": 0.90,
+      "quality_coding": 1.0,
+      "quality_reasoning": 1.0,
+      "quality_multilingual": 0.9,
       "_source": "insiderllm.com/guides/llama-4-guide-scout-maverick — 17B activos / 400B total (128 expertos). Q4 mínimo práctico: ~200GB. Requiere cluster (4-8x H100). Nota: enunciado decía 16 expertos, arquitectura real es 128.",
       "_scraped_at": "2026-07-24"
     },
@@ -428,7 +549,14 @@
       "parameters_b": 70.0,
       "context_window": 128000,
       "data_residency": "local",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "pci_dss", "iso_27001", "fedramp"],
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "pci_dss",
+        "iso_27001",
+        "fedramp"
+      ],
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 48.0,
@@ -447,14 +575,21 @@
       "parameters_b": 8.0,
       "context_window": 128000,
       "data_residency": "local",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "pci_dss", "iso_27001", "fedramp"],
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "pci_dss",
+        "iso_27001",
+        "fedramp"
+      ],
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 6.0,
       "tokens_per_second_fp16": 120.0,
       "quality_coding": 0.72,
       "quality_reasoning": 0.65,
-      "quality_multilingual": 0.70,
+      "quality_multilingual": 0.7,
       "_source": "llmhardware.io/guides/llama-3.1-hardware-requirements — Q4_K_M ~4.7GB. RTX 4090: ~104-135 tok/s (mustafa.net benchmark). Min 6GB VRAM.",
       "_scraped_at": "2026-07-24"
     },
@@ -466,7 +601,14 @@
       "parameters_b": 7.0,
       "context_window": 32000,
       "data_residency": "local",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "pci_dss", "iso_27001", "fedramp"],
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "pci_dss",
+        "iso_27001",
+        "fedramp"
+      ],
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 6.0,
@@ -485,7 +627,14 @@
       "parameters_b": 46.7,
       "context_window": 32768,
       "data_residency": "local",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "pci_dss", "iso_27001", "fedramp"],
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "pci_dss",
+        "iso_27001",
+        "fedramp"
+      ],
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 28.0,
@@ -504,12 +653,19 @@
       "parameters_b": 14.0,
       "context_window": 16000,
       "data_residency": "local",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "pci_dss", "iso_27001", "fedramp"],
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "pci_dss",
+        "iso_27001",
+        "fedramp"
+      ],
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 10.0,
       "tokens_per_second_fp16": 80.0,
-      "quality_coding": 0.90,
+      "quality_coding": 0.9,
       "quality_reasoning": 0.92,
       "quality_multilingual": 0.78,
       "_source": "microsoft.com/research/phi-4-tech-report — 14B params, 16K ctx. Q4_K_M ~7.8GB. HumanEval 82.6%, MMLU 84.8%. Supera GPT-4o en GPQA y MATH. RTX 4090 ~80 tok/s estimado (13B class).",
@@ -523,14 +679,21 @@
       "parameters_b": 27.0,
       "context_window": 128000,
       "data_residency": "local",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "pci_dss", "iso_27001", "fedramp"],
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "pci_dss",
+        "iso_27001",
+        "fedramp"
+      ],
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 24.0,
       "tokens_per_second_fp16": 45.0,
       "quality_coding": 0.94,
       "quality_reasoning": 0.88,
-      "quality_multilingual": 0.90,
+      "quality_multilingual": 0.9,
       "_source": "namangoyal.com/blog/2025/gemma3 — 27B params, 128K ctx. Q4_K_M ~22.5GB (justo en RTX 4090, reducir contexto). HumanEval 87.8%, MMLU-Pro 67.5%. RTX 4090 ~32-45 tok/s.",
       "_scraped_at": "2026-07-24"
     },
@@ -542,7 +705,14 @@
       "parameters_b": 72.0,
       "context_window": 128000,
       "data_residency": "local",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "pci_dss", "iso_27001", "fedramp"],
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "pci_dss",
+        "iso_27001",
+        "fedramp"
+      ],
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 48.0,
@@ -561,7 +731,14 @@
       "parameters_b": 671.0,
       "context_window": 128000,
       "data_residency": "local",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "pci_dss", "iso_27001", "fedramp"],
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "pci_dss",
+        "iso_27001",
+        "fedramp"
+      ],
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 376.0,
@@ -580,14 +757,21 @@
       "parameters_b": 405.0,
       "context_window": 128000,
       "data_residency": "local",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "pci_dss", "iso_27001", "fedramp"],
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "pci_dss",
+        "iso_27001",
+        "fedramp"
+      ],
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 240.0,
       "tokens_per_second_fp16": 30.0,
       "quality_coding": 0.97,
       "quality_reasoning": 0.96,
-      "quality_multilingual": 0.90,
+      "quality_multilingual": 0.9,
       "_source": "ai.meta.com/blog/meta-llama-3-1 — 405B dense. fp16 ~810GB; Q4_K_M ~202GB + KV cache ≈ 240GB mínimo práctico (8× A100 80GB o 4× H100 SXM5 via NVLink). HumanEval ~89%, MMLU 87.3%, MATH 73.8%. tokens_per_second estimado ~30 en 8× H100 SXM5.",
       "_scraped_at": "2026-07-27"
     },
@@ -599,7 +783,14 @@
       "parameters_b": 70.0,
       "context_window": 128000,
       "data_residency": "local",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "pci_dss", "iso_27001", "fedramp"],
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "pci_dss",
+        "iso_27001",
+        "fedramp"
+      ],
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 48.0,
@@ -618,14 +809,21 @@
       "parameters_b": 671.0,
       "context_window": 128000,
       "data_residency": "local",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "pci_dss", "iso_27001", "fedramp"],
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "pci_dss",
+        "iso_27001",
+        "fedramp"
+      ],
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 376.0,
       "tokens_per_second_fp16": null,
       "quality_coding": 1.01,
       "quality_reasoning": 0.92,
-      "quality_multilingual": 0.90,
+      "quality_multilingual": 0.9,
       "_source": "huggingface.co/deepseek-ai/DeepSeek-V3 — 671B MoE / 37B activos. Arquitectura MLA + MoE. HumanEval 91.6% (normalizado ~1.01). Q4_K_M mínimo ~376GB — idéntico a R1 671B. Pesos open-weight → data_residency=local. Enfocado en chat/coding (no en reasoning largo como R1).",
       "_scraped_at": "2026-07-27"
     },
@@ -637,7 +835,14 @@
       "parameters_b": 123.0,
       "context_window": 128000,
       "data_residency": "local",
-      "compliance_flags": ["gdpr", "hipaa", "soc2", "pci_dss", "iso_27001", "fedramp"],
+      "compliance_flags": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "pci_dss",
+        "iso_27001",
+        "fedramp"
+      ],
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 80.0,

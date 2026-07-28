@@ -1,5 +1,5 @@
 {
-  "catalog_version": "2026-07-24",
+  "catalog_version": "2026-07-28",
   "note": "Precios en USD. Fuentes: páginas oficiales NVIDIA/Apple + mercado secundario (eBay, bestvaluegpu.com). cooling_overhead_factor=0.15 por defecto salvo GPUs de alto TDP (0.20). maintenance_annual_pct=0.05 consumer, 0.03 Apple Silicon. lifespan_months=36 consumer, 48-60 datacenter.",
   "hardware": [
     {
@@ -131,6 +131,123 @@
       "lifespan_months": 36,
       "_source": "Estimación: 2× $2,755 GPUs + ~$500 NVLink bridge/placa = $6,010 nuevo. Usado: 2× $2,268 + $500 = $5,036. TDP: 2× 450W = 900W. cooling_overhead_factor=0.20 por calor dual. NOTA: NVLink en RTX 4090 tiene ancho de banda limitado vs NVLink datacenter.",
       "_scraped_at": "2026-07-24"
+    },
+    {
+      "id": "rtx-5090-32gb",
+      "name": "NVIDIA GeForce RTX 5090 32GB",
+      "vram_gb": 32.0,
+      "tdp_watts": 575,
+      "purchase_price_usd": 4300,
+      "used_price_usd": 4000,
+      "cooling_overhead_factor": 0.15,
+      "maintenance_annual_pct": 0.05,
+      "lifespan_months": 48,
+      "_source": "runpod.io/articles/guides/nvidia-rtx-5090 + techtimes.com/articles/320169 — Blackwell consumer. 32GB GDDR7, BW 1,792 GB/s, TDP 575W. Precio calle jul-2026 ~$4,300 (MSRP $1,999 irrelevante: crisis GDDR7). Lifespan 48m por ciclo Blackwell más largo.",
+      "_scraped_at": "2026-07-28"
+    },
+    {
+      "id": "rtx-5080-16gb",
+      "name": "NVIDIA GeForce RTX 5080 16GB",
+      "vram_gb": 16.0,
+      "tdp_watts": 360,
+      "purchase_price_usd": 1570,
+      "used_price_usd": 1100,
+      "cooling_overhead_factor": 0.15,
+      "maintenance_annual_pct": 0.05,
+      "lifespan_months": 48,
+      "_source": "bestvaluegpu.com/history/new-and-used-rtx-5080-price-history-and-specs — Blackwell consumer. 16GB GDDR7, TDP 360W. Precio calle jul-2026 ~$1,570 media (MSRP $999). Subida ~60% en 30 días por supply chain GDDR7. 16GB limita modelos >13B en solitario.",
+      "_scraped_at": "2026-07-28"
+    },
+    {
+      "id": "rtx-4070-ti-super-16gb",
+      "name": "NVIDIA GeForce RTX 4070 Ti Super 16GB",
+      "vram_gb": 16.0,
+      "tdp_watts": 285,
+      "purchase_price_usd": 1100,
+      "used_price_usd": 737,
+      "cooling_overhead_factor": 0.15,
+      "maintenance_annual_pct": 0.05,
+      "lifespan_months": 36,
+      "_source": "gpudojo.com/rtx-4070-ti-super — Ada Lovelace consumer. 16GB GDDR6X, TDP 285W. Precio nuevo ~$1,000-1,179 (medio $1,100); usado ~$737 eBay jul-2026. Mejor relación VRAM/precio consumer Ada en segunda mano. Eficiente para modelos hasta 13B.",
+      "_scraped_at": "2026-07-28"
+    },
+    {
+      "id": "b200-sxm-180gb",
+      "name": "NVIDIA B200 SXM 180GB",
+      "vram_gb": 180.0,
+      "tdp_watts": 1200,
+      "purchase_price_usd": 45000,
+      "used_price_usd": null,
+      "cooling_overhead_factor": 0.20,
+      "maintenance_annual_pct": 0.05,
+      "lifespan_months": 60,
+      "_source": "spheron.network/blog/nvidia-b200-complete-guide + northflank.com/blog/how-much-does-an-nvidia-b200-gpu-cost + wccftech.com — Blackwell datacenter. 180GB HBM3e, TDP 1,200W. Precio estimado $40K-50K (medio $45K); NVIDIA no publica MSRP. Solo vía OEM. 17,500 tok/s en Llama 70B. cooling_overhead_factor=0.20 por TDP extremo.",
+      "_scraped_at": "2026-07-28"
+    },
+    {
+      "id": "amd-rx-7900-xtx-24gb",
+      "name": "AMD Radeon RX 7900 XTX 24GB",
+      "vram_gb": 24.0,
+      "tdp_watts": 355,
+      "purchase_price_usd": 930,
+      "used_price_usd": 800,
+      "cooling_overhead_factor": 0.15,
+      "maintenance_annual_pct": 0.05,
+      "lifespan_months": 36,
+      "_source": "bestvaluegpu.com/history/new-and-used-rx-7900-xtx-price-history-and-specs — RDNA3 consumer. 24GB GDDR6, TDP 355W. Precio nuevo ~$930; usado ~$800 jul-2026. ROCm funcional con llama.cpp/Ollama. Mejor valor por GB de VRAM consumer AMD. Ecosistema software menor que CUDA.",
+      "_scraped_at": "2026-07-28"
+    },
+    {
+      "id": "amd-mi300x-192gb",
+      "name": "AMD Instinct MI300X 192GB",
+      "vram_gb": 192.0,
+      "tdp_watts": 750,
+      "purchase_price_usd": 18000,
+      "used_price_usd": null,
+      "cooling_overhead_factor": 0.20,
+      "maintenance_annual_pct": 0.05,
+      "lifespan_months": 48,
+      "_source": "deploybase.ai/articles/amd-mi300x-price — CDNA3 datacenter. 192GB HBM3 (mayor VRAM que H100 SXM). TDP 750W OAM. Precio ~$18,000. ROCm maduro; soporte vLLM + llama.cpp verificado. Alternativa on-prem viable frente a H100 para modelos >80GB. Solo vía OEM server.",
+      "_scraped_at": "2026-07-28"
+    },
+    {
+      "id": "amd-mi325x-256gb",
+      "name": "AMD Instinct MI325X 256GB",
+      "vram_gb": 256.0,
+      "tdp_watts": 1000,
+      "purchase_price_usd": 30000,
+      "used_price_usd": null,
+      "cooling_overhead_factor": 0.20,
+      "maintenance_annual_pct": 0.05,
+      "lifespan_months": 48,
+      "_source": "gpupoet.com/gpu/learn/card/amd-instinct-mi325x + gpus.io/en/gpus/mi325 — CDNA3. Mismo die que MI300X + 64GB HBM3e extra (256GB total) + 6TB/s BW. TDP 1,000W. Precio estimado $26K-36K (medio $30K); sin MSRP oficial. Solo OAM module en servidores Dell/HPE/Supermicro. Mayor VRAM del catálogo AMD.",
+      "_scraped_at": "2026-07-28"
+    },
+    {
+      "id": "l40s-48gb",
+      "name": "NVIDIA L40S 48GB",
+      "vram_gb": 48.0,
+      "tdp_watts": 350,
+      "purchase_price_usd": 8750,
+      "used_price_usd": 6600,
+      "cooling_overhead_factor": 0.15,
+      "maintenance_annual_pct": 0.05,
+      "lifespan_months": 60,
+      "_source": "fluence.network/blog/nvidia-l40s — Ada Lovelace datacenter. 48GB GDDR6 ECC, TDP 350W. 4th-gen Tensor Cores + FP8. Precio nuevo $7,500-10,000 (medio $8,750); usado ~$6,600. Compite con RTX 6000 Ada pero con ECC y certificación datacenter. Óptimo price/VRAM Ada datacenter para inferencia.",
+      "_scraped_at": "2026-07-28"
+    },
+    {
+      "id": "l4-24gb",
+      "name": "NVIDIA L4 24GB",
+      "vram_gb": 24.0,
+      "tdp_watts": 72,
+      "purchase_price_usd": 2650,
+      "used_price_usd": 2000,
+      "cooling_overhead_factor": 0.10,
+      "maintenance_annual_pct": 0.05,
+      "lifespan_months": 60,
+      "_source": "gpucost.org/gpu/l4 — Ada Lovelace inference edge. 24GB GDDR6 ECC, TDP 72W (10× más eficiente que H100). Low-profile PCIe. Precio $2,500-2,800 (medio $2,650); usado ~$2,000. Ideal para edge/racks con restricción energética. Corre modelos hasta 13B. cooling_overhead_factor=0.10 por TDP excepcionalmente bajo.",
+      "_scraped_at": "2026-07-28"
     }
   ]
 }

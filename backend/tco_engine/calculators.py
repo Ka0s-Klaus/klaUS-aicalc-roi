@@ -89,6 +89,7 @@ def calculate_cloud_api_cost(
         api_cost_total_usd=total,
         total_cost_usd=total,
         monthly_cost_avg_usd=monthly_cost,
+        estimated_latency_ms=model.estimated_latency_ms,
         quality_score=_aggregate_quality(model),
     )
 

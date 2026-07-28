@@ -134,6 +134,7 @@ export default function HomePage() {
               hardware={allHardware}
               selected={selectedHardware}
               onChange={setSelectedHardware}
+              localModels={selectedModels.filter((m) => m.deployment_type === "local")}
             />
           )}
 
@@ -189,6 +190,23 @@ export default function HomePage() {
 
             {/* Recomendación óptima — después de la comparativa */}
             <RecommendationCard result={result} />
+
+            {/* Modelos excluidos — visible cuando hay exclusiones */}
+            {result.excluded.length > 0 && (
+              <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
+                <h3 className="font-semibold text-amber-800 text-sm mb-2">
+                  ⚠️ Modelos excluidos del análisis ({result.excluded.length})
+                </h3>
+                <ul className="space-y-1">
+                  {result.excluded.map((ex, i) => (
+                    <li key={i} className="text-xs text-amber-700 flex gap-2">
+                      <span className="font-mono font-semibold shrink-0">{ex.model_id}</span>
+                      <span className="text-amber-600">— {ex.reason}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         )}
       </div>

@@ -28,8 +28,8 @@ class TCOEngine:
     def analyze(self, input_data: TCOInput) -> AnalysisResult:
         use_case = input_data.use_cases[0]  # Phase 1: single use case per run
 
-        filtered_models, excluded = self._apply_compliance(input_data)
-        strategies = self._calculate_all(
+        filtered_models, compliance_excluded = self._apply_compliance(input_data)
+        strategies, calc_excluded = self._calculate_all(
             filtered_models,
             input_data.hardware,
             use_case,
@@ -44,7 +44,7 @@ class TCOEngine:
             strategies=strategies,
             pareto_optimal_ids=pareto_ids,
             recommendation=recommendation,
-            excluded=excluded,
+            excluded=compliance_excluded + calc_excluded,
         )
 
     # ── Private steps ──────────────────────────────────────────────────────────
@@ -101,8 +101,9 @@ class TCOEngine:
         hardware_options: list[HardwareSpec],
         use_case: UseCase,
         input_data: TCOInput,
-    ) -> list[StrategyCost]:
+    ) -> tuple[list[StrategyCost], list[dict[str, str]]]:
         strategies: list[StrategyCost] = []
+        excluded: list[dict[str, str]] = []
 
         for model in models:
             if model.deployment_type == DeploymentType.CLOUD_API:
@@ -110,13 +111,19 @@ class TCOEngine:
                     cost = calculate_cloud_api_cost(model, use_case, input_data.horizon_months)
                     strategies.append(cost)
                 except ValueError:
-                    pass  # Missing pricing data — skip silently (logged in excluded)
+                    excluded.append({"model_id": model.id, "reason": "Datos de pricing incompletos"})
 
             elif model.deployment_type == DeploymentType.LOCAL:
+                if not hardware_options:
+                    excluded.append({"model_id": model.id, "reason": "Sin hardware seleccionado para calcular coste local"})
+                    continue
+
+                fitted = False
                 for hw in hardware_options:
                     effective_vram = hw.vram_gb * hw.quantity
                     if model.min_vram_gb and effective_vram < model.min_vram_gb:
                         continue  # Hardware can't fit the model
+                    fitted = True
                     cost = calculate_local_cost(
                         model,
                         hw,
@@ -126,6 +133,17 @@ class TCOEngine:
                     )
                     strategies.append(cost)
 
+                if not fitted:
+                    max_vram = max(hw.vram_gb * hw.quantity for hw in hardware_options)
+                    excluded.append({
+                        "model_id": model.id,
+                        "reason": (
+                            f"VRAM insuficiente: el modelo requiere {model.min_vram_gb:.0f} GB, "
+                            f"máximo disponible {max_vram:.0f} GB. "
+                            "Selecciona hardware con más VRAM o añade más unidades."
+                        ),
+                    })
+
         # Attach break-even month to each local strategy vs cheapest cloud
         cloud_strategies = [s for s in strategies if s.deployment_type == DeploymentType.CLOUD_API]
         if cloud_strategies:
@@ -134,7 +152,7 @@ class TCOEngine:
                 if s.deployment_type == DeploymentType.LOCAL:
                     s.breakeven_month = calculate_breakeven(s, cheapest_cloud)
 
-        return strategies
+        return strategies, excluded
 
     @staticmethod
     def _strategy_key(s: StrategyCost) -> str:

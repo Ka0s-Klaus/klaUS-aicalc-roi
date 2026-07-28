@@ -93,6 +93,64 @@ def test_hardware_entries_have_required_fields() -> None:
         assert "purchase_price_usd" in hw
 
 
+# ── GET /v1/hardware/recommend ────────────────────────────────────────────────
+
+
+def test_recommend_hardware_returns_sorted_options() -> None:
+    """Options must be sorted by units_needed ASC then total_price_usd ASC."""
+    resp = client.get("/v1/hardware/recommend?min_vram_gb=24")
+    assert resp.status_code == 200
+    recs = resp.json()
+    assert len(recs) > 0
+    units = [r["units_needed"] for r in recs]
+    assert units == sorted(units), "Results must be sorted by units_needed"
+
+
+def test_recommend_hardware_single_unit_fits() -> None:
+    """For a small VRAM requirement, the top result should need only 1 unit."""
+    resp = client.get("/v1/hardware/recommend?min_vram_gb=8")
+    assert resp.status_code == 200
+    recs = resp.json()
+    assert recs[0]["units_needed"] == 1
+
+
+def test_recommend_hardware_multi_unit_for_large_model() -> None:
+    """A 200 GB model must trigger multi-unit recommendations."""
+    resp = client.get("/v1/hardware/recommend?min_vram_gb=200")
+    assert resp.status_code == 200
+    recs = resp.json()
+    assert len(recs) > 0
+    for r in recs:
+        assert r["total_vram_gb"] >= 200, "Each option must provide enough VRAM"
+        assert r["units_needed"] <= 8
+
+
+def test_recommend_hardware_impossible_returns_empty() -> None:
+    """No hardware can serve a 10 TB model in ≤8 units — returns empty list."""
+    resp = client.get("/v1/hardware/recommend?min_vram_gb=10000")
+    assert resp.status_code == 200
+    assert resp.json() == []
+
+
+def test_recommend_hardware_requires_positive_vram() -> None:
+    resp = client.get("/v1/hardware/recommend?min_vram_gb=0")
+    assert resp.status_code == 422
+
+
+def test_recommend_hardware_response_shape() -> None:
+    resp = client.get("/v1/hardware/recommend?min_vram_gb=16")
+    assert resp.status_code == 200
+    recs = resp.json()
+    assert len(recs) > 0
+    first = recs[0]
+    assert "hardware" in first
+    assert "units_needed" in first
+    assert "total_vram_gb" in first
+    assert "total_price_usd" in first
+    assert isinstance(first["units_needed"], int)
+    assert first["units_needed"] >= 1
+
+
 # ── POST /v1/analyze ──────────────────────────────────────────────────────────
 
 

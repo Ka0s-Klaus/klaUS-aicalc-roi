@@ -51,7 +51,7 @@ backend/api/
 └── routes/
     ├── __init__.py
     ├── health.py   # GET /health
-    ├── catalog.py  # GET /v1/models · GET /v1/hardware
+    ├── catalog.py  # GET /v1/models · GET /v1/hardware · GET /v1/hardware/recommend
     └── analyze.py  # POST /v1/analyze
 ```
 
@@ -122,10 +122,66 @@ curl "http://localhost:8000/v1/models?deployment_type=cloud_api&data_residency=u
 
 ### `GET /v1/hardware` — Catálogo de hardware
 
-Devuelve las 10 configuraciones de hardware GPU disponibles para inferencia local.
+Devuelve las 20 configuraciones de hardware GPU disponibles para inferencia local.
 
 ```bash
 curl http://localhost:8000/v1/hardware
+```
+
+---
+
+### `GET /v1/hardware/recommend` — Recomendación de hardware para un modelo 🆕
+
+Dado el requisito de VRAM de un modelo local, devuelve todas las opciones del catálogo ordenadas por el mínimo de unidades necesarias y precio total. El frontend lo usa para auto-seleccionar el hardware óptimo cuando el usuario elige un modelo local.
+
+| Parámetro | Tipo | Requerido | Descripción |
+| --- | --- | --- | --- |
+| `min_vram_gb` | `float` | ✅ | VRAM mínima requerida por el modelo, en GB (debe ser > 0) |
+
+**Lógica de recomendación:**
+
+- Para cada GPU del catálogo: `units_needed = ceil(min_vram_gb / hw.vram_gb)`
+- Se excluyen opciones que requieren más de 8 unidades
+- Resultados ordenados por `(units_needed ASC, total_price_usd ASC)` — la opción más barata con menos unidades aparece primera
+
+**Respuesta:** `list[HardwareRecommendation]`
+
+| Campo | Tipo | Descripción |
+| --- | --- | --- |
+| `hardware` | `HardwareSpec` | Especificación completa de la GPU |
+| `units_needed` | `int` | Unidades mínimas necesarias para cubrir `min_vram_gb` |
+| `total_vram_gb` | `float` | VRAM total disponible con `units_needed` unidades |
+| `total_price_usd` | `Decimal` | Precio de compra total (unidad × units_needed) |
+
+**Ejemplos:**
+
+```bash
+# Modelo de 7B — cabe en prácticamente cualquier GPU con 1 unidad
+curl "http://localhost:8000/v1/hardware/recommend?min_vram_gb=6"
+# → Lista ordenada, primer resultado: GPU más barata de 1 unidad
+
+# Modelo de 70B — necesita ~40 GB VRAM
+curl "http://localhost:8000/v1/hardware/recommend?min_vram_gb=40"
+# → Incluye opciones de 1 unidad (A100 80GB) y multi-GPU (RTX 4090 ×2)
+
+# Modelo imposible — ninguna GPU puede en ≤8 unidades
+curl "http://localhost:8000/v1/hardware/recommend?min_vram_gb=10000"
+# → []
+
+# Validación de error — min_vram_gb debe ser > 0
+curl "http://localhost:8000/v1/hardware/recommend?min_vram_gb=0"
+# → 422 Unprocessable Entity
+```
+
+```mermaid
+flowchart LR
+    A[min_vram_gb] --> B[Para cada GPU del catálogo]
+    B --> C["units_needed = ceil(min_vram_gb / vram_gb)"]
+    C --> D{units_needed > 8?}
+    D -- Sí --> E[Descartar]
+    D -- No --> F[Incluir en resultados]
+    F --> G["Ordenar por units_needed ASC, total_price ASC"]
+    G --> H[Devolver lista]
 ```
 
 ---

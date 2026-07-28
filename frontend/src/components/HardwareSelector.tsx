@@ -1,15 +1,22 @@
 "use client";
 
-import type { HardwareSpec, ModelSpec } from "@/types/tco";
+import type { HardwareRecommendation, HardwareSpec, ModelSpec } from "@/types/tco";
 
 interface Props {
   hardware: HardwareSpec[];
   selected: HardwareSpec[];
   onChange: (hw: HardwareSpec[]) => void;
   localModels?: ModelSpec[];
+  topRecommendation?: HardwareRecommendation | null;
 }
 
-export function HardwareSelector({ hardware, selected, onChange, localModels = [] }: Props) {
+export function HardwareSelector({
+  hardware,
+  selected,
+  onChange,
+  localModels = [],
+  topRecommendation,
+}: Props) {
   const maxRequiredVram = localModels.reduce((max, m) => Math.max(max, m.min_vram_gb ?? 0), 0);
 
   const toggle = (hw: HardwareSpec) => {
@@ -25,22 +32,36 @@ export function HardwareSelector({ hardware, selected, onChange, localModels = [
     onChange(selected.map((h) => (h.id === id ? { ...h, quantity: qty } : h)));
   };
 
+  const isAutoRecommended = (hw: HardwareSpec) =>
+    topRecommendation?.hardware.id === hw.id;
+
   return (
     <div className="space-y-2">
-      <h3 className="font-semibold text-gray-700">
-        Hardware GPU{" "}
-        <span className="text-xs font-normal text-gray-400">
-          (requerido para modelos local)
-        </span>
-      </h3>
+      <div className="flex items-center gap-2">
+        <h3 className="font-semibold text-gray-700">
+          Hardware GPU{" "}
+          <span className="text-xs font-normal text-gray-400">
+            (requerido para modelos local)
+          </span>
+        </h3>
+        {topRecommendation && (
+          <span className="text-xs bg-blue-50 border border-blue-200 text-blue-700 rounded-full px-2 py-0.5">
+            🤖 Auto-recomendado:{" "}
+            <span className="font-medium">{topRecommendation.hardware.name}</span>
+            {topRecommendation.units_needed > 1 && (
+              <span> × {topRecommendation.units_needed}</span>
+            )}
+          </span>
+        )}
+      </div>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
         {hardware.map((hw) => {
           const sel = selected.find((h) => h.id === hw.id);
           const isSelected = !!sel;
           const qty = sel?.quantity ?? 1;
           const effectiveVram = hw.vram_gb * qty;
-
           const fitsAllModels = maxRequiredVram === 0 || effectiveVram >= maxRequiredVram;
+          const autoRec = isAutoRecommended(hw);
 
           return (
             <div
@@ -48,9 +69,11 @@ export function HardwareSelector({ hardware, selected, onChange, localModels = [
               className={`p-2 rounded-lg border text-left text-sm transition-colors ${
                 isSelected
                   ? "bg-purple-600 text-white border-purple-600"
-                  : fitsAllModels
-                    ? "bg-white text-gray-700 border-gray-300 hover:border-purple-400"
-                    : "bg-red-50 text-gray-700 border-red-200 hover:border-red-400"
+                  : autoRec
+                    ? "bg-blue-50 text-gray-700 border-blue-400 ring-1 ring-blue-300"
+                    : fitsAllModels
+                      ? "bg-white text-gray-700 border-gray-300 hover:border-purple-400"
+                      : "bg-red-50 text-gray-700 border-red-200 hover:border-red-400"
               }`}
             >
               <button
@@ -58,15 +81,35 @@ export function HardwareSelector({ hardware, selected, onChange, localModels = [
                 onClick={() => toggle(hw)}
                 className="w-full text-left"
               >
-                <p className="font-medium leading-tight">
+                <p className="font-medium leading-tight flex items-center gap-1">
                   {hw.name}
-                  {!fitsAllModels && !isSelected && (
-                    <span className="ml-1 text-red-500 text-xs" title={`Requiere ${maxRequiredVram} GB VRAM`}>⚠️</span>
+                  {autoRec && !isSelected && (
+                    <span className="text-blue-600 text-xs" title="Recomendado automáticamente">
+                      🤖
+                    </span>
+                  )}
+                  {!fitsAllModels && !isSelected && !autoRec && (
+                    <span className="text-red-500 text-xs" title={`Requiere ${maxRequiredVram} GB VRAM`}>⚠️</span>
                   )}
                 </p>
-                <p className={`text-xs mt-0.5 ${isSelected ? "opacity-80" : fitsAllModels ? "text-gray-500" : "text-red-400"}`}>
+                <p className={`text-xs mt-0.5 ${
+                  isSelected
+                    ? "opacity-80"
+                    : autoRec
+                      ? "text-blue-600"
+                      : fitsAllModels
+                        ? "text-gray-500"
+                        : "text-red-400"
+                }`}>
                   {effectiveVram} GB VRAM · ${hw.purchase_price_usd}
-                  {!fitsAllModels && !isSelected && <span className="ml-1">(insuficiente)</span>}
+                  {autoRec && !isSelected && topRecommendation && topRecommendation.units_needed > 1 && (
+                    <span className="ml-1 text-blue-500">
+                      (×{topRecommendation.units_needed} → {topRecommendation.total_vram_gb} GB)
+                    </span>
+                  )}
+                  {!fitsAllModels && !isSelected && !autoRec && (
+                    <span className="ml-1">(insuficiente)</span>
+                  )}
                 </p>
               </button>
 

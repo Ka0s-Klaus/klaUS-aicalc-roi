@@ -36,7 +36,7 @@ def _load_hardware() -> list[dict[str, Any]]:
 
 class TestModelsCatalog:
     def test_catalog_has_expected_count(self) -> None:
-        assert len(_load_models()) == 34
+        assert len(_load_models()) == 45
 
     def test_all_models_parse_against_pydantic(self) -> None:
         errors: list[str] = []
@@ -117,12 +117,12 @@ class TestModelsCatalog:
         cloud = sum(1 for m in models if m["deployment_type"] == "cloud_api")
         local = sum(1 for m in models if m["deployment_type"] == "local")
         assert cloud == 20, f"Expected 20 cloud models, got {cloud}"
-        assert local == 14, f"Expected 14 local models, got {local}"
+        assert local == 25, f"Expected 25 local models, got {local}"
 
 
 class TestHardwareCatalog:
     def test_catalog_has_expected_count(self) -> None:
-        assert len(_load_hardware()) == 10
+        assert len(_load_hardware()) == 19
 
     def test_all_hardware_parse_against_pydantic(self) -> None:
         errors: list[str] = []

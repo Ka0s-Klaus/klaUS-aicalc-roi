@@ -71,7 +71,7 @@ export default function HomePage() {
     );
 
     if (localModels.length === 0) {
-      setTopRecommendation(null);
+      setAllRecommendations([]);
       return;
     }
 

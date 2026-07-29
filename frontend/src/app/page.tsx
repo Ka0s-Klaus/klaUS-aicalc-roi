@@ -24,7 +24,6 @@ const DEFAULT_USE_CASE: UseCase = {
 
 export default function HomePage() {
   const [allModels, setAllModels] = useState<ModelSpec[]>([]);
-  const [allHardware, setAllHardware] = useState<HardwareSpec[]>([]);
   const [loadingCatalog, setLoadingCatalog] = useState(true);
   const [catalogError, setCatalogError] = useState<string | null>(null);
 
@@ -150,7 +149,7 @@ export default function HomePage() {
             {/* Métricas de dimensionamiento — context de capacidad antes de resultados */}
             <SizingCard
               models={selectedModels}
-              hardware={selectedHardware}
+              hardware={[]}
               useCase={useCase}
             />
 

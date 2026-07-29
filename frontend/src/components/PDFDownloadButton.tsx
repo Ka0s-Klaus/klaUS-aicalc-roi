@@ -1,7 +1,6 @@
 "use client";
 
 import { jsPDF } from "jspdf";
-import "jspdf-autotable";
 import { AnalysisResult, ModelSpec, UseCase } from "@/types/tco";
 
 interface PDFDownloadButtonProps {
@@ -117,39 +116,62 @@ ${Number(rec.strategy.api_cost_total_usd) > 0 ? `Coste API: $${Number(rec.strate
     doc.text(`📊 TODAS LAS ESTRATEGIAS (${result.strategies.length})`, margin, yPos);
     addLine(8);
 
+    // Tabla manual
     doc.setFont("helvetica", "normal");
-    doc.setFontSize(9);
+    doc.setFontSize(8);
 
-    // Tabla
-    const tableData = result.strategies.map((s) => [
-      s.model_id,
-      s.hardware_id || "—",
-      s.deployment_type,
-      `$${Number(s.total_cost_usd).toLocaleString("en-US", { maximumFractionDigits: 0 })}`,
-      s.estimated_latency_ms ? `${s.estimated_latency_ms.toFixed(0)}ms` : "—",
-      result.pareto_optimal_ids.includes(s.model_id + (s.hardware_id ? "/" + s.hardware_id : ""))
-        ? "✓ Pareto"
-        : "—",
-    ]);
+    const colWidth = (contentWidth - 10) / 6;
+    const headers = ["Modelo", "Hardware", "Tipo", "Coste", "Latencia", "Óptimo"];
+    const rowHeight = 6;
 
-    doc.autoTable({
-      head: [["Modelo", "Hardware", "Tipo", "Coste total", "Latencia", "Óptimo"]],
-      body: tableData,
-      startY: yPos,
-      margin: margin,
-      theme: "grid",
-      styles: {
-        fontSize: 8,
-        cellPadding: 3,
-      },
-      headStyles: {
-        fillColor: [59, 130, 246],
-        textColor: 255,
-        fontStyle: "bold",
-      },
-      alternateRowStyles: {
-        fillColor: [240, 240, 240],
-      },
+    // Encabezado
+    doc.setFillColor(59, 130, 246);
+    doc.setTextColor(255, 255, 255);
+    let cellX = margin;
+    headers.forEach((header) => {
+      doc.rect(cellX, yPos, colWidth, rowHeight, "F");
+      doc.text(header, cellX + 2, yPos + 4);
+      cellX += colWidth;
+    });
+    addLine(6);
+
+    // Filas
+    doc.setTextColor(0, 0, 0);
+    result.strategies.forEach((s, idx) => {
+      if (yPos > pageHeight - 20) {
+        doc.addPage();
+        yPos = margin;
+      }
+
+      const isPareto = result.pareto_optimal_ids.includes(
+        s.model_id + (s.hardware_id ? "/" + s.hardware_id : "")
+      );
+      if (idx % 2 === 1) {
+        doc.setFillColor(240, 240, 240);
+        cellX = margin;
+        for (let i = 0; i < headers.length; i++) {
+          doc.rect(cellX, yPos, colWidth, rowHeight, "F");
+          cellX += colWidth;
+        }
+      }
+
+      const row = [
+        s.model_id,
+        s.hardware_id || "—",
+        s.deployment_type,
+        `$${Number(s.total_cost_usd).toLocaleString("en-US", { maximumFractionDigits: 0 })}`,
+        s.estimated_latency_ms ? `${s.estimated_latency_ms.toFixed(0)}ms` : "—",
+        isPareto ? "✓" : "—",
+      ];
+
+      doc.setTextColor(0, 0, 0);
+      cellX = margin;
+      row.forEach((cell) => {
+        doc.text(String(cell), cellX + 2, yPos + 4);
+        cellX += colWidth;
+      });
+
+      addLine(6);
     });
 
     // Guardamos el PDF

@@ -2,14 +2,15 @@
 
 import { useEffect, useState } from "react";
 
+import { HardwareSelector } from "@/components/HardwareSelector";
 import { ModelSelector } from "@/components/ModelSelector";
 import { PDFDownloadButton } from "@/components/PDFDownloadButton";
 import { RecommendationCard } from "@/components/RecommendationCard";
 import { SizingCard } from "@/components/SizingCard";
 import { StrategyChart } from "@/components/StrategyChart";
 import { UseCaseForm } from "@/components/UseCaseForm";
-import { analyze, fetchModels } from "@/lib/api";
-import type { AnalysisResult, ModelSpec, UseCase } from "@/types/tco";
+import { analyze, fetchHardware, fetchModels } from "@/lib/api";
+import type { AnalysisResult, HardwareSpec, ModelSpec, UseCase } from "@/types/tco";
 
 const DEFAULT_USE_CASE: UseCase = {
   id: "default",
@@ -24,10 +25,12 @@ const DEFAULT_USE_CASE: UseCase = {
 
 export default function HomePage() {
   const [allModels, setAllModels] = useState<ModelSpec[]>([]);
+  const [allHardware, setAllHardware] = useState<HardwareSpec[]>([]);
   const [loadingCatalog, setLoadingCatalog] = useState(true);
   const [catalogError, setCatalogError] = useState<string | null>(null);
 
   const [selectedModels, setSelectedModels] = useState<ModelSpec[]>([]);
+  const [selectedHardware, setSelectedHardware] = useState<HardwareSpec[]>([]);
   const [useCase, setUseCase] = useState<UseCase>(DEFAULT_USE_CASE);
   const [horizonMonths, setHorizonMonths] = useState(36);
 
@@ -36,9 +39,10 @@ export default function HomePage() {
   const [analyzeError, setAnalyzeError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchModels()
-      .then((models) => {
+    Promise.all([fetchModels(), fetchHardware()])
+      .then(([models, hardware]) => {
         setAllModels(models);
+        setAllHardware(hardware);
       })
       .catch((e: unknown) =>
         setCatalogError(e instanceof Error ? e.message : String(e)),
@@ -54,7 +58,7 @@ export default function HomePage() {
     try {
       const res = await analyze({
         models: selectedModels,
-        hardware: [],
+        hardware: selectedHardware,
         use_cases: [useCase],
         horizon_months: horizonMonths,
       });
@@ -118,6 +122,12 @@ export default function HomePage() {
             onChange={setSelectedModels}
           />
 
+          <HardwareSelector
+            hardware={allHardware}
+            selected={selectedHardware}
+            onChange={setSelectedHardware}
+          />
+
           <UseCaseForm
             useCase={useCase}
             onChange={setUseCase}
@@ -149,7 +159,7 @@ export default function HomePage() {
             {/* Métricas de dimensionamiento — context de capacidad antes de resultados */}
             <SizingCard
               models={selectedModels}
-              hardware={[]}
+              hardware={selectedHardware}
               useCase={useCase}
             />
 

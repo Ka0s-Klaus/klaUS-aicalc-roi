@@ -20,7 +20,6 @@ from .models import (
     TCOInput,
     UseCase,
 )
-from backend.api.catalog import get_hardware
 
 
 class TCOEngine:
@@ -29,8 +28,7 @@ class TCOEngine:
     def analyze(self, input_data: TCOInput) -> AnalysisResult:
         use_case = input_data.use_cases[0]  # Phase 1: single use case per run
 
-        # If no hardware specified, auto-load full catalog
-        hardware = input_data.hardware if input_data.hardware else get_hardware()
+        hardware = input_data.hardware
 
         filtered_models, compliance_excluded = self._apply_compliance(input_data)
         strategies, calc_excluded = self._calculate_all(

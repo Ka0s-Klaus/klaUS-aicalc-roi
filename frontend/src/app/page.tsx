@@ -9,8 +9,8 @@ import { RecommendationCard } from "@/components/RecommendationCard";
 import { SizingCard } from "@/components/SizingCard";
 import { StrategyChart } from "@/components/StrategyChart";
 import { UseCaseForm } from "@/components/UseCaseForm";
-import { analyze, fetchHardware, fetchModels } from "@/lib/api";
-import type { AnalysisResult, HardwareSpec, ModelSpec, UseCase } from "@/types/tco";
+import { analyze, fetchHardware, fetchHardwareRecommendation, fetchModels } from "@/lib/api";
+import type { AnalysisResult, HardwareRecommendation, HardwareSpec, ModelSpec, UseCase } from "@/types/tco";
 
 const DEFAULT_USE_CASE: UseCase = {
   id: "default",
@@ -31,6 +31,7 @@ export default function HomePage() {
 
   const [selectedModels, setSelectedModels] = useState<ModelSpec[]>([]);
   const [selectedHardware, setSelectedHardware] = useState<HardwareSpec[]>([]);
+  const [hwRecommendations, setHwRecommendations] = useState<HardwareRecommendation[]>([]);
   const [useCase, setUseCase] = useState<UseCase>(DEFAULT_USE_CASE);
   const [horizonMonths, setHorizonMonths] = useState(36);
 
@@ -49,6 +50,36 @@ export default function HomePage() {
       )
       .finally(() => setLoadingCatalog(false));
   }, []);
+
+  useEffect(() => {
+    if (selectedModels.length === 0) {
+      setHwRecommendations([]);
+      return;
+    }
+
+    const localModels = selectedModels.filter((m) => m.deployment_type === "local");
+
+    if (localModels.length === 0) {
+      setHwRecommendations([]);
+      return;
+    }
+
+    const maxVram = Math.max(...localModels.map((m) => m.min_vram_gb ?? 0), 0);
+    if (maxVram <= 0) {
+      setHwRecommendations([]);
+      return;
+    }
+
+    fetchHardwareRecommendation(
+      maxVram,
+      useCase.concurrent_users,
+      useCase.precision,
+      useCase.context_window_tokens,
+      localModels[0].parameters_b
+    )
+      .then(setHwRecommendations)
+      .catch(() => setHwRecommendations([]));
+  }, [selectedModels, useCase.concurrent_users, useCase.precision, useCase.context_window_tokens]);
 
 
   const handleAnalyze = async () => {
@@ -126,6 +157,8 @@ export default function HomePage() {
             hardware={allHardware}
             selected={selectedHardware}
             onChange={setSelectedHardware}
+            localModels={selectedModels.filter((m) => m.deployment_type === "local")}
+            allRecommendations={hwRecommendations}
           />
 
           <UseCaseForm

@@ -185,11 +185,11 @@ export function PDFDownloadButton({
 
     // Tabla de estrategias
     doc.setTextColor(0, 0, 0);
-    doc.setFontSize(7.5);
+    doc.setFontSize(7);
     doc.setFont("helvetica", "normal");
 
-    const colWidths = [28, 28, 18, 35, 25, 15];
-    const headers = ["Modelo", "Hardware", "Tipo", "Coste", "Latencia", "Optimo"];
+    const colWidths = [22, 22, 12, 18, 18, 25, 20, 12];
+    const headers = ["Modelo", "Hardware", "Tipo", "CAPEX", "OPEX", "Total", "Latencia", "Optimo"];
     const rowHeight = 6;
 
     // Encabezado tabla
@@ -236,9 +236,11 @@ export function PDFDownloadButton({
       // Texto de fila
       doc.setTextColor(0, 0, 0);
       const row = [
-        s.model_id.substring(0, 18),
-        (s.hardware_id || "—").substring(0, 18),
+        s.model_id.substring(0, 15),
+        (s.hardware_id || "—").substring(0, 15),
         s.deployment_type === "cloud_api" ? "API" : "Local",
+        Number(s.capex_usd) > 0 ? `$${Number(s.capex_usd).toLocaleString("en-US", { maximumFractionDigits: 0 })}` : "—",
+        Number(s.opex_total_usd) > 0 ? `$${Number(s.opex_total_usd).toLocaleString("en-US", { maximumFractionDigits: 0 })}` : "—",
         `$${Number(s.total_cost_usd).toLocaleString("en-US", { maximumFractionDigits: 0 })}`,
         s.estimated_latency_ms ? `${s.estimated_latency_ms.toFixed(0)}ms` : "—",
         isPareto ? "SI" : "—",

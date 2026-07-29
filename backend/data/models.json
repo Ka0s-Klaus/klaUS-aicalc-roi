@@ -1,6 +1,6 @@
 {
   "catalog_version": "2026-07-28",
-  "baseline_note": "quality_coding y quality_reasoning normalizados: GPT-4o = 1.0 (HumanEval 90.2%, Arena Elo ~1380). Valores >1.0 indican superioridad medida en benchmarks. tokens_per_second_fp16 representa throughput práctico en RTX 4090 (puede incluir cuantización Q4 para modelos que no caben en fp16).",
+  "baseline_note": "quality_coding y quality_reasoning normalizados: GPT-4o = 1.0 (HumanEval 90.2%, Arena Elo ~1380). Valores >1.0 indican superioridad medida en benchmarks. tokens_per_second_fp16 representa throughput pr\u00e1ctico en RTX 4090 (puede incluir cuantizaci\u00f3n Q4 para modelos que no caben en fp16).",
   "models": [
     {
       "id": "claude-opus-4-8",
@@ -24,7 +24,7 @@
       "quality_coding": 1.12,
       "quality_reasoning": 1.15,
       "quality_multilingual": 0.95,
-      "_source": "https://anthropic.com/pricing — $5/$25 por 1M tokens. FedRAMP vía AWS Bedrock/GCP Vertex. SWE-bench Verified 88.6%. Arena Elo ~1580.",
+      "_source": "https://anthropic.com/pricing \u2014 $5/$25 por 1M tokens. FedRAMP v\u00eda AWS Bedrock/GCP Vertex. SWE-bench Verified 88.6%. Arena Elo ~1580.",
       "_scraped_at": "2026-07-24",
       "estimated_latency_ms": 2000
     },
@@ -50,7 +50,7 @@
       "quality_coding": 1.05,
       "quality_reasoning": 1.05,
       "quality_multilingual": 0.93,
-      "_source": "https://anthropic.com/pricing — $3/$15 por 1M tokens. Arena Elo ~1518. HumanEval ~92%.",
+      "_source": "https://anthropic.com/pricing \u2014 $3/$15 por 1M tokens. Arena Elo ~1518. HumanEval ~92%.",
       "_scraped_at": "2026-07-24",
       "estimated_latency_ms": 1200
     },
@@ -76,7 +76,7 @@
       "quality_coding": 0.88,
       "quality_reasoning": 0.82,
       "quality_multilingual": 0.85,
-      "_source": "https://anthropic.com/pricing — $1/$5 por 1M tokens. 200K contexto.",
+      "_source": "https://anthropic.com/pricing \u2014 $1/$5 por 1M tokens. 200K contexto.",
       "_scraped_at": "2026-07-24",
       "estimated_latency_ms": 600
     },
@@ -103,7 +103,7 @@
       "quality_coding": 1.0,
       "quality_reasoning": 1.0,
       "quality_multilingual": 1.0,
-      "_source": "https://openai.com/api/pricing — $2.50/$10 por 1M tokens. BASELINE calidad = 1.0 (HumanEval 90.2%). trust.openai.com: SOC2, ISO 27001, HIPAA BAA, FedRAMP, PCI DSS v4.",
+      "_source": "https://openai.com/api/pricing \u2014 $2.50/$10 por 1M tokens. BASELINE calidad = 1.0 (HumanEval 90.2%). trust.openai.com: SOC2, ISO 27001, HIPAA BAA, FedRAMP, PCI DSS v4.",
       "_scraped_at": "2026-07-24",
       "estimated_latency_ms": 800
     },
@@ -129,7 +129,7 @@
       "quality_coding": 0.82,
       "quality_reasoning": 0.78,
       "quality_multilingual": 0.85,
-      "_source": "https://openai.com/api/pricing — $0.15/$0.60 por 1M tokens. Parámetros no publicados.",
+      "_source": "https://openai.com/api/pricing \u2014 $0.15/$0.60 por 1M tokens. Par\u00e1metros no publicados.",
       "_scraped_at": "2026-07-24",
       "estimated_latency_ms": 600
     },
@@ -156,7 +156,7 @@
       "quality_coding": 1.1,
       "quality_reasoning": 1.25,
       "quality_multilingual": 0.9,
-      "_source": "https://openai.com/api/pricing — $2/$8 por 1M tokens. 200K contexto. AIME 2026 top performer.",
+      "_source": "https://openai.com/api/pricing \u2014 $2/$8 por 1M tokens. 200K contexto. AIME 2026 top performer.",
       "_scraped_at": "2026-07-24",
       "estimated_latency_ms": 5000
     },
@@ -183,7 +183,7 @@
       "quality_coding": 1.05,
       "quality_reasoning": 1.18,
       "quality_multilingual": 0.88,
-      "_source": "https://openai.com/api/pricing — $1.10/$4.40 por 1M tokens. 200K contexto.",
+      "_source": "https://openai.com/api/pricing \u2014 $1.10/$4.40 por 1M tokens. 200K contexto.",
       "_scraped_at": "2026-07-24",
       "estimated_latency_ms": 2500
     },
@@ -210,7 +210,7 @@
       "quality_coding": 1.05,
       "quality_reasoning": 1.1,
       "quality_multilingual": 1.05,
-      "_source": "https://ai.google.dev/pricing — $1.25/$10 para prompts ≤200K tokens ($2.50/$15 >200K). 2M contexto. FedRAMP High vía Vertex AI.",
+      "_source": "https://ai.google.dev/pricing \u2014 $1.25/$10 para prompts \u2264200K tokens ($2.50/$15 >200K). 2M contexto. FedRAMP High v\u00eda Vertex AI.",
       "_scraped_at": "2026-07-24",
       "estimated_latency_ms": 1500
     },
@@ -237,7 +237,7 @@
       "quality_coding": 0.92,
       "quality_reasoning": 0.9,
       "quality_multilingual": 0.95,
-      "_source": "https://ai.google.dev/pricing — $0.30/$2.50 por 1M tokens. 1M contexto.",
+      "_source": "https://ai.google.dev/pricing \u2014 $0.30/$2.50 por 1M tokens. 1M contexto.",
       "_scraped_at": "2026-07-24",
       "estimated_latency_ms": 800
     },
@@ -261,7 +261,7 @@
       "quality_coding": 0.85,
       "quality_reasoning": 0.82,
       "quality_multilingual": 0.88,
-      "_source": "DEPRECADO: Gemini 2.0 Flash fue cerrado el 1-jun-2026 (ai.google.dev/pricing). Precio null — modelo no disponible vía API. Referencia histórica.",
+      "_source": "DEPRECADO: Gemini 2.0 Flash fue cerrado el 1-jun-2026 (ai.google.dev/pricing). Precio null \u2014 modelo no disponible v\u00eda API. Referencia hist\u00f3rica.",
       "_scraped_at": "2026-07-24",
       "estimated_latency_ms": null
     },
@@ -288,7 +288,7 @@
       "quality_coding": 0.85,
       "quality_reasoning": 0.82,
       "quality_multilingual": 0.9,
-      "_source": "https://cloud.google.com/vertex-ai/generative-ai/pricing — $0.10/$0.40 por 1M tokens. Modelo más económico de la familia Gemini 2.5. 1M contexto. FedRAMP High vía Vertex AI. Equivalente lite del 2.5 Flash para alta concurrencia y bajo coste.",
+      "_source": "https://cloud.google.com/vertex-ai/generative-ai/pricing \u2014 $0.10/$0.40 por 1M tokens. Modelo m\u00e1s econ\u00f3mico de la familia Gemini 2.5. 1M contexto. FedRAMP High v\u00eda Vertex AI. Equivalente lite del 2.5 Flash para alta concurrencia y bajo coste.",
       "_scraped_at": "2026-07-28",
       "estimated_latency_ms": 350
     },
@@ -315,7 +315,7 @@
       "quality_coding": 1.0,
       "quality_reasoning": 1.0,
       "quality_multilingual": 1.0,
-      "_source": "https://cloud.google.com/vertex-ai/generative-ai/pricing — $1.50/$9.00 por 1M tokens. Generación Gemini 3.x (jul-2026). Sucesor de Gemini 2.5 Flash con rendimiento comparable a GPT-4o. Precio más alto refleja mejora de generación. NOTA: pricing en rango Pro de generación anterior.",
+      "_source": "https://cloud.google.com/vertex-ai/generative-ai/pricing \u2014 $1.50/$9.00 por 1M tokens. Generaci\u00f3n Gemini 3.x (jul-2026). Sucesor de Gemini 2.5 Flash con rendimiento comparable a GPT-4o. Precio m\u00e1s alto refleja mejora de generaci\u00f3n. NOTA: pricing en rango Pro de generaci\u00f3n anterior.",
       "_scraped_at": "2026-07-28",
       "estimated_latency_ms": 700
     },
@@ -342,7 +342,7 @@
       "quality_coding": 0.9,
       "quality_reasoning": 0.88,
       "quality_multilingual": 0.95,
-      "_source": "https://cloud.google.com/vertex-ai/generative-ai/pricing — $0.30/$2.50 por 1M tokens. Variante cost-optimized de Gemini 3.5 Flash (generación 3.x, jul-2026). Mismo precio que Gemini 2.5 Flash pero con arquitectura de nueva generación.",
+      "_source": "https://cloud.google.com/vertex-ai/generative-ai/pricing \u2014 $0.30/$2.50 por 1M tokens. Variante cost-optimized de Gemini 3.5 Flash (generaci\u00f3n 3.x, jul-2026). Mismo precio que Gemini 2.5 Flash pero con arquitectura de nueva generaci\u00f3n.",
       "_scraped_at": "2026-07-28",
       "estimated_latency_ms": 400
     },
@@ -369,7 +369,7 @@
       "quality_coding": 0.87,
       "quality_reasoning": 0.85,
       "quality_multilingual": 0.93,
-      "_source": "https://cloud.google.com/vertex-ai/generative-ai/pricing — $0.25/$1.50 por 1M tokens. Gemini 3.1 Flash-Lite, variante ligera de nueva generación (jul-2026). Posicionado entre Gemini 2.5 Flash-Lite ($0.10) y Gemini 2.5 Flash ($0.30) en precio/rendimiento.",
+      "_source": "https://cloud.google.com/vertex-ai/generative-ai/pricing \u2014 $0.25/$1.50 por 1M tokens. Gemini 3.1 Flash-Lite, variante ligera de nueva generaci\u00f3n (jul-2026). Posicionado entre Gemini 2.5 Flash-Lite ($0.10) y Gemini 2.5 Flash ($0.30) en precio/rendimiento.",
       "_scraped_at": "2026-07-28",
       "estimated_latency_ms": 380
     },
@@ -393,7 +393,7 @@
       "quality_coding": 1.02,
       "quality_reasoning": 0.96,
       "quality_multilingual": 0.98,
-      "_source": "https://mistral.ai/pricing/api — $0.50/$1.50 por 1M tokens. Sustituye a Mistral Large 2 (retirado). trust.mistral.ai: GDPR, SOC2, ISO 27001. Datacenter EU.",
+      "_source": "https://mistral.ai/pricing/api \u2014 $0.50/$1.50 por 1M tokens. Sustituye a Mistral Large 2 (retirado). trust.mistral.ai: GDPR, SOC2, ISO 27001. Datacenter EU.",
       "_scraped_at": "2026-07-24",
       "estimated_latency_ms": 800
     },
@@ -417,7 +417,7 @@
       "quality_coding": 0.8,
       "quality_reasoning": 0.75,
       "quality_multilingual": 0.8,
-      "_source": "https://mistral.ai/pricing/api — $0.10/$0.30 por 1M tokens. Sustituye a Mistral Small 3.1 (retirado nov-2025).",
+      "_source": "https://mistral.ai/pricing/api \u2014 $0.10/$0.30 por 1M tokens. Sustituye a Mistral Small 3.1 (retirado nov-2025).",
       "_scraped_at": "2026-07-24",
       "estimated_latency_ms": 500
     },
@@ -441,7 +441,7 @@
       "quality_coding": 1.05,
       "quality_reasoning": 0.8,
       "quality_multilingual": 0.7,
-      "_source": "https://mistral.ai/pricing/api — $0.30/$0.90 por 1M tokens. Especializado en código. 32K contexto.",
+      "_source": "https://mistral.ai/pricing/api \u2014 $0.30/$0.90 por 1M tokens. Especializado en c\u00f3digo. 32K contexto.",
       "_scraped_at": "2026-07-24",
       "estimated_latency_ms": 700
     },
@@ -465,7 +465,7 @@
       "quality_coding": 0.82,
       "quality_reasoning": 0.8,
       "quality_multilingual": 0.92,
-      "_source": "https://cohere.com/pricing — $2.50/$10 por 1M tokens. 104B params, 128K contexto. HIPAA solo en contratos enterprise.",
+      "_source": "https://cohere.com/pricing \u2014 $2.50/$10 por 1M tokens. 104B params, 128K contexto. HIPAA solo en contratos enterprise.",
       "_scraped_at": "2026-07-24",
       "estimated_latency_ms": 1200
     },
@@ -487,7 +487,7 @@
       "quality_coding": 1.0,
       "quality_reasoning": 1.05,
       "quality_multilingual": 0.85,
-      "_source": "https://x.ai/api — $3/$15 por 1M tokens. 131K contexto. Compliance limitado — solo SOC2 documentado.",
+      "_source": "https://x.ai/api \u2014 $3/$15 por 1M tokens. 131K contexto. Compliance limitado \u2014 solo SOC2 documentado.",
       "_scraped_at": "2026-07-24",
       "estimated_latency_ms": 1000
     },
@@ -507,7 +507,7 @@
       "quality_coding": 0.95,
       "quality_reasoning": 0.92,
       "quality_multilingual": 0.9,
-      "_source": "https://platform.deepseek.com/api-docs/pricing — $0.14/$0.28 por 1M tokens. MoE 671B total / 37B activos. Sin certificaciones internacionales. EXCLUIDO POR DEFECTO (CHINA).",
+      "_source": "https://platform.deepseek.com/api-docs/pricing \u2014 $0.14/$0.28 por 1M tokens. MoE 671B total / 37B activos. Sin certificaciones internacionales. EXCLUIDO POR DEFECTO (CHINA).",
       "_scraped_at": "2026-07-24",
       "estimated_latency_ms": 1000
     },
@@ -527,7 +527,7 @@
       "quality_coding": 1.02,
       "quality_reasoning": 1.08,
       "quality_multilingual": 0.85,
-      "_source": "https://platform.deepseek.com/api-docs/pricing — $0.55/$2.19 por 1M tokens. MMLU 90.8%, MATH-500 97.3%. EXCLUIDO POR DEFECTO (CHINA).",
+      "_source": "https://platform.deepseek.com/api-docs/pricing \u2014 $0.55/$2.19 por 1M tokens. MMLU 90.8%, MATH-500 97.3%. EXCLUIDO POR DEFECTO (CHINA).",
       "_scraped_at": "2026-07-24",
       "estimated_latency_ms": 4000
     },
@@ -550,7 +550,7 @@
       "quality_coding": 0.96,
       "quality_reasoning": 0.88,
       "quality_multilingual": 0.82,
-      "_source": "https://groq.com/pricing — $0.59/$0.79 por 1M tokens. 394 tok/s de throughput en infraestructura Groq (LPU). HumanEval 88.4%, MMLU 86.0%.",
+      "_source": "https://groq.com/pricing \u2014 $0.59/$0.79 por 1M tokens. 394 tok/s de throughput en infraestructura Groq (LPU). HumanEval 88.4%, MMLU 86.0%.",
       "_scraped_at": "2026-07-24",
       "estimated_latency_ms": 150
     },
@@ -573,7 +573,7 @@
       "quality_coding": 1.0,
       "quality_reasoning": 1.0,
       "quality_multilingual": 0.9,
-      "_source": "openrouter.ai/meta-llama/llama-4-maverick — $0.27/$0.85 por 1M tokens. 400B total / 17B activos (128 expertos MoE). 1M contexto.",
+      "_source": "openrouter.ai/meta-llama/llama-4-maverick \u2014 $0.27/$0.85 por 1M tokens. 400B total / 17B activos (128 expertos MoE). 1M contexto.",
       "_scraped_at": "2026-07-24",
       "estimated_latency_ms": 600
     },
@@ -593,13 +593,13 @@
       "quality_coding": 0.93,
       "quality_reasoning": 0.88,
       "quality_multilingual": 0.95,
-      "_source": "DashScope / deepinfra.com — ~$0.23/M tokens (precio aproximado, DashScope no publica USD consistentemente). HumanEval 80%+. EXCLUIDO POR DEFECTO (CHINA).",
+      "_source": "DashScope / deepinfra.com \u2014 ~$0.23/M tokens (precio aproximado, DashScope no publica USD consistentemente). HumanEval 80%+. EXCLUIDO POR DEFECTO (CHINA).",
       "_scraped_at": "2026-07-24",
       "estimated_latency_ms": 900
     },
     {
       "id": "llama-4-scout-17b-local",
-      "name": "Llama 4 Scout 17B×16E (local)",
+      "name": "Llama 4 Scout 17B\u00d716E (local)",
       "provider": "Meta",
       "deployment_type": "local",
       "parameters_b": 109.0,
@@ -620,12 +620,12 @@
       "quality_coding": 0.92,
       "quality_reasoning": 0.88,
       "quality_multilingual": 0.85,
-      "_source": "botmonster.com/ai/how-to-run-llama-4-on-consumer-gpus-2026 — 17B activos / 109B total (16 expertos). 10M ctx. Q3_K_M ~19GB en RTX 4090 → ~45 tok/s. fp16 requiere ~218GB.",
+      "_source": "botmonster.com/ai/how-to-run-llama-4-on-consumer-gpus-2026 \u2014 17B activos / 109B total (16 expertos). 10M ctx. Q3_K_M ~19GB en RTX 4090 \u2192 ~45 tok/s. fp16 requiere ~218GB.",
       "_scraped_at": "2026-07-24"
     },
     {
       "id": "llama-4-maverick-17b-128e-local",
-      "name": "Llama 4 Maverick 17B×128E MoE (local)",
+      "name": "Llama 4 Maverick 17B\u00d7128E MoE (local)",
       "provider": "Meta",
       "deployment_type": "local",
       "parameters_b": 400.0,
@@ -642,11 +642,11 @@
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 200.0,
-      "tokens_per_second_fp16": null,
+      "tokens_per_second_fp16": 35,
       "quality_coding": 1.0,
       "quality_reasoning": 1.0,
       "quality_multilingual": 0.9,
-      "_source": "insiderllm.com/guides/llama-4-guide-scout-maverick — 17B activos / 400B total (128 expertos). Q4 mínimo práctico: ~200GB. Requiere cluster (4-8x H100). Nota: enunciado decía 16 expertos, arquitectura real es 128.",
+      "_source": "insiderllm.com/guides/llama-4-guide-scout-maverick \u2014 17B activos / 400B total (128 expertos). Q4 m\u00ednimo pr\u00e1ctico: ~200GB. Requiere cluster (4-8x H100). Nota: enunciado dec\u00eda 16 expertos, arquitectura real es 128.",
       "_scraped_at": "2026-07-24"
     },
     {
@@ -668,11 +668,11 @@
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 48.0,
-      "tokens_per_second_fp16": null,
+      "tokens_per_second_fp16": 20,
       "quality_coding": 0.96,
       "quality_reasoning": 0.88,
       "quality_multilingual": 0.82,
-      "_source": "cloudgputracker.com/blog/llama-3-gpu-requirements — fp16 ~140GB. Q4_K_M ~42GB. Min práctico: dual RTX 4090 (48GB) a ~15-20 tok/s. HumanEval 88.4%.",
+      "_source": "cloudgputracker.com/blog/llama-3-gpu-requirements \u2014 fp16 ~140GB. Q4_K_M ~42GB. Min pr\u00e1ctico: dual RTX 4090 (48GB) a ~15-20 tok/s. HumanEval 88.4%.",
       "_scraped_at": "2026-07-24"
     },
     {
@@ -698,7 +698,7 @@
       "quality_coding": 0.72,
       "quality_reasoning": 0.65,
       "quality_multilingual": 0.7,
-      "_source": "llmhardware.io/guides/llama-3.1-hardware-requirements — Q4_K_M ~4.7GB. RTX 4090: ~104-135 tok/s (mustafa.net benchmark). Min 6GB VRAM.",
+      "_source": "llmhardware.io/guides/llama-3.1-hardware-requirements \u2014 Q4_K_M ~4.7GB. RTX 4090: ~104-135 tok/s (mustafa.net benchmark). Min 6GB VRAM.",
       "_scraped_at": "2026-07-24"
     },
     {
@@ -724,7 +724,7 @@
       "quality_coding": 0.72,
       "quality_reasoning": 0.62,
       "quality_multilingual": 0.75,
-      "_source": "gigagpu.com/mistral-vram-requirements — ~4-5GB a Q4. RTX 4090: ~135 tok/s (mustafa.net). 32K contexto.",
+      "_source": "gigagpu.com/mistral-vram-requirements \u2014 ~4-5GB a Q4. RTX 4090: ~135 tok/s (mustafa.net). 32K contexto.",
       "_scraped_at": "2026-07-24"
     },
     {
@@ -746,11 +746,11 @@
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 28.0,
-      "tokens_per_second_fp16": null,
+      "tokens_per_second_fp16": 60,
       "quality_coding": 0.82,
       "quality_reasoning": 0.78,
       "quality_multilingual": 0.82,
-      "_source": "gigagpu.com/mixtral-8x7b-vram-requirements — 46.7B total / 12.9B activos (2 expertos/token). Q4_K_M ~24-27GB. min_vram_gb=28 (conservador). Dual RTX 4090 recomendado.",
+      "_source": "gigagpu.com/mixtral-8x7b-vram-requirements \u2014 46.7B total / 12.9B activos (2 expertos/token). Q4_K_M ~24-27GB. min_vram_gb=28 (conservador). Dual RTX 4090 recomendado.",
       "_scraped_at": "2026-07-24"
     },
     {
@@ -776,7 +776,7 @@
       "quality_coding": 0.9,
       "quality_reasoning": 0.92,
       "quality_multilingual": 0.78,
-      "_source": "microsoft.com/research/phi-4-tech-report — 14B params, 16K ctx. Q4_K_M ~7.8GB. HumanEval 82.6%, MMLU 84.8%. Supera GPT-4o en GPQA y MATH. RTX 4090 ~80 tok/s estimado (13B class).",
+      "_source": "microsoft.com/research/phi-4-tech-report \u2014 14B params, 16K ctx. Q4_K_M ~7.8GB. HumanEval 82.6%, MMLU 84.8%. Supera GPT-4o en GPQA y MATH. RTX 4090 ~80 tok/s estimado (13B class).",
       "_scraped_at": "2026-07-24"
     },
     {
@@ -802,7 +802,7 @@
       "quality_coding": 0.94,
       "quality_reasoning": 0.88,
       "quality_multilingual": 0.9,
-      "_source": "namangoyal.com/blog/2025/gemma3 — 27B params, 128K ctx. Q4_K_M ~22.5GB (justo en RTX 4090, reducir contexto). HumanEval 87.8%, MMLU-Pro 67.5%. RTX 4090 ~32-45 tok/s.",
+      "_source": "namangoyal.com/blog/2025/gemma3 \u2014 27B params, 128K ctx. Q4_K_M ~22.5GB (justo en RTX 4090, reducir contexto). HumanEval 87.8%, MMLU-Pro 67.5%. RTX 4090 ~32-45 tok/s.",
       "_scraped_at": "2026-07-24"
     },
     {
@@ -824,11 +824,11 @@
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 48.0,
-      "tokens_per_second_fp16": null,
+      "tokens_per_second_fp16": 18,
       "quality_coding": 0.93,
       "quality_reasoning": 0.88,
       "quality_multilingual": 0.95,
-      "_source": "qwenlm.github.io/blog/qwen2.5-llm — 72B params, 128K ctx. Q4_K_M ~42-45GB. Dual RTX 4090 (48GB). data_residency=local cuando autohospedado (vs china en API DashScope).",
+      "_source": "qwenlm.github.io/blog/qwen2.5-llm \u2014 72B params, 128K ctx. Q4_K_M ~42-45GB. Dual RTX 4090 (48GB). data_residency=local cuando autohospedado (vs china en API DashScope).",
       "_scraped_at": "2026-07-24"
     },
     {
@@ -850,11 +850,11 @@
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 376.0,
-      "tokens_per_second_fp16": null,
+      "tokens_per_second_fp16": 8,
       "quality_coding": 1.02,
       "quality_reasoning": 1.08,
       "quality_multilingual": 0.85,
-      "_source": "willitrunai.com/blog/deepseek-r1-vram-requirements-guide — 671B total MoE / 37B activos. Q4_K_M mínimo ~376GB. Requiere cluster multi-GPU. Pesos open-weight → data_residency=local cuando autohospedado.",
+      "_source": "willitrunai.com/blog/deepseek-r1-vram-requirements-guide \u2014 671B total MoE / 37B activos. Q4_K_M m\u00ednimo ~376GB. Requiere cluster multi-GPU. Pesos open-weight \u2192 data_residency=local cuando autohospedado.",
       "_scraped_at": "2026-07-24"
     },
     {
@@ -880,7 +880,7 @@
       "quality_coding": 0.97,
       "quality_reasoning": 0.96,
       "quality_multilingual": 0.9,
-      "_source": "ai.meta.com/blog/meta-llama-3-1 — 405B dense. fp16 ~810GB; Q4_K_M ~202GB + KV cache ≈ 240GB mínimo práctico (8× A100 80GB o 4× H100 SXM5 via NVLink). HumanEval ~89%, MMLU 87.3%, MATH 73.8%. tokens_per_second estimado ~30 en 8× H100 SXM5.",
+      "_source": "ai.meta.com/blog/meta-llama-3-1 \u2014 405B dense. fp16 ~810GB; Q4_K_M ~202GB + KV cache \u2248 240GB m\u00ednimo pr\u00e1ctico (8\u00d7 A100 80GB o 4\u00d7 H100 SXM5 via NVLink). HumanEval ~89%, MMLU 87.3%, MATH 73.8%. tokens_per_second estimado ~30 en 8\u00d7 H100 SXM5.",
       "_scraped_at": "2026-07-27"
     },
     {
@@ -906,7 +906,7 @@
       "quality_coding": 0.95,
       "quality_reasoning": 1.05,
       "quality_multilingual": 0.82,
-      "_source": "huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B — 70B parámetros distilados del R1 671B original. Q4_K_M ~42GB. Dual RTX 4090 (48GB) a ~15 tok/s. Supera a o1-mini en MATH/AIME. Pesos open-weight → data_residency=local cuando autohospedado.",
+      "_source": "huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B \u2014 70B par\u00e1metros distilados del R1 671B original. Q4_K_M ~42GB. Dual RTX 4090 (48GB) a ~15 tok/s. Supera a o1-mini en MATH/AIME. Pesos open-weight \u2192 data_residency=local cuando autohospedado.",
       "_scraped_at": "2026-07-27"
     },
     {
@@ -928,11 +928,11 @@
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 376.0,
-      "tokens_per_second_fp16": null,
+      "tokens_per_second_fp16": 15,
       "quality_coding": 1.01,
       "quality_reasoning": 0.92,
       "quality_multilingual": 0.9,
-      "_source": "huggingface.co/deepseek-ai/DeepSeek-V3 — 671B MoE / 37B activos. Arquitectura MLA + MoE. HumanEval 91.6% (normalizado ~1.01). Q4_K_M mínimo ~376GB — idéntico a R1 671B. Pesos open-weight → data_residency=local. Enfocado en chat/coding (no en reasoning largo como R1).",
+      "_source": "huggingface.co/deepseek-ai/DeepSeek-V3 \u2014 671B MoE / 37B activos. Arquitectura MLA + MoE. HumanEval 91.6% (normalizado ~1.01). Q4_K_M m\u00ednimo ~376GB \u2014 id\u00e9ntico a R1 671B. Pesos open-weight \u2192 data_residency=local. Enfocado en chat/coding (no en reasoning largo como R1).",
       "_scraped_at": "2026-07-27"
     },
     {
@@ -958,7 +958,7 @@
       "quality_coding": 0.92,
       "quality_reasoning": 0.88,
       "quality_multilingual": 0.97,
-      "_source": "mistral.ai/news/mistral-large-2407 — 123B parámetros, 128K contexto. Q4_K_M ~62GB. 1× A100 80GB SXM4 o equivalente para mínimo práctico (80GB). Multilingüe nativo: español, francés, alemán, italiano — quality_multilingual 0.97. GDPR/EU data residency cuando autohospedado. Licencia Mistral Research License.",
+      "_source": "mistral.ai/news/mistral-large-2407 \u2014 123B par\u00e1metros, 128K contexto. Q4_K_M ~62GB. 1\u00d7 A100 80GB SXM4 o equivalente para m\u00ednimo pr\u00e1ctico (80GB). Multiling\u00fce nativo: espa\u00f1ol, franc\u00e9s, alem\u00e1n, italiano \u2014 quality_multilingual 0.97. GDPR/EU data residency cuando autohospedado. Licencia Mistral Research License.",
       "_scraped_at": "2026-07-27"
     },
     {
@@ -980,11 +980,11 @@
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 800.0,
-      "tokens_per_second_fp16": null,
+      "tokens_per_second_fp16": 12,
       "quality_coding": 1.3,
       "quality_reasoning": 1.3,
       "quality_multilingual": 0.9,
-      "_source": "openrouter.ai/deepseek/deepseek-v4-pro + codersera.com/blog/deepseek-v4-vram-gpu-requirements-2026 — 1.6T params MoE, lanzado abr-2026. Q4 estimado ~800GB. MIT. API: $0.435/$0.87 por 1M tokens. data_residency=local cuando autohospedado.",
+      "_source": "openrouter.ai/deepseek/deepseek-v4-pro + codersera.com/blog/deepseek-v4-vram-gpu-requirements-2026 \u2014 1.6T params MoE, lanzado abr-2026. Q4 estimado ~800GB. MIT. API: $0.435/$0.87 por 1M tokens. data_residency=local cuando autohospedado.",
       "_scraped_at": "2026-07-28"
     },
     {
@@ -1006,11 +1006,11 @@
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 170.0,
-      "tokens_per_second_fp16": null,
+      "tokens_per_second_fp16": 20,
       "quality_coding": 1.05,
       "quality_reasoning": 1.05,
       "quality_multilingual": 0.88,
-      "_source": "openrouter.ai/deepseek/deepseek-v4-flash — 284B total / 13B activos MoE. Lanzado abr-2026. Q4_K_M ~170GB: viable en 2×H200 (282GB) o 3×H100 (240GB). MIT. API: $0.14/$0.28 por 1M tokens.",
+      "_source": "openrouter.ai/deepseek/deepseek-v4-flash \u2014 284B total / 13B activos MoE. Lanzado abr-2026. Q4_K_M ~170GB: viable en 2\u00d7H200 (282GB) o 3\u00d7H100 (240GB). MIT. API: $0.14/$0.28 por 1M tokens.",
       "_scraped_at": "2026-07-28"
     },
     {
@@ -1032,11 +1032,11 @@
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 1400.0,
-      "tokens_per_second_fp16": null,
+      "tokens_per_second_fp16": 25,
       "quality_coding": 1.2,
       "quality_reasoning": 1.25,
       "quality_multilingual": 0.88,
-      "_source": "tomshardware.com/tech-industry/artificial-intelligence/moonshot-releases-2-8-trillion-parameter-kimi-k3 — 2.8T MoE, 896 expertos, 16 activos/token. Publicado 26-jul-2026. Q4 estimado ~1,400GB. Auto-hosting inviable sin cluster masivo. API: $3.00/$15.00 por 1M tokens.",
+      "_source": "tomshardware.com/tech-industry/artificial-intelligence/moonshot-releases-2-8-trillion-parameter-kimi-k3 \u2014 2.8T MoE, 896 expertos, 16 activos/token. Publicado 26-jul-2026. Q4 estimado ~1,400GB. Auto-hosting inviable sin cluster masivo. API: $3.00/$15.00 por 1M tokens.",
       "_scraped_at": "2026-07-28"
     },
     {
@@ -1058,11 +1058,11 @@
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 500.0,
-      "tokens_per_second_fp16": null,
+      "tokens_per_second_fp16": 35,
       "quality_coding": 1.05,
       "quality_reasoning": 1.1,
       "quality_multilingual": 0.88,
-      "_source": "siliconangle.com/2026/04/20/moonshot-ai-releases-kimi-k2-6-model-1t-parameters-attention-optimizations + openrouter.ai/moonshotai/kimi-k2.6 — 1T params MoE, 384 expertos, 8 activos/token. Multimodal nativo. 262K ctx. Q4 estimado ~500GB. API: $0.95/$4.00 por 1M tokens.",
+      "_source": "siliconangle.com/2026/04/20/moonshot-ai-releases-kimi-k2-6-model-1t-parameters-attention-optimizations + openrouter.ai/moonshotai/kimi-k2.6 \u2014 1T params MoE, 384 expertos, 8 activos/token. Multimodal nativo. 262K ctx. Q4 estimado ~500GB. API: $0.95/$4.00 por 1M tokens.",
       "_scraped_at": "2026-07-28"
     },
     {
@@ -1084,11 +1084,11 @@
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 411.0,
-      "tokens_per_second_fp16": null,
+      "tokens_per_second_fp16": 22,
       "quality_coding": 1.15,
       "quality_reasoning": 1.15,
       "quality_multilingual": 0.88,
-      "_source": "morphllm.com/glm-5-2 + spheron.network/tools/gpu-recommender/zai-org/GLM-5.2 — 753B total / 40B activos MoE. Lanzado 13-jun-2026. MIT. SWE-bench Pro 62.1% (supera GPT-5.5 58.6%). Q4 verificado ~411GB: mínimo 3×H200 o 6×H100. API: $1.40/$4.40 por 1M tokens.",
+      "_source": "morphllm.com/glm-5-2 + spheron.network/tools/gpu-recommender/zai-org/GLM-5.2 \u2014 753B total / 40B activos MoE. Lanzado 13-jun-2026. MIT. SWE-bench Pro 62.1% (supera GPT-5.5 58.6%). Q4 verificado ~411GB: m\u00ednimo 3\u00d7H200 o 6\u00d7H100. API: $1.40/$4.40 por 1M tokens.",
       "_scraped_at": "2026-07-28"
     },
     {
@@ -1110,11 +1110,11 @@
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 230.0,
-      "tokens_per_second_fp16": null,
+      "tokens_per_second_fp16": 10,
       "quality_coding": 1.15,
       "quality_reasoning": 1.2,
       "quality_multilingual": 0.95,
-      "_source": "apxml.com/models/qwen35-397b-a17b + openrouter.ai/qwen/qwen3.5-397b-a17b — 397B total / 17B activos. Arquitectura híbrida GDN+MoE, 512 expertos. Lanzado 16-feb-2026. Q4 runtime verificado 230-240GB (con overhead). 4×H100 mínimo viable. API: $0.39/$2.45 por 1M tokens.",
+      "_source": "apxml.com/models/qwen35-397b-a17b + openrouter.ai/qwen/qwen3.5-397b-a17b \u2014 397B total / 17B activos. Arquitectura h\u00edbrida GDN+MoE, 512 expertos. Lanzado 16-feb-2026. Q4 runtime verificado 230-240GB (con overhead). 4\u00d7H100 m\u00ednimo viable. API: $0.39/$2.45 por 1M tokens.",
       "_scraped_at": "2026-07-28"
     },
     {
@@ -1136,11 +1136,11 @@
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 65.0,
-      "tokens_per_second_fp16": null,
+      "tokens_per_second_fp16": 85,
       "quality_coding": 0.98,
       "quality_reasoning": 0.82,
       "quality_multilingual": 0.75,
-      "_source": "docs.mistral.ai/models/model-cards/devstral-2-25-12 + cloudzero.com/blog/mistral-api-pricing — 123B dense, 256K ctx. Modified MIT. Especializado coding/agentic. SWE-bench Verified 72.2%. Q4_K_M ~65GB → 1×H200 o 2×A100 80GB. API: $0.40/$0.90 por 1M tokens.",
+      "_source": "docs.mistral.ai/models/model-cards/devstral-2-25-12 + cloudzero.com/blog/mistral-api-pricing \u2014 123B dense, 256K ctx. Modified MIT. Especializado coding/agentic. SWE-bench Verified 72.2%. Q4_K_M ~65GB \u2192 1\u00d7H200 o 2\u00d7A100 80GB. API: $0.40/$0.90 por 1M tokens.",
       "_scraped_at": "2026-07-28"
     },
     {
@@ -1162,11 +1162,11 @@
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 64.0,
-      "tokens_per_second_fp16": null,
+      "tokens_per_second_fp16": 50,
       "quality_coding": 1.0,
       "quality_reasoning": 1.02,
       "quality_multilingual": 0.9,
-      "_source": "huggingface.co/mistralai/Mistral-Medium-3.5-128B + cloudzero.com/blog/mistral-api-pricing — 128B dense multimodal (visión nativa). 256K ctx. Q4_K_M ~64GB → 1×H200 o 2×A100 80GB. API: $1.50/$7.50 por 1M tokens.",
+      "_source": "huggingface.co/mistralai/Mistral-Medium-3.5-128B + cloudzero.com/blog/mistral-api-pricing \u2014 128B dense multimodal (visi\u00f3n nativa). 256K ctx. Q4_K_M ~64GB \u2192 1\u00d7H200 o 2\u00d7A100 80GB. API: $1.50/$7.50 por 1M tokens.",
       "_scraped_at": "2026-07-28"
     },
     {
@@ -1192,7 +1192,7 @@
       "quality_coding": 0.9,
       "quality_reasoning": 0.82,
       "quality_multilingual": 0.85,
-      "_source": "spheron.network/tools/gpu-recommender/Qwen/Qwen2.5-Coder-32B-Instruct — 32.8B dense. 128K ctx. Q4_K_M ~18-20GB → 1×RTX 4090 con margen. ~55 tok/s estimado RTX 4090. HumanEval 90%+. API Alibaba Cloud: $0.066/$0.10 por 1M tokens.",
+      "_source": "spheron.network/tools/gpu-recommender/Qwen/Qwen2.5-Coder-32B-Instruct \u2014 32.8B dense. 128K ctx. Q4_K_M ~18-20GB \u2192 1\u00d7RTX 4090 con margen. ~55 tok/s estimado RTX 4090. HumanEval 90%+. API Alibaba Cloud: $0.066/$0.10 por 1M tokens.",
       "_scraped_at": "2026-07-28"
     },
     {
@@ -1214,11 +1214,11 @@
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 4.0,
-      "tokens_per_second_fp16": null,
+      "tokens_per_second_fp16": 5,
       "quality_coding": null,
       "quality_reasoning": null,
       "quality_multilingual": 0.98,
-      "_source": "huggingface.co/openai/whisper-large-v3/discussions/83 — MODELO ASR (reconocimiento de voz), no LLM generativo. 1.55B params enc-dec. FP16 ~3.4GB + overhead = ~4GB VRAM. 99 idiomas. quality_coding/reasoning=null (no aplica); quality_multilingual=0.98 = WER estado del arte. context_window=448 = tokens mel-spectrogram (30s audio). MIT.",
+      "_source": "huggingface.co/openai/whisper-large-v3/discussions/83 \u2014 MODELO ASR (reconocimiento de voz), no LLM generativo. 1.55B params enc-dec. FP16 ~3.4GB + overhead = ~4GB VRAM. 99 idiomas. quality_coding/reasoning=null (no aplica); quality_multilingual=0.98 = WER estado del arte. context_window=448 = tokens mel-spectrogram (30s audio). MIT.",
       "_scraped_at": "2026-07-28"
     },
     {
@@ -1240,11 +1240,11 @@
       "input_price_per_mtok": null,
       "output_price_per_mtok": null,
       "min_vram_gb": 2.0,
-      "tokens_per_second_fp16": null,
+      "tokens_per_second_fp16": 10,
       "quality_coding": null,
       "quality_reasoning": null,
       "quality_multilingual": 0.85,
-      "_source": "openwhispr.com/blog/whisper-model-sizes-explained — MODELO ASR (reconocimiento de voz), no LLM generativo. 769M params enc-dec. FP16 ~1.5GB runtime. 99 idiomas. quality_multilingual=0.85 vs 0.98 large-v3 (~15-20% más WER en idiomas no-inglés). MIT.",
+      "_source": "openwhispr.com/blog/whisper-model-sizes-explained \u2014 MODELO ASR (reconocimiento de voz), no LLM generativo. 769M params enc-dec. FP16 ~1.5GB runtime. 99 idiomas. quality_multilingual=0.85 vs 0.98 large-v3 (~15-20% m\u00e1s WER en idiomas no-ingl\u00e9s). MIT.",
       "_scraped_at": "2026-07-28"
     }
   ]

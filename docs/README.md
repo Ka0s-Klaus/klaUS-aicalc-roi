@@ -1,191 +1,191 @@
-# klaUS-aicalc-roi Documentation
+# Documentacion de klaUS-aicalc-roi
 
-This directory contains comprehensive documentation for the klaUS-aicalc-roi TCO calculator, with a focus on the sophisticated hardware dimensioning algorithm introduced in v2.0.
+Este directorio contiene documentacion integral para la calculadora TCO de klaUS-aicalc-roi, con enfasis en el sofisticado algoritmo de dimensionamiento de hardware introducido en v2.0.
 
-## 📚 Quick Navigation
+## Navegacion Rapida
 
-### Core Concepts
+### Conceptos Principales
 
-- **[HARDWARE_DIMENSIONING.md](HARDWARE_DIMENSIONING.md)** — The mathematical foundation
-  - KV cache formula derivation
-  - Concurrent user calculations
-  - Precision impact (FP16 vs FP8 vs INT4)
-  - Real-world examples
-  - Industry references
+- **[dimensionamiento-hardware.md](dimensionamiento-hardware.md)** — La base matematica
+  - Derivacion de formula de caché KV
+  - Calculos de usuarios concurrentes
+  - Impacto de precision (FP16 vs FP8 vs INT4)
+  - Ejemplos del mundo real
+  - Referencias industriales
 
-- **[LATENCY_CALCULATION.md](LATENCY_CALCULATION.md)** — Performance estimation
-  - Time-to-first-token (TTFT) formula
-  - Queue factor calculations
-  - Precision throughput adjustments
-  - SLO guidance (sub-500ms, sub-2sec targets)
-  - Latency examples by model size
+- **[calculo-latencia.md](calculo-latencia.md)** — Estimacion de rendimiento
+  - Formula de tiempo al primer token (TTFT)
+  - Calculos de factor de cola
+  - Ajustes de rendimiento de precision
+  - Orientacion SLO (objetivos sub-500ms, sub-2seg)
+  - Ejemplos de latencia por tamaño de modelo
 
-### API Reference
+### Referencia de API
 
-- **[API.md](API.md)** — RESTful endpoint documentation
-  - `/v1/hardware/recommend` — Advanced hardware recommendation
-  - Parameter definitions and examples
-  - Precision impact table
-  - Error handling
+- **[api.md](api.md)** — Documentacion de punto final RESTful
+  - `/v1/hardware/recommend` — Recomendacion avanzada de hardware
+  - Definiciones de parametros y ejemplos
+  - Tabla de impacto de precision
+  - Manejo de errores
 
-### Change History
+### Historial de Cambios
 
-- **[CHANGELOG_HARDWARE_DIMENSIONING.md](CHANGELOG_HARDWARE_DIMENSIONING.md)** — v2.0 update details
-  - Before/after behavior
-  - Breaking changes (none!)
-  - Migration guide
-  - Testing recommendations
+- **[registro-cambios-dimensionamiento.md](registro-cambios-dimensionamiento.md)** — Detalles de actualizacion v2.0
+  - Comportamiento antes/despues
+  - Cambios disruptivos (¡ninguno!)
+  - Guia de migracion
+  - Recomendaciones de prueba
 
 ---
 
-## 🎯 What's New in v2.0?
+## Novedades en v2.0
 
-### The Problem
+### El Problema
 
-**Before**: Hardware sizing was naive:
-- "Llama 70B needs 140 GB VRAM, so use 2× H100"
-- Fixed ratio: 1 GPU per 2 concurrent users
-- No consideration of model size, precision, or context length
+**Antes**: El dimensionamiento de hardware era ingenuo:
+- "Llama 70B necesita 140 GB VRAM, así que usa 2× H100"
+- Ratio fijo: 1 GPU por 2 usuarios concurrentes
+- Sin consideracion de tamaño de modelo, precision o longitud de contexto
 
-**Real-world impact**: Grossly over-provisioned hardware for small models, under-provisioned for high concurrency.
+**Impacto en el mundo real**: Hardware sobre-aprovisionado para modelos pequeños, sub-aprovisionado para alta concurrencia.
 
-### The Solution
+### La Solucion
 
-**Now**: Sophisticated dimensioning based on KV cache requirements:
+**Ahora**: Dimensionamiento sofisticado basado en requisitos de caché KV:
 
 ```
-KV_cache_per_user = (model_params_billions / 1000) 
-                   × context_window_tokens 
-                   × precision_factor 
-                   × 0.000122 GB
+caché_kv_por_usuario = (parametros_modelo_miles / 1000) 
+                      × tokens_ventana_contexto 
+                      × factor_precision 
+                      × 0.000122 GB
 
-total_vram_needed = model_weights + (KV_cache_per_user × concurrent_users)
+vram_total_necesario = pesos_modelo + (caché_kv_por_usuario × usuarios_concurrentes)
 
-units_needed = ceil(total_vram_needed / gpu_memory)
+unidades_necesarias = ceil(vram_total_necesario / memoria_gpu)
 ```
 
-### Real Impact
+### Impacto Real
 
-**Scenario**: DeepSeek 7B, 16 concurrent users, 4K context
+**Escenario**: DeepSeek 7B, 16 usuarios concurrentes, contexto 4K
 
-| Precision | Model VRAM | KV Cache | Total | H100s | Cost |
+| Precision | VRAM Modelo | Caché KV | Total | H100s | Coste |
 |-----------|-----------|----------|-------|-------|------|
 | FP16 | 14 GB | 0.54 GB | 8.64 GB | 1 | $40K |
 | FP8 | 7 GB | 0.27 GB | 4.27 GB | 1 | $40K |
 | INT4 | 3.5 GB | 0.14 GB | 2.24 GB | 1 | $40K |
 
-**Same hardware, 3.8× better cost-per-inference** by using INT4!
+**Mismo hardware, 3.8× mejor coste-por-inferencia** usando INT4!
 
 ---
 
-## 🔧 Configuration Parameters
+## Parametros de Configuracion
 
-Users can now customize:
+Los usuarios ahora pueden personalizar:
 
-| Parameter | Type | Default | Range | Impact |
+| Parametro | Tipo | Predeterminado | Rango | Impacto |
 |-----------|------|---------|-------|--------|
-| `concurrent_users` | int | 1 | 1-1000 | Hardware units needed |
-| `total_users` | int | 1 | 1-100K | Business metrics |
-| `precision` | enum | FP16 | FP16/FP8/INT4 | VRAM & throughput |
-| `context_window_tokens` | int | 4096 | 512-128K | KV cache size |
+| `usuarios_concurrentes` | int | 1 | 1-1000 | Unidades de hardware necesarias |
+| `usuarios_totales` | int | 1 | 1-100K | Metricas de negocio |
+| `precision` | enum | FP16 | FP16/FP8/INT4 | VRAM y rendimiento |
+| `tokens_ventana_contexto` | int | 4096 | 512-128K | Tamaño de caché KV |
 
 ---
 
-## 💡 Key Insights
+## Perspectivas Clave
 
-### 1. Precision Scales Linearly with VRAM
-- INT4 = 25% of FP16 VRAM
-- FP8 = 50% of FP16 VRAM
+### 1. La Precision Escala Linealmente con VRAM
+- INT4 = 25% de VRAM FP16
+- FP8 = 50% de VRAM FP16
 
-### 2. KV Cache Dominates at Scale
-- Single user: model weights >> KV cache
-- 32 concurrent users: KV cache can exceed model weights
-- 100+ concurrent users: Need multi-GPU for KV cache alone
+### 2. El Caché KV Domina a Escala
+- Usuario unico: pesos_modelo >> caché_kv
+- 32 usuarios concurrentes: caché_kv puede exceder pesos_modelo
+- 100+ usuarios concurrentes: Se necesita multi-GPU solo para caché KV
 
-### 3. Context Window Is Exponential
-- 4K context: 0.035 GB per user (Llama 70B, FP16)
-- 32K context: 0.28 GB per user (8× larger)
-- 128K context: 1.12 GB per user (32× larger)
+### 3. La Ventana de Contexto es Exponencial
+- Contexto 4K: 0.035 GB por usuario (Llama 70B, FP16)
+- Contexto 32K: 0.28 GB por usuario (8× mayor)
+- Contexto 128K: 1.12 GB por usuario (32× mayor)
 
-### 4. Model Size Matters
-- Llama 70B: ~1.9 GB per user per 32K tokens
-- DeepSeek 7B: ~0.2 GB per user per 32K tokens
-- Small 3B model: ~0.08 GB per user per 32K tokens
-
----
-
-## 📊 Hardware Recommendation Examples
-
-### Example 1: Development Setup
-**Llama 2 7B, 2 concurrent users, 4K context, FP16**
-- Model: 14 GB
-- KV cache: 0.07 GB
-- **Recommendation**: 1× RTX 4090 (24 GB) ✓
-
-### Example 2: Production Multi-User
-**Llama 2 70B, 16 concurrent users, 32K context, FP8**
-- Model: 70 GB
-- KV cache: 4.48 GB
-- **Recommendation**: 2× H100 (160 GB) ✓
-
-### Example 3: High-Concurrency API
-**DeepSeek 7B, 100 concurrent users, 4K context, INT4**
-- Model: 3.5 GB
-- KV cache: 1.4 GB
-- **Recommendation**: 1-2× H100 depending on safety margin
+### 4. El Tamaño del Modelo Importa
+- Llama 70B: ~1.9 GB por usuario por 32K tokens
+- DeepSeek 7B: ~0.2 GB por usuario por 32K tokens
+- Modelo pequeño 3B: ~0.08 GB por usuario por 32K tokens
 
 ---
 
-## 🧪 Testing Your Setup
+## Ejemplos de Recomendacion de Hardware
 
-To verify hardware sizing:
+### Ejemplo 1: Configuracion de Desarrollo
+**Llama 2 7B, 2 usuarios concurrentes, contexto 4K, FP16**
+- Modelo: 14 GB
+- Caché KV: 0.07 GB
+- **Recomendacion**: 1× RTX 4090 (24 GB) ✓
 
-1. **Get your model specs** from the `/v1/models` endpoint
-2. **Calculate using the formula** (see HARDWARE_DIMENSIONING.md)
-3. **Get recommendation** from `/v1/hardware/recommend`
-4. **Cross-check** with actual vLLM deployment
+### Ejemplo 2: Produccion Multi-Usuario
+**Llama 2 70B, 16 usuarios concurrentes, contexto 32K, FP8**
+- Modelo: 70 GB
+- Caché KV: 4.48 GB
+- **Recomendacion**: 2× H100 (160 GB) ✓
 
-Example validation:
+### Ejemplo 3: API de Alta Concurrencia
+**DeepSeek 7B, 100 usuarios concurrentes, contexto 4K, INT4**
+- Modelo: 3.5 GB
+- Caché KV: 1.4 GB
+- **Recomendacion**: 1-2× H100 dependiendo del margen de seguridad
+
+---
+
+## Prueba de Tu Configuracion
+
+Para verificar el dimensionamiento de hardware:
+
+1. **Obtén las especificaciones del modelo** desde el punto final `/v1/models`
+2. **Calcula usando la formula** (ver dimensionamiento-hardware.md)
+3. **Obtén recomendacion** desde `/v1/hardware/recommend`
+4. **Verifica** con despliegue real de vLLM
+
+Ejemplo de validacion:
 ```bash
-# Your config
-MODEL_PARAMS=70B
-CONTEXT=32768
-USERS=8
+# Tu configuracion
+PARAMETROS_MODELO=70B
+CONTEXTO=32768
+USUARIOS=8
 PRECISION=FP8
 
-# Calculate expected KV cache
+# Calcula caché KV esperado
 # = (70 / 1000) × 32768 × 0.5 × 0.000122
-# ≈ 0.14 GB per user
+# ≈ 0.14 GB por usuario
 
-# Expected total
-# = 70 GB (model) + (0.14 × 8) = 71.12 GB
-# → Fits in 1× H100 with margin ✓
+# Total esperado
+# = 70 GB (modelo) + (0.14 × 8) = 71.12 GB
+# → Cabe en 1× H100 con margen ✓
 ```
 
 ---
 
-## 🚀 Next Steps
+## Proximos Pasos
 
-1. **For Users**: Read [HARDWARE_DIMENSIONING.md](HARDWARE_DIMENSIONING.md) for sizing guidance
-2. **For Developers**: Check [API.md](API.md) for endpoint details
-3. **For Operators**: See [LATENCY_CALCULATION.md](LATENCY_CALCULATION.md) for SLO planning
-4. **For Contributors**: Review [CHANGELOG_HARDWARE_DIMENSIONING.md](CHANGELOG_HARDWARE_DIMENSIONING.md) for implementation details
-
----
-
-## 📖 Scientific References
-
-- **KV Cache Formula**: 2 × L × H_kv × D × S × bytes_per_element
-- **vLLM Papers**: https://arxiv.org/abs/2309.06180
-- **NVIDIA Inference Docs**: https://developer.nvidia.com/blog/...
-- **Meta Llama Optimization**: https://llama.meta.com/docs/model-architecture/
+1. **Para Usuarios**: Lee [dimensionamiento-hardware.md](dimensionamiento-hardware.md) para orientacion de dimensionamiento
+2. **Para Desarrolladores**: Revisa [api.md](api.md) para detalles de punto final
+3. **Para Operadores**: Ve [calculo-latencia.md](calculo-latencia.md) para planificacion SLO
+4. **Para Contribuidores**: Revisa [registro-cambios-dimensionamiento.md](registro-cambios-dimensionamiento.md) para detalles de implementacion
 
 ---
 
-## 📞 Questions?
+## Referencias Cientificas
 
-- **API Questions**: See [API.md](API.md)
-- **Dimensioning Questions**: See [HARDWARE_DIMENSIONING.md](HARDWARE_DIMENSIONING.md)
-- **Latency Questions**: See [LATENCY_CALCULATION.md](LATENCY_CALCULATION.md)
-- **Implementation Details**: See [CHANGELOG_HARDWARE_DIMENSIONING.md](CHANGELOG_HARDWARE_DIMENSIONING.md)
+- **Formula de Caché KV**: 2 × L × H_kv × D × S × bytes_por_elemento
+- **Articulos vLLM**: https://arxiv.org/abs/2309.06180
+- **Documentacion de Inferencia NVIDIA**: https://developer.nvidia.com/blog/
+- **Optimizacion Meta Llama**: https://llama.meta.com/docs/model-architecture/
+
+---
+
+## Preguntas
+
+- **Preguntas de API**: Ve [api.md](api.md)
+- **Preguntas de Dimensionamiento**: Ve [dimensionamiento-hardware.md](dimensionamiento-hardware.md)
+- **Preguntas de Latencia**: Ve [calculo-latencia.md](calculo-latencia.md)
+- **Detalles de Implementacion**: Ve [registro-cambios-dimensionamiento.md](registro-cambios-dimensionamiento.md)
 

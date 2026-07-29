@@ -44,9 +44,9 @@ export default function HomePage() {
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [analyzeError, setAnalyzeError] = useState<string | null>(null);
 
-  // Top hardware recommendation for the current local model selection
-  const [topRecommendation, setTopRecommendation] =
-    useState<HardwareRecommendation | null>(null);
+  // All hardware recommendations for the current local model selection
+  const [allRecommendations, setAllRecommendations] =
+    useState<HardwareRecommendation[]>([]);
 
   // Tracks the last set of local model IDs that triggered auto-selection,
   // so we only auto-select once per unique combination and not on every re-render.
@@ -57,12 +57,6 @@ export default function HomePage() {
       .then(([models, hardware]) => {
         setAllModels(models);
         setAllHardware(hardware);
-        const defaults = models.filter((m) =>
-          ["claude-sonnet-4-6", "llama-3-1-8b-local"].includes(m.id),
-        );
-        setSelectedModels(defaults);
-        const rtx = hardware.find((h) => h.id === "rtx-4090-24gb");
-        if (rtx) setSelectedHardware([rtx]);
       })
       .catch((e: unknown) =>
         setCatalogError(e instanceof Error ? e.message : String(e)),
@@ -91,12 +85,13 @@ export default function HomePage() {
 
     fetchHardwareRecommendation(maxVram)
       .then((recs) => {
+        setAllRecommendations(recs);
+
         if (recs.length === 0) {
-          setTopRecommendation(null);
           return;
         }
+
         const top = recs[0];
-        setTopRecommendation(top);
 
         // Auto-select only when the local model set has changed and current
         // hardware is insufficient for the new requirement
@@ -114,7 +109,7 @@ export default function HomePage() {
       })
       .catch(() => {
         // Non-blocking: recommendation failure doesn't block the user
-        setTopRecommendation(null);
+        setAllRecommendations([]);
       });
   }, [selectedModels]);
 
@@ -197,7 +192,7 @@ export default function HomePage() {
               selected={selectedHardware}
               onChange={setSelectedHardware}
               localModels={selectedModels.filter((m) => m.deployment_type === "local")}
-              topRecommendation={topRecommendation}
+              allRecommendations={allRecommendations}
             />
           )}
 

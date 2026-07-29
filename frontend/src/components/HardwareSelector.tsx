@@ -7,7 +7,7 @@ interface Props {
   selected: HardwareSpec[];
   onChange: (hw: HardwareSpec[]) => void;
   localModels?: ModelSpec[];
-  topRecommendation?: HardwareRecommendation | null;
+  allRecommendations?: HardwareRecommendation[];
 }
 
 export function HardwareSelector({
@@ -15,7 +15,7 @@ export function HardwareSelector({
   selected,
   onChange,
   localModels = [],
-  topRecommendation,
+  allRecommendations = [],
 }: Props) {
   const maxRequiredVram = localModels.reduce((max, m) => Math.max(max, m.min_vram_gb ?? 0), 0);
 
@@ -32,8 +32,11 @@ export function HardwareSelector({
     onChange(selected.map((h) => (h.id === id ? { ...h, quantity: qty } : h)));
   };
 
+  const getRecommendation = (hw: HardwareSpec) =>
+    allRecommendations.find((r) => r.hardware.id === hw.id);
+
   const isAutoRecommended = (hw: HardwareSpec) =>
-    topRecommendation?.hardware.id === hw.id;
+    getRecommendation(hw) !== undefined;
 
   return (
     <div className="space-y-2">
@@ -44,13 +47,9 @@ export function HardwareSelector({
             (requerido para modelos local)
           </span>
         </h3>
-        {topRecommendation && (
+        {allRecommendations.length > 0 && (
           <span className="text-xs bg-blue-50 border border-blue-200 text-blue-700 rounded-full px-2 py-0.5">
-            🤖 Auto-recomendado:{" "}
-            <span className="font-medium">{topRecommendation.hardware.name}</span>
-            {topRecommendation.units_needed > 1 && (
-              <span> × {topRecommendation.units_needed}</span>
-            )}
+            🤖 {allRecommendations.length} opción{allRecommendations.length > 1 ? "es" : ""} recomendada{allRecommendations.length > 1 ? "s" : ""}
           </span>
         )}
       </div>
@@ -62,6 +61,7 @@ export function HardwareSelector({
           const effectiveVram = hw.vram_gb * qty;
           const fitsAllModels = maxRequiredVram === 0 || effectiveVram >= maxRequiredVram;
           const autoRec = isAutoRecommended(hw);
+          const rec = getRecommendation(hw);
 
           return (
             <div
@@ -102,9 +102,9 @@ export function HardwareSelector({
                         : "text-red-400"
                 }`}>
                   {effectiveVram} GB VRAM · ${hw.purchase_price_usd}
-                  {autoRec && !isSelected && topRecommendation && topRecommendation.units_needed > 1 && (
+                  {autoRec && !isSelected && rec && rec.units_needed > 1 && (
                     <span className="ml-1 text-blue-500">
-                      (×{topRecommendation.units_needed} → {topRecommendation.total_vram_gb} GB)
+                      (×{rec.units_needed} → {rec.total_vram_gb} GB)
                     </span>
                   )}
                   {!fitsAllModels && !isSelected && !autoRec && (

@@ -38,6 +38,10 @@ export interface UseCase {
   name: string;
   monthly_input_tokens: number;
   monthly_output_tokens: number;
+  concurrent_users: number;
+  total_users: number;
+  precision: "FP16" | "FP8" | "INT4";
+  context_window_tokens: number;
 }
 
 export interface ComplianceFilter {

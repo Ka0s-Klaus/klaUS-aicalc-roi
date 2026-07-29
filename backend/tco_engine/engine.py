@@ -232,9 +232,11 @@ class TCOEngine:
         )
 
     def _summarize(self, input_data: TCOInput) -> str:
+        uc = input_data.use_cases[0]
         return (
             f"{len(input_data.models)} models × "
             f"{len(input_data.hardware)} hardware options × "
             f"{len(input_data.use_cases)} use case(s) — "
+            f"{uc.concurrent_users} concurrent / {uc.total_users} total users — "
             f"{input_data.horizon_months}-month horizon"
         )

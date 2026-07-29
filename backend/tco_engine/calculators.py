@@ -114,7 +114,19 @@ def calculate_breakeven(local: StrategyCost, cloud: StrategyCost) -> int | None:
 def _estimate_local_latency(
     model: ModelSpec, hardware: HardwareSpec, use_case: UseCase
 ) -> float | None:
-    """Rough TTFT estimate in ms based on tokens/sec throughput and queue depth."""
+    """Estimate time-to-first-token (TTFT) in ms considering concurrency and precision.
+
+    Formula: TTFT = generation_time × queue_factor × precision_adjustment
+
+    Where:
+    - generation_time: avg_output_tokens / tokens_per_second
+    - queue_factor: concurrent_users / gpu_kv_cache_capacity
+    - precision_adjustment: throughput multiplier for FP8/INT4 (typically 1.2-2x vs FP16)
+
+    References:
+    - TTFT is dominated by KV cache prefill phase
+    - FP8/INT4 inference can achieve higher throughput on modern GPUs (H100 Transformer Engine)
+    """
     if model.tokens_per_second_fp16 is None:
         return None
 
@@ -122,12 +134,24 @@ def _estimate_local_latency(
     if model.min_vram_gb and (hardware.vram_gb * hardware.quantity) < model.min_vram_gb:
         return None
 
-    # Average output length assumed at 256 tokens for latency estimate
-    avg_output_tokens = 256
-    generation_ms = (avg_output_tokens / model.tokens_per_second_fp16) * 1000
+    # Precision throughput adjustment factors (relative to FP16)
+    # These reflect typical speedups on H100/A100 with Tensor Core acceleration
+    precision_factors = {"FP16": 1.0, "FP8": 1.5, "INT4": 2.0}
+    precision_factor = precision_factors.get(use_case.precision, 1.0)
 
-    # Queue factor: concurrent users increase wait time linearly (simplified)
-    queue_factor = max(1.0, use_case.concurrent_users * 0.5)
+    # Effective tokens per second with precision boost
+    effective_tps = model.tokens_per_second_fp16 * precision_factor
+
+    # Average output length for latency estimate (tokens)
+    avg_output_tokens = 256
+
+    # Time to generate (prefill + first decode)
+    generation_ms = (avg_output_tokens / effective_tps) * 1000
+
+    # Queue factor based on KV cache capacity per GPU
+    # Each GPU can hold ~2 concurrent users worth of KV cache comfortably with safety margin
+    gpu_kv_capacity = hardware.quantity * 2
+    queue_factor = max(1.0, use_case.concurrent_users / gpu_kv_capacity)
 
     return generation_ms * queue_factor
 

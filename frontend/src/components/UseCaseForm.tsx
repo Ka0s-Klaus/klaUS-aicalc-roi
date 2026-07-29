@@ -69,6 +69,50 @@ export function UseCaseForm({ useCase, onChange, horizonMonths, onHorizonChange 
         "Número de tokens de respuesta generados mensualmente",
       )}
 
+      {numField(
+        "Usuarios concurrentes",
+        useCase.concurrent_users,
+        (v) => onChange({ ...useCase, concurrent_users: Math.max(1, v) }),
+        "Número de usuarios haciendo peticiones simultáneamente",
+      )}
+
+      {numField(
+        "Usuarios totales",
+        useCase.total_users,
+        (v) => onChange({ ...useCase, total_users: Math.max(1, v) }),
+        "Número total de usuarios únicos que usarán el sistema",
+      )}
+
+      <div>
+        <label className="block text-xs font-medium text-gray-600 mb-1">
+          Precisión de inferencia
+        </label>
+        <p className="text-xs text-gray-400 mb-1">Afecta tamaño de KV cache y throughput de GPU</p>
+        <div className="flex gap-2">
+          {(["FP16", "FP8", "INT4"] as const).map((prec) => (
+            <button
+              key={prec}
+              type="button"
+              onClick={() => onChange({ ...useCase, precision: prec })}
+              className={`px-3 py-1 rounded-full text-sm border transition-colors ${
+                useCase.precision === prec
+                  ? "bg-purple-600 text-white border-purple-600"
+                  : "bg-white text-gray-700 border-gray-300 hover:border-purple-400"
+              }`}
+            >
+              {prec}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {numField(
+        "Context window (tokens)",
+        useCase.context_window_tokens,
+        (v) => onChange({ ...useCase, context_window_tokens: Math.max(512, v) }),
+        "Longitud máxima de contexto esperado en tokens",
+      )}
+
       <div>
         <label className="block text-xs font-medium text-gray-600 mb-1">
           Horizonte de análisis

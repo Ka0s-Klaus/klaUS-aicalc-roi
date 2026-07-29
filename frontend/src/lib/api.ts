@@ -43,10 +43,21 @@ export async function fetchHardware(): Promise<HardwareSpec[]> {
 
 export async function fetchHardwareRecommendation(
   min_vram_gb: number,
+  concurrent_users: number = 1,
+  precision: string = "FP16",
+  context_window_tokens: number = 4096,
+  model_params_billions?: number,
 ): Promise<HardwareRecommendation[]> {
-  return apiFetch<HardwareRecommendation[]>(
-    `/v1/hardware/recommend?min_vram_gb=${min_vram_gb}`,
-  );
+  const params = new URLSearchParams({
+    min_vram_gb: String(min_vram_gb),
+    concurrent_users: String(concurrent_users),
+    precision,
+    context_window_tokens: String(context_window_tokens),
+  });
+  if (model_params_billions) {
+    params.set("model_params_billions", String(model_params_billions));
+  }
+  return apiFetch<HardwareRecommendation[]>(`/v1/hardware/recommend?${params}`);
 }
 
 export async function analyze(input: TCOInput): Promise<AnalysisResult> {

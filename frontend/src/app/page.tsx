@@ -27,6 +27,10 @@ const DEFAULT_USE_CASE: UseCase = {
   name: "Coding assistant",
   monthly_input_tokens: 10_000_000,
   monthly_output_tokens: 4_000_000,
+  concurrent_users: 1,
+  total_users: 1,
+  precision: "FP16",
+  context_window_tokens: 4096,
 };
 
 export default function HomePage() {
@@ -83,7 +87,13 @@ export default function HomePage() {
       .sort()
       .join(",");
 
-    fetchHardwareRecommendation(maxVram)
+    fetchHardwareRecommendation(
+        maxVram,
+        useCase.concurrent_users,
+        useCase.precision,
+        useCase.context_window_tokens,
+        localModels[0]?.parameters_b,
+      )
       .then((recs) => {
         setAllRecommendations(recs);
 
@@ -111,7 +121,7 @@ export default function HomePage() {
         // Non-blocking: recommendation failure doesn't block the user
         setAllRecommendations([]);
       });
-  }, [selectedModels]);
+  }, [selectedModels, useCase.concurrent_users, useCase.precision, useCase.context_window_tokens]);
 
   const handleAnalyze = async () => {
     setAnalyzeError(null);

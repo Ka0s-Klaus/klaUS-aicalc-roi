@@ -103,6 +103,15 @@ class UseCase(BaseModel):
     monthly_input_tokens: int = Field(ge=0)
     monthly_output_tokens: int = Field(ge=0)
     concurrent_users: int = Field(default=1, ge=1)
+    total_users: int = Field(default=1, ge=1)
+
+    # Inference precision: FP16, FP8, or INT4
+    # Affects KV cache size calculation and GPU throughput
+    precision: str = Field(default="FP16", pattern="^(FP16|FP8|INT4)$")
+
+    # Average context window length in tokens for this use case
+    # Used to calculate per-user KV cache requirements
+    context_window_tokens: int = Field(default=4096, ge=512, le=131072)
 
     # Max acceptable latency for this use case (ms, p50)
     max_latency_ms: int | None = None

@@ -99,9 +99,9 @@ ${rec.strategy.hardware_id ? `Hardware: ${rec.strategy.hardware_id}` : ""}
 Coste total (${horizonMonths}m): $${Number(rec.strategy.total_cost_usd).toLocaleString("en-US", { maximumFractionDigits: 2 })}
 Coste mensual promedio: $${Number(rec.strategy.monthly_cost_avg_usd).toLocaleString("en-US", { maximumFractionDigits: 2 })}
 ${rec.strategy.estimated_latency_ms ? `Latencia estimada: ${rec.strategy.estimated_latency_ms.toFixed(0)}ms` : ""}
-${rec.strategy.capex_usd > 0 ? `CAPEX: $${Number(rec.strategy.capex_usd).toLocaleString("en-US", { maximumFractionDigits: 2 })}` : ""}
-${rec.strategy.opex_total_usd > 0 ? `OPEX (${horizonMonths}m): $${Number(rec.strategy.opex_total_usd).toLocaleString("en-US", { maximumFractionDigits: 2 })}` : ""}
-${rec.strategy.api_cost_total_usd > 0 ? `Coste API: $${Number(rec.strategy.api_cost_total_usd).toLocaleString("en-US", { maximumFractionDigits: 2 })}` : ""}
+${Number(rec.strategy.capex_usd) > 0 ? `CAPEX: $${Number(rec.strategy.capex_usd).toLocaleString("en-US", { maximumFractionDigits: 2 })}` : ""}
+${Number(rec.strategy.opex_total_usd) > 0 ? `OPEX (${horizonMonths}m): $${Number(rec.strategy.opex_total_usd).toLocaleString("en-US", { maximumFractionDigits: 2 })}` : ""}
+${Number(rec.strategy.api_cost_total_usd) > 0 ? `Coste API: $${Number(rec.strategy.api_cost_total_usd).toLocaleString("en-US", { maximumFractionDigits: 2 })}` : ""}
       `.trim();
 
       const recLines = doc.splitTextToSize(recommendation_text, contentWidth);

@@ -1,3 +1,7 @@
+---
+tags: [proyecto/klaUS-aicalc-roi, tipo/guia, dimensionamiento/hardware]
+---
+
 # 🚀 Deploy — klaUS-aicalc-roi
 
 ## 🤔 ¿Qué hago? ¿Cómo lo hago? ¿Y para qué lo hago?

@@ -1,3 +1,7 @@
+---
+tags: [proyecto/klaUS-aicalc-roi, tipo/referencia, dimensionamiento/tco]
+---
+
 # 🧮 TCO Engine — Documentación
 
 ## 🤔 ¿Qué hago? ¿Cómo lo hago? ¿Y para qué lo hago?

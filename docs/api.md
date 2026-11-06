@@ -1,3 +1,7 @@
+---
+tags: [proyecto/klaUS-aicalc-roi, tipo/referencia, dimensionamiento/hardware]
+---
+
 # Documentacion de API de klaUS-aicalc-roi
 
 ## Descripcion General

@@ -1,3 +1,7 @@
+---
+tags: [proyecto/klaUS-aicalc-roi, tipo/guia, dimensionamiento/hardware]
+---
+
 # 📚 Guía de Estilo de Documentación
 
 Este documento define el estándar de formato para toda la documentación del proyecto **klaUS-aicalc-roi** a partir de septiembre 2026.

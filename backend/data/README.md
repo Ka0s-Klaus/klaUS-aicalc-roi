@@ -1,3 +1,7 @@
+---
+tags: [proyecto/klaUS-aicalc-roi, tipo/referencia, dimensionamiento/hardware]
+---
+
 # 📦 Catálogo de datos estáticos — klaUS-aicalc-roi
 
 ## Contenido

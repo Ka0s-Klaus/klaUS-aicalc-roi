@@ -1,3 +1,7 @@
+---
+tags: [proyecto/klaUS-aicalc-roi, tipo/referencia, dimensionamiento/hardware]
+---
+
 # Cálculo de Latencia en klaUS-aicalc-roi
 
 ## Descripción General

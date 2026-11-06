@@ -1,3 +1,7 @@
+---
+tags: [proyecto/klaUS-aicalc-roi, tipo/referencia]
+---
+
 # 📦 Data Catalog — Catálogo Estático de Modelos y Hardware
 
 ## 🤔 ¿Qué hago? ¿Cómo lo hago? ¿Y para qué lo hago?

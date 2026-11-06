@@ -1,3 +1,7 @@
+---
+tags: [proyecto/klaUS-aicalc-roi, tipo/referencia, dimensionamiento/hardware]
+---
+
 # Documentacion de klaUS-aicalc-roi
 
 Este directorio contiene documentacion integral para la calculadora TCO de klaUS-aicalc-roi, con enfasis en el sofisticado algoritmo de dimensionamiento de hardware introducido en v2.0.
@@ -141,7 +145,7 @@ Los usuarios ahora pueden personalizar:
 Para verificar el dimensionamiento de hardware:
 
 1. **Obtén las especificaciones del modelo** desde el punto final `/v1/models`
-2. **Calcula usando la formula** (ver dimensionamiento-hardware.md)
+2. **Calcula usando la formula** (ver [[dimensionamiento-hardware|dimensionamiento-hardware.md]])
 3. **Obtén recomendacion** desde `/v1/hardware/recommend`
 4. **Verifica** con despliegue real de vLLM
 

@@ -1,3 +1,7 @@
+---
+tags: [proyecto/klaUS-aicalc-roi, tipo/referencia, dimensionamiento/hardware]
+---
+
 # Registro de Cambios: Sistema Sofisticado de Dimensionamiento de Hardware
 
 **Versión**: 2.0.0  

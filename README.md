@@ -1,3 +1,7 @@
+---
+tags: [proyecto/klaUS-aicalc-roi, tipo/referencia, dimensionamiento/hardware]
+---
+
 # 🧮 klaUS-aicalc-roi
 
 > **The only comprehensive TCO calculator for AI infrastructure decisions.**

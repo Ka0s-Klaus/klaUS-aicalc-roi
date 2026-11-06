@@ -1,3 +1,7 @@
+---
+tags: [proyecto/klaUS-aicalc-roi, tipo/referencia, dimensionamiento/hardware]
+---
+
 # Algoritmo de Dimensionamiento de Hardware para Inferencia de LLM
 
 ## Descripción General
